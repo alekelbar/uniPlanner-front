@@ -263,24 +263,24 @@ const RegisterPage: React.FC = () => {
 
 export default RegisterPage;
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { token } = ctx.req.cookies;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { token } = ctx.req.cookies;
 
-//   if (token) {
-//     const parseToken: UserState = JSON.parse(token);
-//     const tokenString = parseToken.token;
+  if (token) {
+    const parseToken: UserState = JSON.parse(token);
+    const tokenString = parseToken.token;
 
-//     if ((await validateToken(tokenString))) {
-//       return {
-//         redirect: {
-//           destination: '/schedule/careers',
-//           permanent: false,
-//         },
-//       };
-//     };
-//   }
-//   return {
-//     props: {
-//     }
-//   };
-// };
+    if ((await validateToken(tokenString))) {
+      return {
+        redirect: {
+          destination: '/schedule/careers',
+          permanent: false,
+        },
+      };
+    };
+  }
+  return {
+    props: {
+    }
+  };
+};

@@ -119,26 +119,26 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { token } = ctx.req.cookies;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { token } = ctx.req.cookies;
 
-//   if (token) {
-//     const parseToken: UserState = JSON.parse(token);
-//     const tokenString = parseToken.token;
+  if (token) {
+    const parseToken: UserState = JSON.parse(token);
+    const tokenString = parseToken.token;
 
-//     if ((await validateToken(tokenString))) {
-//       return {
-//         redirect: {
-//           destination: '/schedule/careers',
-//           permanent: false,
-//         },
-//       };
-//     };
-//   }
+    if ((await validateToken(tokenString))) {
+      return {
+        redirect: {
+          destination: '/schedule/careers',
+          permanent: false,
+        },
+      };
+    };
+  }
 
-//   return {
-//     props: {
-//     },
-//   };
+  return {
+    props: {
+    },
+  };
 
-// };
+};

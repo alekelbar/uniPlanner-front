@@ -1,4 +1,14 @@
-import { Button, Dialog, DialogContent, DialogTitle, MenuItem, Select, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  Select,
+  Typography,
+  useMediaQuery
+} from '@mui/material';
+
 import { Box } from '@mui/system';
 
 import { useFormik } from 'formik';
@@ -23,9 +33,9 @@ export function AddCareerDialog ({ careers, onClose, open }: AddCareerDialogProp
   const { query: { user } } = router;
 
   const dispatch = useAppDispatch();
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const width = fullScreen ? '100%' : '50%';
+  // const theme = useTheme();
+  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  // const width = fullScreen ? '100%' : '50%';
 
   const formik = useFormik({
     initialValues: {
@@ -51,7 +61,7 @@ export function AddCareerDialog ({ careers, onClose, open }: AddCareerDialogProp
     <>
       <Dialog onClose={onClose} open={open} sx={{
         '& .MuiDialog-paper': {
-          width: width
+          // width: theme => theme.breakpoints.down('sm') ? "100%" : "50%",
         }
       }}>
         <DialogTitle>

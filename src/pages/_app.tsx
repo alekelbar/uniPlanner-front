@@ -7,6 +7,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "@/config/theme/createEmotionCache";
 import { Provider } from "react-redux";
 import { store } from "@/redux";
+import { LayoutComponent } from "@/components/Layout/Layout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,7 +30,9 @@ export default function MyApp (props: MyAppProps) {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
+          <LayoutComponent>
+            <Component {...pageProps} />
+          </LayoutComponent>
         </ThemeProvider>
       </CacheProvider>
     </Provider>

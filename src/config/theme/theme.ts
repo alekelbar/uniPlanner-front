@@ -13,6 +13,7 @@ export const inter = Inter({
 // Create a theme instance.
 const defaultTheme = createTheme({
   palette: {
+    mode: "light",
     primary: {
       main: "#556cd6",
     },
@@ -21,6 +22,9 @@ const defaultTheme = createTheme({
     },
     error: {
       main: red.A400,
+    },
+    background: {
+      paper: "#393E46",
     },
   },
   typography: {

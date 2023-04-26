@@ -14,7 +14,6 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
-    "@next/font": "^13.3.1",
     "@reduxjs/toolkit": "^1.9.2",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "18.16.1",

@@ -46,7 +46,7 @@ const RegisterPage: React.FC = () => {
       id: '',
       name: '',
       email: '',
-      career: '',
+      career: 'Seleccione una carrera',
       password: '',
       repassword: '',
     },
@@ -87,6 +87,8 @@ const RegisterPage: React.FC = () => {
       name: Yup.string().required('Su nombre es requerido').min(2, 'Su nombre debe ser más largo'),
       email: Yup.string().email('Formato incorrecto').required('Su correo electrónico es requerido'),
       career: Yup.string().min(1, 'Porfavor seleccione una carrera').required('Su carrera es requerida')
+      .test('career', 'Porfavor seleccione una carrera', value => value !== 'Seleccione una carrera')
+
     }),
   });
 
@@ -219,6 +221,9 @@ const RegisterPage: React.FC = () => {
                   name={'career'}
                   onChange={formik.handleChange}
                 >
+                  <MenuItem key={'unique_id'} value={'Seleccione una carrera'}>
+                    Seleccione una carrera
+                  </MenuItem>
                   {allCareers.map(career => {
                     return (
                       <MenuItem key={career._id} value={career._id}>

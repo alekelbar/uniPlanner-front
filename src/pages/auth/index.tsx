@@ -33,6 +33,8 @@ const LoginPage: React.FC = () => {
       const { id, password } = values;
       const response = await dispatch(startUserLogin({ identification: id, password }));
 
+      console.log(`¿Se esta iniciando sesión?`)
+
       if (response !== RESPONSES.SUCCESS) {
         await Swal.fire(response);
         return;
@@ -129,7 +131,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if ((await validateToken(tokenString))) {
       return {
         redirect: {
-          destination: '/schedule/careers',
+          destination: `/schedule/careers/${parseToken.user.id}`,
           permanent: false,
         },
       };

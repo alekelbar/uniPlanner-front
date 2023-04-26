@@ -19,12 +19,12 @@ const HomePage = () => {
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             <Grid item xs={12} sm={6}>
-              <Button variant="contained" color="primary" component={Link} href={`/schedule/careers/${user?.id}`} sx={{ width: "100%" }}>
+              <Button disabled variant="contained" color="primary" component={Link} href={`/schedule/careers/${user?.id}`} sx={{ width: "100%" }}>
                 Ir al Home
               </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Button variant="outlined" color="primary" component={Link} href="/about" sx={{ width: "100%" }}>
+              <Button disabled variant="outlined" color="primary" component={Link} href="/about" sx={{ width: "100%" }}>
                 Saber más
               </Button>
             </Grid>

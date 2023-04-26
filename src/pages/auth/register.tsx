@@ -87,7 +87,7 @@ const RegisterPage: React.FC = () => {
       name: Yup.string().required('Su nombre es requerido').min(2, 'Su nombre debe ser más largo'),
       email: Yup.string().email('Formato incorrecto').required('Su correo electrónico es requerido'),
       career: Yup.string().min(1, 'Porfavor seleccione una carrera').required('Su carrera es requerida')
-      .test('career', 'Porfavor seleccione una carrera', value => value !== 'Seleccione una carrera')
+        .test('career', 'Porfavor seleccione una carrera', value => value !== 'Seleccione una carrera')
 
     }),
   });
@@ -273,7 +273,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if ((await validateToken(tokenString))) {
       return {
         redirect: {
-          destination: '/schedule/careers',
+          destination: `/schedule/careers/${parseToken.user.id}`,
           permanent: false,
         },
       };

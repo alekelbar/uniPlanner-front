@@ -2,6 +2,7 @@ import { Avatar, Button, Container, Divider, Drawer, List, ListItem, ListItemIco
 import Link from '../common/Link';
 import { pages } from './helpers/pages';
 import { useSideBar } from './hooks/useSideBar';
+import { useRouter } from 'next/router';
 
 export interface SideBarProps {
   open: boolean,
@@ -11,7 +12,9 @@ export interface SideBarProps {
 
 export function SideBar ({ onClose, open }: SideBarProps): JSX.Element {
 
-  const { drawerRef, handleClose, handleLogOut, user, router } = useSideBar({ onClose });
+  const router = useRouter();
+
+  const { drawerRef, handleClose, user } = useSideBar({ onClose });
 
   return (
     <Container
@@ -21,6 +24,7 @@ export function SideBar ({ onClose, open }: SideBarProps): JSX.Element {
       <Drawer
         sx={{
           width: '240px',
+          display: !user.id ? 'none' : ''
         }}
         variant='temporary'
         open={open}
@@ -50,7 +54,7 @@ export function SideBar ({ onClose, open }: SideBarProps): JSX.Element {
             return (
               <Link
                 key={page.title}
-                href={`${page.url + user?.id}`}
+                href={`${page.url + user.id}`}
                 underline='none'
                 sx={{
                   color: router.pathname.includes(page.url.split('/')[2])
@@ -76,17 +80,6 @@ export function SideBar ({ onClose, open }: SideBarProps): JSX.Element {
             );
           })}
           <Divider sx={{ mt: 2, mb: 2 }} />
-          <ListItem>
-            <Button
-              variant='contained'
-              fullWidth
-              color='error'
-              size='large'
-              onClick={handleLogOut}
-            >
-              Salir
-            </Button>
-          </ListItem>
         </List>
       </Drawer>
     </Container>

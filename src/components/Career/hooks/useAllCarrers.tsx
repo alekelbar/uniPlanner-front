@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { DependencyList, useEffect, useState } from 'react';
 import { Career } from '../../../interfaces/career.interface';
 import { CareerService } from '../../../services';
 
@@ -8,7 +8,7 @@ const initialState = {
   loading: true
 };
 
-export const useAllCareers = (dependencies: any = []) => {
+export const useAllCareers = () => {
 
   const [careersState, setCareersState] = useState(initialState);
 
@@ -28,7 +28,7 @@ export const useAllCareers = (dependencies: any = []) => {
 
   useEffect(() => {
     getAllCareers();
-  }, dependencies);
+  });
 
   const { allCareers, error, loading } = careersState;
 

@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../redux';
 import { setSelectedDelivery } from '../../redux/slices/Deliveries/deliveriesSlice';
 import { startRemoveDelivery } from '../../redux/thunks/deliverables-thunks';
 import { ColorMatrixPreferences, getPriorityColor } from '../Career/helpers/priorityCalc';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { startLoadSetting } from '../../redux/thunks/settings-thunks';
 import { Loading } from '../common';
 
@@ -23,6 +23,9 @@ interface DeliveryCardProps {
 
 export function DeliveryCard ({ deliverable, reload, onOpenEdit, actualPage }: DeliveryCardProps): JSX.Element {
 
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const { selected, loading } = useAppSelector(state => state.setting);
 
   const { query: { userId, courseId } } = useRouter();
@@ -34,20 +37,17 @@ export function DeliveryCard ({ deliverable, reload, onOpenEdit, actualPage }: D
     create_at = parseISO(deliverable.createdAt.toString());
   }
 
-  const onLoad = async () => {
+  const onLoad = useCallback(async () => {
     const response = await dispatch(startLoadSetting(userId as string));
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-  };
+  }, [userId, dispatch]);
 
   useEffect(() => {
     if (!selected.user) // verificando si es la configuración por defecto...
       onLoad();
-  }, [userId]);
-
-  const dispatch = useAppDispatch();
-  const router = useRouter();
+  }, [selected.user, onLoad]);
 
   const makeStatusDate = () => {
     if (deliverable.status === DELIVERABLE_STATUS.PENDING) {

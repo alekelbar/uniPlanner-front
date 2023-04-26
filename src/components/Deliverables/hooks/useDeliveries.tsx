@@ -2,7 +2,7 @@ import { Add } from '@mui/icons-material';
 import { Box, Grid, Pagination, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { GetServerSideProps } from 'next';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { Loading } from '../../../../src/components';
 import AddDeliveryDialog from '../../../../src/components/Deliverables/AddDeliveryDialog';
@@ -54,16 +54,16 @@ export const useDeliveries = () => {
     setOpenEdit(false);
   };
 
-  const reload = async (page: number = 1) => {
+  const reload = useCallback(async (page: number = 1) => {
     const response = await dispatch(startLoadDeliveries(courseId as string, page));
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-  };
+  }, [courseId, dispatch]);
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage]);
+  }, [actualPage, reload]);
 
   useEffect(() => {
     if (deliverables.length === 0 && actualPage > 1) {
@@ -82,7 +82,7 @@ export const useDeliveries = () => {
 
     setTotalPages(pages);
 
-  }, [deliverables]);
+  }, [deliverables, actualPage, count, reload, setTotalPages]);
 
   return {
     deliveriesState: {

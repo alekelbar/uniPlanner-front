@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import isInteger from '../../../../src/helpers/isInteger';
 import usePagination from '../../../hooks/usePagination';
@@ -54,18 +54,18 @@ export const useTasks = () => {
     setOpenEdit(false);
   };
 
-  const reload = async (page: number = 1) => {
+  const reload = useCallback(async (page: number = 1) => {
     if (selectedDelivery) {
       const response = await dispatch(startLoadTasks(deliveryId as string, page));
       if (response !== RESPONSES.SUCCESS) {
         await Swal.fire(response);
       }
     }
-  };
+  }, [deliveryId, dispatch, selectedDelivery]);
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage]);
+  }, [actualPage, reload]);
 
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export const useTasks = () => {
 
     setTotalPages(pages);
 
-  }, [tasks]);
+  }, [tasks, actualPage, count, reload, setTotalPages]);
 
   return {
     tasksState: {

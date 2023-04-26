@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import isInteger from '../../../../src/helpers/isInteger';
 import usePagination from '../../../hooks/usePagination';
@@ -42,15 +42,17 @@ export const useCourses = () => {
     setOpenEdit(false);
   };
 
-  const reload = async (page: number) => {
+  const reload = useCallback(async (page: number) => {
+
     const response = await dispatch(startLoadCourses(careerId as string, page));
     if (response !== RESPONSES.SUCCESS)
       await Swal.fire(response);
-  };
+
+  }, [dispatch, careerId]);
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage]);
+  }, [actualPage, reload]);
 
   useEffect(() => {
     if (courses.length === 0 && actualPage > 1) {
@@ -66,7 +68,7 @@ export const useCourses = () => {
         : Math.floor(count / 5) + 1;
 
     setTotalPages(pages);
-  }, [courses]);
+  }, [courses, actualPage, count, reload, setTotalPages]);
 
   return {
     coursesState: {

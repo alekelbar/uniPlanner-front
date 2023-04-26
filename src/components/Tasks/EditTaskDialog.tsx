@@ -73,7 +73,7 @@ export default function EditTaskDialog ({ onClose, open }: EditTaskDialogProps):
       formik.setFieldValue('name', selected?.name);
       formik.setFieldValue('status', selected?.status);
     }
-  }, [selected]);
+  }, [selected, formik]);
 
 
   return (

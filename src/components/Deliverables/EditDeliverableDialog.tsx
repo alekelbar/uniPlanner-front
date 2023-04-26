@@ -106,7 +106,7 @@ export default function EditDeliverableDialog ({ onClose, open }: EditDeliverabl
       formik.setFieldValue('percent', selected?.percent);
       formik.setFieldValue('status', selected?.status);
     }
-  }, [selected]);
+  }, [selected, selectedDeadline, formik]);
 
   return (
     <>

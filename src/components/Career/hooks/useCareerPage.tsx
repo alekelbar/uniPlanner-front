@@ -13,7 +13,7 @@ export const useCareerPage = () => {
   const dispatch = useAppDispatch();
   const { careers, loading } = useAppSelector(state => state.career);
 
-  const { allCareers, loading: allCarrersLoading } = useAllCareers([careers]);
+  const { allCareers, loading: allCarrersLoading } = useAllCareers();
 
 
   const [open, setOpen] = useState(false);
@@ -26,7 +26,7 @@ export const useCareerPage = () => {
       if (response !== RESPONSES.SUCCESS)
         await Swal.fire(response);
     })();
-  }, [query.user]);
+  }, [query.user, dispatch]);
 
   return {
     dialog: {

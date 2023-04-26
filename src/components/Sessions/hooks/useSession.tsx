@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux';
 import usePagination from '../../../hooks/usePagination';
 import isInteger from '../../../helpers/isInteger';
@@ -43,17 +43,17 @@ export const useSession = () => {
     setOpenCreate(false);
   };
 
-  const reload = async (page: number = 1) => {
+  const reload = useCallback(async (page: number = 1) => {
     if (user) {
       const response = await dispatch(startLoadSession(user as string, page));
       if (response !== RESPONSES.SUCCESS)
         await Swal.fire(response);
     }
-  };
+  }, [dispatch, user]);
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage]);
+  }, [actualPage, reload]);
 
   useEffect(() => {
 
@@ -73,7 +73,7 @@ export const useSession = () => {
 
     setTotalPages(pages);
 
-  }, [sessions]);
+  }, [sessions, actualPage, count, reload, setTotalPages]);
 
   return {
     sessionState: {

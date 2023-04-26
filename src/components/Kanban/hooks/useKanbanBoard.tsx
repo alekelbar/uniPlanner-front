@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { useAppDispatch, useAppSelector } from '../../../redux';
 import { setStatus } from '../../../redux/slices/kanban/kanban-slice';
@@ -14,21 +14,22 @@ export const useKanbanBoard = () => {
   const { kanban: { tasks } } = useAppSelector(st => st);
   const dispatch = useAppDispatch();
 
-  const loadTask = () => {
+  const loadTask = useCallback(() => {
     // proceso asincrono para cargar las tareas...
     setLists({
       TODO: tasks.filter(task => task.status === "TODO"),
       DOING: tasks.filter(task => task.status === "DOING"),
       DONE: tasks.filter(task => task.status === "DONE")
     });
-  };
+  }, [tasks]);
+
   const [OpenAdd, setOpenAdd] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadTask();
     setLoading(false);
-  }, [tasks]);
+  }, [tasks, loadTask]);
 
   const onOpen = () => {
     setOpenAdd(true);

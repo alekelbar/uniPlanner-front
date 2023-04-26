@@ -1,5 +1,5 @@
 import { Backdrop, Button, Grid, Stack, Typography, useTheme } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { formatSeconds } from "./helpers/formatSeconds";
@@ -34,7 +34,7 @@ export default function TimerClock ({ open, onClose }: TimerClockProps): JSX.Ele
     }
   };
 
-  const handleTimer = () => {
+  const handleTimer = useCallback(() => {
     if (selected) {
       secondsRef.current = 0;
       setTotalSeconds(secondsRef.current);
@@ -47,12 +47,12 @@ export default function TimerClock ({ open, onClose }: TimerClockProps): JSX.Ele
       }, 1000);
       intervalRef.current = interval;
     }
-  };
+  }, [selected]);
 
   useEffect(() => {
     if (open)
       handleTimer();
-  }, [open]);
+  }, [open, handleTimer]);
 
 
   return (

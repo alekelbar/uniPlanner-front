@@ -1,6 +1,6 @@
 import { Close, Pause, PlayArrow } from "@mui/icons-material";
 import { Backdrop, Button, Container, Stack, Typography, useTheme } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { clearInterval, setInterval } from 'timers';
@@ -90,16 +90,16 @@ export const SessionTimer: React.FC = () => {
   const [pause, setPause] = useState(pauseRef.current);
   const [totalSeconds, setTotalSeconds] = useState(0);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (session && intervalRef.current) {
       secondsLeftRef.current = session.duration * 60;
       pauseRef.current = false; setPause(pauseRef.current);
       clearInterval(intervalRef.current);
       onClose();
     }
-  };
+  }, [session, onClose]);
 
-  const handleTimer = () => {
+  const handleTimer = useCallback(() => {
     if (session) {
       secondsLeftRef.current = session.duration * 60;
       setTotalSeconds(session.duration * 60);
@@ -115,12 +115,12 @@ export const SessionTimer: React.FC = () => {
       }, 1000);
       intervalRef.current = interval;
     }
-  };
+  }, [session, handleReset]);
 
   useEffect(() => {
     if (open)
       handleTimer();
-  }, [open]);
+  }, [open, handleTimer]);
 
   if (open && !session) return <Loading called="timer" />;
 

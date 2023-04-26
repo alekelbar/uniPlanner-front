@@ -56,3 +56,5 @@ export const BoardList = React.memo(({ droppableId, listOfItems, header }: Board
     </Paper>
   );
 });
+
+BoardList.displayName = 'BoardList';

@@ -70,7 +70,7 @@ export function EditCourseDialog ({ onClose, open }: EditCourseDialogProps): JSX
     formik.setFieldValue('courseDescription', selected?.courseDescription);
     formik.setFieldValue('name', selected?.name);
     formik.setFieldValue('credits', selected?.credits);
-  }, [selected]);
+  }, [selected, formik]);
 
 
   return (

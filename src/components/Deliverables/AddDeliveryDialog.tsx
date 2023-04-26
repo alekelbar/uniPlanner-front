@@ -11,7 +11,7 @@ import { RESPONSES } from '../../interfaces/response-messages';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import { onLogOut } from '../../redux/slices/auth/authSlice';
 import { startcreateDelivery } from '../../redux/thunks/deliverables-thunks';
-import { Loading } from '../common';
+import { Loading } from '@/components/common/Loading';
 
 interface AddDeliveryDialogProps {
   open: boolean,

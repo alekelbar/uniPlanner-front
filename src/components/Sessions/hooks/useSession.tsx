@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../redux';
 import usePagination from '../../../hooks/usePagination';
 import isInteger from '../../../helpers/isInteger';

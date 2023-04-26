@@ -1,7 +1,7 @@
 import { ArrowBack } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { Copyright } from '../common';
+import Copyright from '../common/Copyright';
 import { FloatButton } from '../common/FloatButton';
 import { SideBar } from './SideBar';
 import { Navbar } from './navbar';

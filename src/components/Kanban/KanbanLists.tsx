@@ -1,6 +1,5 @@
 import { BoardList } from '../../../src/components/Kanban/BoardList';
 import { useContext } from 'react';
-
 // model ...
 import { kanbanContext } from "./context/kanbanContext";
 

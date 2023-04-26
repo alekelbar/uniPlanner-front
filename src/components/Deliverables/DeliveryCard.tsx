@@ -12,7 +12,7 @@ import { startRemoveDelivery } from '../../redux/thunks/deliverables-thunks';
 import { ColorMatrixPreferences, getPriorityColor } from '../Career/helpers/priorityCalc';
 import { useCallback, useEffect } from 'react';
 import { startLoadSetting } from '../../redux/thunks/settings-thunks';
-import { Loading } from '../common';
+import { Loading } from '@/components/common/Loading';
 
 interface DeliveryCardProps {
   deliverable: Deliverable;

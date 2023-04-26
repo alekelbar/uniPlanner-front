@@ -4,8 +4,8 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { clearInterval, setInterval } from 'timers';
-import { SESSION_TYPES, Session } from '../../interfaces/session-interface';
-import { Loading } from '../common';
+import { SESSION_TYPES } from '../../interfaces/session-interface';
+import { Loading } from '@/components/common/Loading';
 import { sessionPageContext } from './context/SessionContext';
 
 

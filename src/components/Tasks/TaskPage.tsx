@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import { Loading, NotFoundPage } from '../../../src/components';
 import { useTasks } from '../../../src/components/Tasks/hooks/useTasks';
 import { ReactElement } from 'react';
 import { TaskProvider } from './context/TaskPageContext';
@@ -9,6 +8,8 @@ import { TaskFloatButton } from './TaskFloatButton';
 import { TaskAddForm } from './TaskAddForm';
 import { TaskEditForm } from './TaskEdit';
 import { TaskTimerClock } from './TaskTimerClock';
+import NotFoundPage from '../Layout/NotFoundPage';
+import { Loading } from '../common/Loading';
 
 
 export function TasksPage ({ children }: { children: ReactElement | ReactElement[]; }): JSX.Element {

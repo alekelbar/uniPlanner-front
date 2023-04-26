@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material';
-import { FloatButton } from '../../../src/components';
+import { FloatButton } from '@/components/common/FloatButton';
 import { useContext } from 'react';
 import { kanbanContext } from "./context/kanbanContext";
 

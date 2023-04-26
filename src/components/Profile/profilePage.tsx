@@ -6,7 +6,7 @@ import { Stack } from '@mui/system';
 import { useFormik } from 'formik';
 import React from 'react';
 import Swal from 'sweetalert2';
-import { Loading } from '../../../src/components';
+import { Loading } from '@/components/common/Loading';
 import { RESPONSES } from '../../../src/interfaces/response-messages';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { startUpdateUser } from '../../../src/redux/thunks/user-thunks';

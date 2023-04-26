@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { Loading, SessionTimer } from '../../../src/components';
 import { isValidToken } from '../../../src/helpers/isValidToken';
 import { SessionAddButton } from './SessionAddButton';
 import { SessionAddDialog } from './SessionAddDialog';
@@ -9,6 +8,8 @@ import { SessionGrid } from './SessionGrid';
 import { SessionPagination } from './SessionPagination';
 import { useSession } from '../../../src/components/Sessions/hooks/useSession';
 import { SessionProvider } from './context/SessionContext';
+import { SessionTimer } from './Timer';
+import { Loading } from '../common/Loading';
 
 
 export default function SessionsPage ({ children }: { children: ReactElement | ReactElement[]; }): JSX.Element {

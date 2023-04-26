@@ -6,12 +6,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import * as Yup from 'yup';
-import { logOut } from '../../helpers/local-storage';
 import { makePriority } from '../Career/helpers/priorityCalc';
 import { DELIVERABLE_STATUS } from '../../interfaces/deliveries.interface';
 import { RESPONSES } from '../../interfaces/response-messages';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { onLogOut } from '../../redux/slices/auth/authSlice';
 import { startUpdateDelivery } from '../../redux/thunks/deliverables-thunks';
 
 interface EditDeliverableDialogProps {

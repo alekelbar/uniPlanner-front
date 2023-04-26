@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { Loading } from '../../../src/components';
+import { Loading } from '@/components/common/Loading';
 import { useKanbanBoard } from '../../../src/components/Kanban/hooks/useKanbanBoard';
 import { ReactElement } from 'react';
 import { KanbanLists } from './KanbanLists';

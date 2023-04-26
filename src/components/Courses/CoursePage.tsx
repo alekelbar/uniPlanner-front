@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { Loading } from '../../../src/components';
+import { Loading } from '@/components/common/Loading';
 import { useCourses } from '../../../src/components/Courses/hooks/useCourses';
 import { ReactElement } from 'react';
 import { CourseProvider } from './context/courseContext';

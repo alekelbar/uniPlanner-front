@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container';
 import React, { ReactElement } from 'react';
-import { Loading } from '../../../src/components/common/Loading';
+import { Loading } from '@/components/common/Loading';
 import { CareerProvider } from './context/careerContext';
 import { CareerGrid } from './CareerGrid';
 import { CareerFloatButton } from './CareerFloatButton';

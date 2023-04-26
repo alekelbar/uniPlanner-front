@@ -43,7 +43,6 @@ export const useCourses = () => {
   };
 
   const reload = useCallback(async (page: number) => {
-
     const response = await dispatch(startLoadCourses(careerId as string, page));
     if (response !== RESPONSES.SUCCESS)
       await Swal.fire(response);

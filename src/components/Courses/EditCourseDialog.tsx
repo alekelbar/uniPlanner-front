@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, TextField, Typography, } from '@mui/material';
 
 import { Stack } from '@mui/system';
 import { useFormik } from 'formik';
@@ -24,15 +24,12 @@ export function EditCourseDialog ({ onClose, open }: EditCourseDialogProps): JSX
   const { selected } = useAppSelector(state => state.courses);
 
   const [selectedCourse, setSelectedCourse] = useState(selected);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const width = fullScreen ? '100%' : '50%';
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      courseDescription: "",
-      credits: 0,
+      name: selected.name || "",
+      courseDescription: selected.courseDescription || "",
+      credits: selected.credits || 0,
     },
     onSubmit: async (values) => {
       const { courseDescription, credits, name } = values;
@@ -67,10 +64,7 @@ export function EditCourseDialog ({ onClose, open }: EditCourseDialogProps): JSX
 
   useEffect(() => {
     setSelectedCourse(selected);
-    formik.setFieldValue('courseDescription', selected?.courseDescription);
-    formik.setFieldValue('name', selected?.name);
-    formik.setFieldValue('credits', selected?.credits);
-  }, [selected, formik]);
+  }, [selected]);
 
 
   return (
@@ -78,7 +72,7 @@ export function EditCourseDialog ({ onClose, open }: EditCourseDialogProps): JSX
       <Dialog
         sx={{
           '& .MuiDialog-paper': {
-            width: width,
+            width: theme => theme.breakpoints.down('sm') ? "100%" : "50%",
             height: 'auto'
           }
         }}

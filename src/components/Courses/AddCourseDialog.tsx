@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 
 import { Stack } from '@mui/system';
 import { useFormik } from 'formik';
@@ -16,14 +16,10 @@ interface AddCourseDialogProps {
 
 
 export function AddCourseDialog ({ onClose, open }: AddCourseDialogProps): JSX.Element {
+  
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { query: { careerId, userId } } = router;
-
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const width = fullScreen ? '100%' : '50%';
-
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +58,6 @@ export function AddCourseDialog ({ onClose, open }: AddCourseDialogProps): JSX.E
       <Dialog
         sx={{
           '& .MuiDialog-paper': {
-            width: width,
             height: 'auto'
           }
         }}

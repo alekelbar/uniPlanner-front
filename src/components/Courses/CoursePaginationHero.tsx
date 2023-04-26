@@ -1,12 +1,10 @@
 
-import { Box, Grid, Pagination, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Pagination, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { coursePageContext } from './context/courseContext';
 
 
 export const CoursePaginationHero = () => {
-
-  const theme = useTheme();
 
   const {
     pagination: { actualPage, totalPages, handleChangePage },
@@ -15,7 +13,7 @@ export const CoursePaginationHero = () => {
 
   return (
     <Box position='sticky' top={0} sx={{
-      backgroundColor: ({ palette }) => palette.primary.main,
+      // backgroundColor: ({ palette }) => palette.secondary.main,
       zIndex: '10'
     }}>
       <Typography
@@ -30,9 +28,6 @@ export const CoursePaginationHero = () => {
             page={actualPage}
             sx={{
               width: "100%",
-              [theme.breakpoints.up("md")]: {
-                fontSize: "large"
-              },
               py: 1
             }}
             size="small"

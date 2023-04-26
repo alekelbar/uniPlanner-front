@@ -1,26 +1,24 @@
-import { useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import isInteger from '../../../../src/helpers/isInteger';
-import usePagination from '../../../hooks/usePagination';
-import { RESPONSES } from '../../../../src/interfaces/response-messages';
-import { useAppDispatch, useAppSelector } from '../../../../src/redux/hooks';
-import { startLoadCourses } from '../../../../src/redux/thunks/courses.thunks';
+import { useTheme } from "@mui/material";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import isInteger from "../../../../src/helpers/isInteger";
+import usePagination from "../../../hooks/usePagination";
+import { RESPONSES } from "../../../../src/interfaces/response-messages";
+import { useAppDispatch, useAppSelector } from "../../../../src/redux/hooks";
+import { startLoadCourses } from "../../../../src/redux/thunks/courses.thunks";
 
 export const useCourses = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { query: { careerName, careerId } } = router;
-  const { courses, count, loading } = useAppSelector(state => state.courses);
-
   const {
-    actualPage,
-    handleChangePage,
-    totalPages,
-    setTotalPages,
-  } = usePagination(count);
+    query: { careerName, careerId },
+  } = router;
+  const { courses, count, loading } = useAppSelector((state) => state.courses);
+
+  const { actualPage, handleChangePage, totalPages, setTotalPages } =
+    usePagination(count);
 
   const [openCreate, setOpenCreate] = useState(false);
 
@@ -42,16 +40,19 @@ export const useCourses = () => {
     setOpenEdit(false);
   };
 
-  const reload = useCallback(async (page: number) => {
-    const response = await dispatch(startLoadCourses(careerId as string, page));
-    if (response !== RESPONSES.SUCCESS)
-      await Swal.fire(response);
-
-  }, [dispatch, careerId]);
+  const reload = useCallback(
+    async (page: number) => {
+      const response = await dispatch(
+        startLoadCourses(careerId as string, page)
+      );
+      if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
+    },
+    [dispatch, careerId]
+  );
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage, reload]);
+  }, [actualPage]);
 
   useEffect(() => {
     if (courses.length === 0 && actualPage > 1) {
@@ -61,10 +62,9 @@ export const useCourses = () => {
       reload(actualPage);
     }
     // Cálculo para la paginación
-    const pages: number =
-      isInteger(count / 5)
-        ? count / 5
-        : Math.floor(count / 5) + 1;
+    const pages: number = isInteger(count / 5)
+      ? count / 5
+      : Math.floor(count / 5) + 1;
 
     setTotalPages(pages);
   }, [courses, actualPage, count, reload, setTotalPages]);
@@ -74,7 +74,7 @@ export const useCourses = () => {
       careerName,
       courses,
       loading,
-      reload
+      reload,
     },
     pagination: {
       actualPage,
@@ -87,7 +87,7 @@ export const useCourses = () => {
       onCloseCreate,
       onCloseEdit,
       onOpenEdit,
-      onOpenCreate
-    }
+      onOpenCreate,
+    },
   };
 };

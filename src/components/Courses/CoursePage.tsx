@@ -7,7 +7,6 @@ import { CoursePaginationHero } from './CoursePaginationHero';
 import { CourseGrid } from './CourseGrid';
 import { CourseFloatButton } from './CourseFloatButton';
 import { CourseAddForm } from './CourseAddForm';
-import { CourseEditForm } from './CourseEditForm';
 
 export default function CoursesPage ({ children }: { children: ReactElement | ReactElement[]; }) {
   const context = useCourses();
@@ -27,4 +26,3 @@ CoursesPage.HeroPagination = CoursePaginationHero;
 CoursesPage.Grid = CourseGrid;
 CoursesPage.AddButton = CourseFloatButton;
 CoursesPage.AddForm = CourseAddForm;
-CoursesPage.EditForm = CourseEditForm;

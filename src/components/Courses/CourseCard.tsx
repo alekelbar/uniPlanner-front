@@ -8,6 +8,7 @@ import { RESPONSES } from '../../interfaces/response-messages';
 import { useAppDispatch } from '../../redux/hooks';
 import { setSelectedCourse } from '../../redux/slices/Courses/coursesSlice';
 import { startRemoveCourse } from '../../redux/thunks/courses.thunks';
+import { useCallback } from 'react';
 
 interface CourseCardProps {
   course: Course;
@@ -23,13 +24,13 @@ export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: 
   const router = useRouter();
   const { query: { userId } } = router;
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     const response = await dispatch(startRemoveCourse(course));
     if (response !== RESPONSES.SUCCESS) {
       Swal.fire(response);
     }
     reload(actualPage);
-  };
+  }, [reload, actualPage, course, dispatch]);
 
   return (
     <Card variant='elevation' data-testid="course-card"
@@ -83,7 +84,9 @@ export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: 
           <Button
             variant='outlined'
             color='success'
-            onClick={() => { dispatch(setSelectedCourse(course)); onOpenEdit(); }}>
+            // onClick={() => { dispatch(setSelectedCourse(course)); onOpenEdit(); }}
+            onClick={() => {router.push(`/schedule/courses/${course._id}/`)}}
+            >
             Actualizar
           </Button>
         </CardActions>

@@ -11,7 +11,7 @@ export class CourseService {
     this.API = API_INSTANCE;
   }
 
-  public async getUserCourse(userId: string, careerId: string, page: number) {
+  public async getUserCourses(userId: string, careerId: string, page: number) {
     try {
       return await this.API.get<PaginatedCourses>(
         `courses/user/${userId}/career/${careerId}`,
@@ -21,6 +21,15 @@ export class CourseService {
           },
         }
       );
+    } catch (error: any) {
+      return error.response.data.message;
+    }
+  }
+
+  async getCourseById(id: string) {
+    try {
+      return await this.API.get<Course>(`courses/${id}`);
+      
     } catch (error: any) {
       return error.response.data.message;
     }

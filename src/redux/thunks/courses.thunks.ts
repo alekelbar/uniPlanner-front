@@ -24,7 +24,7 @@ export const startLoadCourses = (careerId: string, page: number) => {
     }
 
     const service = new CourseService();
-    const response = await service.getUserCourse(user.id, careerId, page);
+    const response = await service.getUserCourses(user.id, careerId, page);
 
     if (typeof response === "string") {
       dispatch(stopLoadingCourses());

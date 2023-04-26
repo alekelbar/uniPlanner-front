@@ -1,18 +1,17 @@
-import { DependencyList, useCallback, useEffect, useState } from 'react';
-import { Career } from '../../../interfaces/career.interface';
-import { CareerService } from '../../../services';
+import { DependencyList, useCallback, useEffect, useState } from "react";
+import { Career } from "../../../interfaces/career.interface";
+import { CareerService } from "../../../services";
 
 const initialState = {
   allCareers: [] as Career[],
   error: null,
-  loading: true
+  loading: true,
 };
 
 export const useAllCareers = () => {
-
   const [careersState, setCareersState] = useState(initialState);
 
-  const getAllCareers = useCallback(async () => {
+  const getAllCareers = async () => {
     const service = new CareerService();
     const response = await service.listAll();
 
@@ -20,22 +19,21 @@ export const useAllCareers = () => {
       return setCareersState({
         allCareers: response.data,
         error: null,
-        loading: false
+        loading: false,
       });
     }
     setCareersState({ ...initialState, error: response });
-  }, []);
+  };
 
   useEffect(() => {
     getAllCareers();
-  }, [getAllCareers]);
+  });
 
   const { allCareers, error, loading } = careersState;
 
   return {
     allCareers,
     error,
-    loading
+    loading,
   };
-
 };

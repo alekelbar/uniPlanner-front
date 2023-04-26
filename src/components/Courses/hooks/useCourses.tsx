@@ -52,7 +52,7 @@ export const useCourses = () => {
 
   useEffect(() => {
     reload(actualPage);
-  }, [actualPage]);
+  }, [actualPage, reload]);
 
   useEffect(() => {
     if (courses.length === 0 && actualPage > 1) {

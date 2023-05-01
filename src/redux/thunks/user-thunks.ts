@@ -83,7 +83,7 @@ export const startUserRegister = (register: UserRegister) => {
 
     dispatch(updateSetting(setting));
     dispatch(setAuth(data));
-    setLocalToken(registered, "token");
+    setLocalToken(data, "token");
 
     dispatch(stopLoadingApp());
     return RESPONSES.SUCCESS;

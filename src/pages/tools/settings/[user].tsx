@@ -117,7 +117,7 @@ const SettingsPage = () => {
                     value={props.values.do}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    helperText={"Prio. 1"}
+                    helperText={"Prio.1"}
                   />
                   {props.touched.do && props.errors.do && (
                     <Typography variant="caption" color={"error"}>
@@ -133,7 +133,7 @@ const SettingsPage = () => {
                     value={props.values.prepare}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    helperText={"Prio. 2"}
+                    helperText={"Prio.2"}
                   />
                   {props.touched.prepare && props.errors.prepare && (
                     <Typography variant="caption" color={"error"}>
@@ -149,7 +149,7 @@ const SettingsPage = () => {
                     value={props.values.delegate}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    helperText={"Prio. 3"}
+                    helperText={"Prio.3"}
                   />
                   {props.touched.delegate && props.errors.delegate && (
                     <Typography variant="caption" color={"error"}>
@@ -165,7 +165,7 @@ const SettingsPage = () => {
                     value={props.values.ignore}
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    helperText={"Prio. 4"}
+                    helperText={"Prio.4"}
                   />
                   {props.touched.ignore && props.errors.ignore && (
                     <Typography variant="caption" color={"error"}>

@@ -57,6 +57,9 @@ export default HomePage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { token } = context.req.cookies;
+  console.log("Mostrando el token de usuario..");
+  console.log(token);
+
   let user: UserToken = {
     email: "",
     fullname: "",
@@ -65,6 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   if (token) {
+    console.log(token);
     const parseToken = JSON.parse(token);
     user = parseToken.user;
   }

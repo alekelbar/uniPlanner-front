@@ -7,7 +7,7 @@ import {
   StartLoadingCareer,
   StopLoadingCareer,
 } from "../slices/Career/careerSlice";
-import { AppDispatch, RootState } from "../store";
+import { AppDispatch } from "../store";
 
 export const startLoadCareers = (id: string) => {
   return async (dispatch: AppDispatch) => {

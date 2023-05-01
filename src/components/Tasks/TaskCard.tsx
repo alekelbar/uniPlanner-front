@@ -83,24 +83,35 @@ export default function TaskCard({
           Temporizar
         </Button>
         <CardActions>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={() => {
-              router.push(`/schedule/tasks/${task._id}`);
-            }}
-            color="success"
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={1}
           >
-            Actualizar
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            color="error"
-            onClick={handleRemove}
-          >
-            Eliminar
-          </Button>
+            <Grid item xs={12} md={6}>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => {
+                  router.push(`/schedule/tasks/${task._id}`);
+                }}
+                color="success"
+              >
+                Actualizar
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="error"
+                onClick={handleRemove}
+              >
+                Eliminar
+              </Button>
+            </Grid>
+          </Grid>
         </CardActions>
       </CardContent>
     </Card>

@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Grid,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -50,7 +51,7 @@ export default function CourseCard({
       setGrade("No disponible");
     }
     const { data } = grade;
-    setGrade(`${data.totalGrade}%`);
+    setGrade(`${data?.totalGrade}%`);
   }, [course._id]);
 
   useEffect(() => {
@@ -118,17 +119,29 @@ export default function CourseCard({
           VER ENTREGABLES
         </Button>
         <CardActions>
-          <Button color="error" onClick={handleDelete}>
-            Eliminar
-          </Button>
-          <Button
-            color="success"
-            onClick={() => {
-              router.push(`/schedule/courses/${course._id}/`);
-            }}
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={1}
           >
-            Actualizar
-          </Button>
+            <Grid item xs={12} md={6}>
+              <Button
+                color="success"
+                onClick={() => {
+                  router.push(`/schedule/courses/${course._id}/`);
+                }}
+              >
+                Actualizar
+              </Button>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <Button color="error" onClick={handleDelete}>
+                Eliminar
+              </Button>
+            </Grid>
+          </Grid>
         </CardActions>
       </CardContent>
     </Card>

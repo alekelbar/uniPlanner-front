@@ -228,17 +228,28 @@ export function DeliveryCard({
           VER TAREAS
         </Button>
         <CardActions>
-          <Button
-            color="success"
-            onClick={() => {
-              router.push(`/schedule/deliveries/${deliverable._id}`);
-            }}
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={1}
           >
-            Actualizar
-          </Button>
-          <Button color="error" onClick={handleRemove}>
-            Eliminar
-          </Button>
+            <Grid item xs={12} md={6}>
+              <Button
+                color="success"
+                onClick={() => {
+                  router.push(`/schedule/deliveries/${deliverable._id}`);
+                }}
+              >
+                Actualizar
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button color="error" onClick={handleRemove}>
+                Eliminar
+              </Button>
+            </Grid>
+          </Grid>
         </CardActions>
       </CardContent>
     </Card>

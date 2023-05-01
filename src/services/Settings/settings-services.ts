@@ -14,8 +14,8 @@ export class SettingService {
     try {
       return await this.API.get<Setting>(`user-settings/${user}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -24,8 +24,8 @@ export class SettingService {
     try {
       return await this.API.post<Setting>(`user-settings`, createSetting);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -37,8 +37,8 @@ export class SettingService {
         updateSetting
       );
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }

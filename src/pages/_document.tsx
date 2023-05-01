@@ -20,7 +20,7 @@ export default function MyDocument ({ emotionStyleTags }: MyDocumentProps) {
   return (
     <Html lang="en">
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/icon-192x192.png" />
         {/* Insertion point for client. This connects with createEmotionCache.ts */}
         <meta name="emotion-insertion-point" content="" />
         {emotionStyleTags}

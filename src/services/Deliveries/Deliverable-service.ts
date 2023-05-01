@@ -22,8 +22,8 @@ export class DeliverableService {
         },
       });
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -32,8 +32,8 @@ export class DeliverableService {
     try {
       return await this.API.get<Deliverable>(`deliverables/${edit}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -42,8 +42,8 @@ export class DeliverableService {
     try {
       return await this.API.post<Deliverable>(`deliverables`, deriverable);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -54,8 +54,8 @@ export class DeliverableService {
         `deliverables/${deriverable._id}`
       );
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -67,8 +67,8 @@ export class DeliverableService {
         deriverable
       );
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }

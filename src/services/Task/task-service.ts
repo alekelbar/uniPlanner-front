@@ -33,8 +33,8 @@ export class TaskService {
     try {
       return await this.API.get<Task>(`tasks/${id}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -43,8 +43,8 @@ export class TaskService {
     try {
       return await this.API.post<Task>(`tasks`, createTask);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -53,8 +53,8 @@ export class TaskService {
     try {
       return await this.API.delete<Task>(`tasks/${removeTask._id}`);
     } catch (error: any) {
-      if (!error.response) return error.response;
-      else return error.message;
+      if (error.response) return error.response;
+      else return error.response.data.message;
     }
   }
 

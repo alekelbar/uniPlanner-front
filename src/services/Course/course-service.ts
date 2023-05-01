@@ -20,8 +20,8 @@ export class CourseService {
         }
       );
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -30,8 +30,8 @@ export class CourseService {
     try {
       return await this.API.get<Course>(`courses/${id}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -40,8 +40,8 @@ export class CourseService {
     try {
       return await this.API.get<{ totalGrade: number }>(`courses/grade/${id}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -50,8 +50,9 @@ export class CourseService {
     try {
       return await this.API.delete<Course>(`courses/${course._id}`);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      console.log(error);
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -60,8 +61,8 @@ export class CourseService {
     try {
       return await this.API.post<Course>(`courses`, course);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -70,8 +71,8 @@ export class CourseService {
     try {
       return await this.API.patch<Course>(`courses/${courseId}`, course);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }

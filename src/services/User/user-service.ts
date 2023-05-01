@@ -29,8 +29,8 @@ export class UserService {
     try {
       return await this.API.post<UserState>("auth/login", userLogin);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -39,8 +39,8 @@ export class UserService {
     try {
       return await this.API.post<UserState>("auth/register", userRegister);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }
@@ -49,8 +49,8 @@ export class UserService {
     try {
       return await this.API.patch<User>(`auth/user/${id}`, updateUser);
     } catch (error: any) {
-      if (!error.response) {
-        return error.response;
+      if (error.response) {
+        return error.response.data.message;
       } else return error.message;
     }
   }

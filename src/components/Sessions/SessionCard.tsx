@@ -77,7 +77,6 @@ export default function SessionCard({
           fullWidth
           variant="contained"
           color="secondary"
-          disabled
           onClick={() => {
             onStartSession();
           }}

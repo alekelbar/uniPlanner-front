@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import React from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
+import { courseValidations } from "./validation/courseValidations";
 
 interface IEditCourseProps {
   course: Course;
@@ -21,18 +22,6 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
     courseDescription,
     credits,
   };
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(5, "Trata de utilizar al menos 5 caracteres")
-      .required("Falta el nombre del curso"),
-    courseDescription: Yup.string()
-      .min(5, "Trata de utilizar al menos 5 caracteres")
-      .required("Falta la descripción del curso"),
-    credits: Yup.number()
-      .positive("debe ser un numero positivo")
-      .required("Porfavor, agrega los creditos que vale este curso"),
-  });
 
   const onSubmit = async (values: typeof initialValues) => {
     const { courseDescription, credits, name } = values;
@@ -65,7 +54,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      validationSchema={courseValidations}
     >
       {(formik) => (
         <Container sx={{ mt: 3 }} maxWidth="sm">

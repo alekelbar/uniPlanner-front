@@ -5,8 +5,8 @@ type AvailableVersions = "v1" | "v2";
 
 export const API_VERSION: AvailableVersions = "v2";
 
-// export const API_URL = "http://localhost:3000/api/v2/";
-export const API_URL = "https://uniplannerback.onrender.com/api/v2/";
+export const API_URL = "http://localhost:3000/api/v2/";
+// export const API_URL = "https://uniplannerback.onrender.com/api/v2/";
 
 console.log(API_URL);
 

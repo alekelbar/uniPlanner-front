@@ -93,6 +93,7 @@ export const SessionTimer: React.FC = () => {
 
   const { onCloseClock: onClose, openClock: open } = dialogHandler;
   const [pause, setPause] = useState(false);
+  
   const [secondsLeft, setSecondsLeft] = useState(session.duration * 60);
   const [intervalState, setIntervalState] = useState<NodeJS.Timeout | null>(
     null

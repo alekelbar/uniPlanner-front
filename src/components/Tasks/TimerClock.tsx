@@ -21,34 +21,42 @@ export default function TimerClock({
   const { selected } = useAppSelector((st) => st.tasks);
 
   const [seconds, setSeconds] = useState(0);
-  const [pause, setPause] = useState(false);
+  const pauseRef = useRef(false);
+  const [pause, setPause] = useState(pauseRef.current);
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleReset = () => {
     if (selected && intervalRef.current) {
       clearInterval(intervalRef.current);
       setSeconds(0);
-      setPause(false);
+      pauseRef.current = false;
+      setPause(pauseRef.current);
       onClose();
     }
   };
 
-  const handleTimer = useCallback(() => {
+  const handleTimer = () => {
     if (selected) {
       setSeconds(0);
+      pauseRef.current = false;
+      setPause(pauseRef.current);
 
-      const interval = setInterval(() => {
-        if (!pause) {
+      intervalRef.current = setInterval(() => {
+        if (!pauseRef.current) {
           setSeconds((prevSeconds) => prevSeconds + 1);
         }
       }, 1000);
-      intervalRef.current = interval;
     }
-  }, [selected, pause]);
+  };
 
   useEffect(() => {
-    if (open) handleTimer();
-  }, [open, handleTimer]);
+    if (open) {
+      handleTimer();
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  }, [open]);
 
   return (
     <Backdrop
@@ -101,7 +109,8 @@ export default function TimerClock({
                   color="info"
                   variant="contained"
                   onClick={() => {
-                    setPause(true);
+                    pauseRef.current = true;
+                    setPause(pauseRef.current);
                   }}
                 >
                   Pausar
@@ -112,7 +121,8 @@ export default function TimerClock({
                   color="success"
                   variant="contained"
                   onClick={() => {
-                    setPause(false);
+                    pauseRef.current = false;
+                    setPause(pauseRef.current);
                   }}
                 >
                   Continuar

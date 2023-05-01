@@ -2,7 +2,14 @@ import { logOut } from "@/helpers/local-storage";
 import { useAppDispatch } from "@/redux";
 import { onLogOut } from "@/redux/slices/auth/authSlice";
 import { Login, Menu } from "@mui/icons-material";
-import { AppBar, Button, Stack, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Container,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Link from "../common/Link";
@@ -44,8 +51,14 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
   }, []);
 
   return (
-    <AppBar position="static" sx={{ p: 2 }}>
-      <Stack direction={"row"} justifyContent={"space-between"}>
+    <AppBar position="static" sx={{}}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <Stack
           direction={"row"}
           justifyContent={"start"}
@@ -93,7 +106,7 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
             }}
           />
         </Button>
-      </Stack>
+      </Toolbar>
     </AppBar>
   );
 }

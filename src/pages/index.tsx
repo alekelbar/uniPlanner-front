@@ -1,21 +1,41 @@
 import Link from "@/components/common/Link";
-import { UserState, UserToken } from "@/interfaces/users.interface";
+import { UserToken } from "@/interfaces/users.interface";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import image from "./../../public/HeroImage.jpg";
 
 const HomePage = ({ user }: { user: UserToken }) => {
+  console.log(image);
   return (
-    <Box sx={{ background: "primary.main", minHeight: "100vh" }}>
-      <Container maxWidth="md">
+    <Box
+      component={"main"}
+      color={"#146C94"}
+      display={"flex"}
+      flexDirection={"column"}
+      alignItems={"center"}
+    >
+      <Box
+        component={"section"}
+        sx={{
+          zIndex: -10,
+          position: "absolute",
+          top: "9",
+          width: "100%",
+          height: "90%",
+          backgroundImage: `url(${image.src})`,
+          backgroundPosition: { xs: "bottom", md: "top" },
+          backgroundSize: "cover",
+          filter: "blur(8px) grayscale(20%) opacity(.6)",
+          color: "black",
+        }}
+      />
+      <Container>
         <Box sx={{ textAlign: "center", py: 8 }}>
-          <Typography variant="h3" sx={{ mb: 2 }}>
-            Bienvenido a UniPlanner
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="h5" fontWeight={"400"}>
             UniPlanner es una aplicación web enfocada en la productividad para
             los estudiantes de la Universidad Nacional de Costa Rica.
           </Typography>
-          <Grid container spacing={2} justifyContent="center">
+          <Grid container spacing={2} justifyContent="center" mt={5}>
             <Grid item xs={12} sm={6}>
               <Button
                 variant="contained"
@@ -25,18 +45,6 @@ const HomePage = ({ user }: { user: UserToken }) => {
                 sx={{ width: "100%" }}
               >
                 {!user.id ? "Inicia sesión" : "Ir al Home"}
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button
-                disabled
-                variant="outlined"
-                color="primary"
-                component={Link}
-                href="/about"
-                sx={{ width: "100%" }}
-              >
-                Saber más
               </Button>
             </Grid>
           </Grid>

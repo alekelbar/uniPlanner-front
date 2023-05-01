@@ -78,7 +78,7 @@ export function DeliveryCard({
         return (
           <Typography
             component={"div"}
-            variant="h6"
+            variant="subtitle1"
             sx={{
               color: (theme) => theme.palette.error.main,
             }}
@@ -93,7 +93,7 @@ export function DeliveryCard({
       return (
         <Typography
           component={"div"}
-          variant="h6"
+          variant="subtitle1"
           sx={{
             color: (theme) => theme.palette.warning.main,
           }}
@@ -109,7 +109,7 @@ export function DeliveryCard({
     return (
       <Typography
         component={"div"}
-        variant="h6"
+        variant="subtitle1"
         sx={{
           color: (theme) => theme.palette.success.main,
         }}
@@ -158,15 +158,15 @@ export function DeliveryCard({
       <CardHeader
         title={deliverable.name}
         titleTypographyProps={{
-          variant: "h5",
+          variant: "h6",
         }}
         subheader={
           <>
-            <Typography variant="caption" component="p">
+            <Typography variant="subtitle2" component="p">
               {deliverable.description}
             </Typography>
             <Typography
-              variant="caption"
+              variant="subtitle2"
               sx={{
                 color: (theme) => theme.palette.info.main,
               }}
@@ -233,7 +233,7 @@ export function DeliveryCard({
               onClick={() => {
                 dispatch(setSelectedDelivery(deliverable));
                 router.push(
-                  `/schedule/tasks/${deliverable._id}/${deliverable.name}/${userId}`
+                  `/schedule/tasks/list/${deliverable._id}/${deliverable.name}/${userId}`
                 );
               }}
               fullWidth

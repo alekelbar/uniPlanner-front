@@ -25,7 +25,7 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
   };
 
   const homeComponent: JSX.Element = (
-    <>
+    <Box width={"100vw"}>
       <Navbar onOpen={onOpen} />
       <SideBar onClose={onClose} open={open} />
       <FloatButton
@@ -35,14 +35,14 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
         icon={<ArrowBack />}
         sxProps={{ position: "fixed", bottom: 16, left: 16, zIndex: "10" }}
       />
-    </>
+    </Box>
   );
 
   return (
-    <Box width={"100vw"} sx={{ overflow: "hidden" }}>
+    <>
       {!pathname.includes("auth") ? homeComponent : null}
       {children}
       <Copyright />
-    </Box>
+    </>
   );
 }

@@ -220,52 +220,31 @@ export function DeliveryCard({
         >
           Valor: {deliverable.percent}%
         </Typography>
+        <Button
+          onClick={() => {
+            dispatch(setSelectedDelivery(deliverable));
+            router.push(
+              `/schedule/tasks/list/${deliverable._id}/${deliverable.name}/${userId}`
+            );
+          }}
+          fullWidth
+          variant="contained"
+          color="secondary"
+        >
+          VER TAREAS
+        </Button>
         <CardActions>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
+          <Button
+            color="success"
+            onClick={() => {
+              router.push(`/schedule/deliveries/${deliverable._id}`);
             }}
-            component={"div"}
           >
-            <Button
-              onClick={() => {
-                dispatch(setSelectedDelivery(deliverable));
-                router.push(
-                  `/schedule/tasks/list/${deliverable._id}/${deliverable.name}/${userId}`
-                );
-              }}
-              fullWidth
-              variant="contained"
-              color="secondary"
-            >
-              VER TAREAS
-            </Button>
-            <Grid
-              mt={1}
-              container
-              direction={"row"}
-              justifyContent={"space-between"}
-            >
-              <Grid item xs={5}>
-                <Button
-                  fullWidth
-                  color="success"
-                  onClick={() => {
-                    router.push(`/schedule/deliveries/${deliverable._id}`);
-                  }}
-                >
-                  Actualizar
-                </Button>
-              </Grid>
-              <Grid item xs={5}>
-                <Button fullWidth color="error" onClick={handleRemove}>
-                  Eliminar
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
+            Actualizar
+          </Button>
+          <Button color="error" onClick={handleRemove}>
+            Eliminar
+          </Button>
         </CardActions>
       </CardContent>
     </Card>

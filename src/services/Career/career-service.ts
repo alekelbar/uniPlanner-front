@@ -14,7 +14,9 @@ export class CareerService {
     try {
       return await this.API.get<Career[]>("careers/find/all");
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -22,7 +24,9 @@ export class CareerService {
     try {
       return await this.API.get<Career[]>(`careers/${id}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -30,7 +34,9 @@ export class CareerService {
     try {
       return await this.API.post<Career>(`careers/${careerId}/${userId}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -38,7 +44,9 @@ export class CareerService {
     try {
       return await this.API.delete<Career>(`careers/${idCareer}/${idUser}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 }

@@ -22,14 +22,12 @@ export const useSigleCourse = () => {
   const getCourse = async (id: string) => {
     const response = await new CourseService().getCourseById(id as string);
 
-    if (response.status !== 200) {
-      await Swal.fire(response);
+    if (response.status === 200) {
+      setData({
+        data: response.data,
+        loading: false,
+      });
     }
-    // todo bien...
-    setData({
-      data: response.data,
-      loading: false,
-    });
   };
 
   useEffect(() => {

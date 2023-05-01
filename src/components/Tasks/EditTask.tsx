@@ -1,87 +1,67 @@
+import { RESPONSES } from "@/interfaces/response-messages";
+import { TASK_STATUS, Task } from "@/interfaces/task-interface";
+import { useAppDispatch } from "@/redux";
+import { startUpdateTask } from "@/redux/thunks/tasks-thunks";
+import { Formik } from "formik";
+import React from "react";
+import Swal from "sweetalert2";
+import { taskValidation } from "./validation/taskValidationSchema";
 import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
+  Container,
   MenuItem,
   Select,
-  TextField, Typography
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { Stack } from "@mui/system";
-import { useFormik } from "formik";
-import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import * as Yup from "yup";
-import { RESPONSES } from "../../interfaces/response-messages";
-import { CreateTask, TASK_STATUS } from "../../interfaces/task-interface";
-import { useAppDispatch } from "../../redux";
-import { startCreateTask } from "../../redux/thunks/tasks-thunks";
 
-interface AddTaskDialogProps {
-  open: boolean;
-  onClose: () => void;
+interface IEditTaskProps {
+  task: Task;
 }
 
-const initialValues: CreateTask = {
-  descripcion: "",
-  name: "",
-  status: TASK_STATUS.IMCOMPLETED,
-};
-
-export default function AddTaskDialog({
-  onClose,
-  open,
-}: AddTaskDialogProps): JSX.Element {
+export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
+  console.log(task);
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const {
-    query: { deliveryId },
-  } = router;
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit: async (values) => {
-      const { descripcion, name, status } = values;
-      const response = await dispatch(
-        startCreateTask({
-          delivery: deliveryId as string,
-          name,
-          descripcion,
-          status,
-        })
-      );
+  const initialValues = {
+    name: task.name,
+    descripcion: task.descripcion,
+    status: task.status,
+  };
 
-      if (response !== RESPONSES.SUCCESS) {
-        await Swal.fire(response);
-      }
+  const onSubmit = async (values: typeof initialValues) => {
+    const { descripcion, name, status } = values;
 
-      formik.resetForm(initialValues);
-      onClose();
-    },
-    validationSchema: Yup.object({
-      descripcion: Yup.string()
-        .required("La descripción de la tarea es requerida")
-        .min(5, "Trate de usar al menos 5 caracteres"),
-      name: Yup.string()
-        .required("El nombre de la tarea es requerida")
-        .min(5, "Trate de usar al menos 5 caracteres"),
-      status: Yup.string().required("El status de la tarea es requerida"),
-    }),
-  });
+    const response = await dispatch(
+      startUpdateTask({
+        name,
+        descripcion,
+        status,
+        _id: task._id,
+        delivery: task.delivery,
+      })
+    );
+
+    if (response !== RESPONSES.SUCCESS) {
+      await Swal.fire(response);
+    } else {
+      await Swal.fire({
+        title: "Actualizado...",
+        icon: "success",
+        showConfirmButton: true,
+      });
+    }
+  };
 
   return (
-    <>
-      <Dialog
-        sx={{
-          "& .MuiDialog-paper": {
-            height: "auto",
-          },
-        }}
-        onClose={onClose}
-        open={open}
-      >
-        <DialogTitle>Nueva Tarea de entrega</DialogTitle>
-        <DialogContent>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={taskValidation}
+    >
+      {(formik) => (
+        <Container sx={{ mt: 2 }} maxWidth="sm">
           <Stack
             component={"form"}
             onSubmit={formik.handleSubmit}
@@ -96,10 +76,10 @@ export default function AddTaskDialog({
               onChange={formik.handleChange}
               value={formik.values.name}
               type={"text"}
-              onBlur={formik.handleBlur}
-              autoComplete="off"
               rows={2}
               multiline
+              onBlur={formik.handleBlur}
+              autoComplete="off"
               placeholder="Nombre"
               helperText="¿Como va a nombrar a esta tarea?"
             />
@@ -116,10 +96,10 @@ export default function AddTaskDialog({
               onChange={formik.handleChange}
               value={formik.values.descripcion}
               type={"text"}
-              onBlur={formik.handleBlur}
-              autoComplete="off"
               rows={2}
               multiline
+              onBlur={formik.handleBlur}
+              autoComplete="off"
               placeholder="Descripción"
               helperText="¿Como describe esta tarea?"
             />
@@ -151,11 +131,11 @@ export default function AddTaskDialog({
             )}
 
             <Button fullWidth type="submit" color="success" variant="contained">
-              Crear
+              Actualizar
             </Button>
           </Stack>
-        </DialogContent>
-      </Dialog>
-    </>
+        </Container>
+      )}
+    </Formik>
   );
-}
+};

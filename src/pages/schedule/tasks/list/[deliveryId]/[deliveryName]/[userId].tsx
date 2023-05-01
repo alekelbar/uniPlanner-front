@@ -9,7 +9,6 @@ export default function Page(): JSX.Element {
       <TasksPage.Grid />
       <TasksPage.FloatButton />
       <TasksPage.AddForm />
-      <TasksPage.EditForm />
       <TasksPage.TimerClock />
     </TasksPage>
   );

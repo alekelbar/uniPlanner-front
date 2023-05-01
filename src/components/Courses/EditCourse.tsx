@@ -68,7 +68,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
       validationSchema={validationSchema}
     >
       {(formik) => (
-        <Container sx={{ mt: 3 }}>
+        <Container sx={{ mt: 3 }} maxWidth="sm">
           <Stack
             component={"form"}
             onSubmit={formik.handleSubmit}

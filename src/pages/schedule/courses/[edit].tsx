@@ -5,12 +5,13 @@ import { Course } from "@/interfaces/course.interface";
 import { useRouter } from "next/router";
 
 const Page = () => {
-  const data = useSigleCourse();
-  if (data.loading) return <Loading called="EditCourse" />;
+  const { data, loading } = useSigleCourse();
+
+  if (loading || !data) return <Loading called="EditCourse" />;
 
   return (
     // secure use casting...
-    <EditCourse course={data.data as Course} />
+    <EditCourse course={data} />
   );
 };
 

@@ -6,10 +6,11 @@ import { useRouter } from "next/router";
 import React from "react";
 
 const Page = () => {
-  const data = useSingleDelivery();
-  if (data.loading) return <Loading called="EditDelivery" />;
+  const { data, loading } = useSingleDelivery();
 
-  return <EditDelivery delivery={data.data as Deliverable} />;
+  if (loading || !data) return <Loading called="EditDelivery" />;
+
+  return <EditDelivery delivery={data} />;
 };
 
 export default Page;

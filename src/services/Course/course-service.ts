@@ -1,11 +1,9 @@
 import { AxiosInstance } from "axios";
 import { Course, PaginatedCourses } from "../../interfaces/course.interface";
-import { RESPONSES } from "../../interfaces/response-messages";
 import { API_INSTANCE } from "../api-service";
 
 export class CourseService {
   private API: AxiosInstance;
-  private static instance: CourseService | null = null;
 
   public constructor() {
     this.API = API_INSTANCE;
@@ -22,7 +20,9 @@ export class CourseService {
         }
       );
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -30,7 +30,9 @@ export class CourseService {
     try {
       return await this.API.get<Course>(`courses/${id}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -38,7 +40,9 @@ export class CourseService {
     try {
       return await this.API.get<{ totalGrade: number }>(`courses/grade/${id}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -46,7 +50,9 @@ export class CourseService {
     try {
       return await this.API.delete<Course>(`courses/${course._id}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -54,7 +60,9 @@ export class CourseService {
     try {
       return await this.API.post<Course>(`courses`, course);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -62,7 +70,9 @@ export class CourseService {
     try {
       return await this.API.patch<Course>(`courses/${courseId}`, course);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 }

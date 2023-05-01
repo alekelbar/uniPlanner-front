@@ -6,7 +6,6 @@ import { API_INSTANCE } from "../api-service";
 
 export class DeliverableService {
   private API: AxiosInstance;
-  private static instance: DeliverableService | null = null;
 
   public constructor() {
     this.API = API_INSTANCE;
@@ -23,17 +22,21 @@ export class DeliverableService {
         },
       });
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
   async getOneById(edit: string) {
     try {
       console.log(this.API.getUri() + `deliverables/${edit}`);
-      
+
       return await this.API.get<Deliverable>(`deliverables/${edit}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -41,7 +44,9 @@ export class DeliverableService {
     try {
       return await this.API.post<Deliverable>(`deliverables`, deriverable);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -51,7 +56,9 @@ export class DeliverableService {
         `deliverables/${deriverable._id}`
       );
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -62,7 +69,9 @@ export class DeliverableService {
         deriverable
       );
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 }

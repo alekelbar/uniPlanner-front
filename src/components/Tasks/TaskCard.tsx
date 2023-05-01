@@ -1,10 +1,19 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material';
-import Swal from 'sweetalert2';
-import { RESPONSES } from '../../interfaces/response-messages';
-import { TASK_STATUS, Task } from '../../interfaces/task-interface';
-import { useAppDispatch } from '../../redux';
-import { setSelectedTask } from '../../redux/slices/Tasks/task-slice';
-import { startRemoveTask } from '../../redux/thunks/tasks-thunks';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Grid,
+  Typography,
+} from "@mui/material";
+import Swal from "sweetalert2";
+import { RESPONSES } from "../../interfaces/response-messages";
+import { TASK_STATUS, Task } from "../../interfaces/task-interface";
+import { useAppDispatch } from "../../redux";
+import { setSelectedTask } from "../../redux/slices/Tasks/task-slice";
+import { startRemoveTask } from "../../redux/thunks/tasks-thunks";
+import { useRouter } from "next/router";
 
 interface TaskCardProps {
   task: Task;
@@ -14,9 +23,15 @@ interface TaskCardProps {
   openClock: () => void;
 }
 
-export default function TaskCard ({ task, reload, onOpenEdit, actualPage, openClock }: TaskCardProps): JSX.Element {
-
+export default function TaskCard({
+  task,
+  reload,
+  onOpenEdit,
+  actualPage,
+  openClock,
+}: TaskCardProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleRemove = async () => {
     const response = await dispatch(startRemoveTask(task));
@@ -27,9 +42,15 @@ export default function TaskCard ({ task, reload, onOpenEdit, actualPage, openCl
   };
 
   return (
-    <Card variant='elevation' data-testid='task-card' sx={{
-      // minHeight: MIN_CARD_HEIGHT,
-    }}>
+    <Card
+      variant="elevation"
+      data-testid="task-card"
+      sx={
+        {
+          // minHeight: MIN_CARD_HEIGHT,
+        }
+      }
+    >
       <CardHeader
         title={task.name}
         subheader={
@@ -41,49 +62,53 @@ export default function TaskCard ({ task, reload, onOpenEdit, actualPage, openCl
         }
       />
       <CardContent>
-        <Typography sx={{
-          color: (theme) =>
-            task.status === TASK_STATUS.COMPLETED
-              ? theme.palette.success.main
-              : theme.palette.warning.main
-        }}>
+        <Typography
+          sx={{
+            color: (theme) =>
+              task.status === TASK_STATUS.COMPLETED
+                ? theme.palette.success.main
+                : theme.palette.warning.main,
+          }}
+        >
           Estado: {task.status}
         </Typography>
         <Button
           fullWidth
-          variant='contained'
+          variant="contained"
           sx={{
-            cursor: 'pointer',
-            transition: 'all 0.3s',
-            '&:hover': {
-              transform: 'scale(.9)',
+            cursor: "pointer",
+            transition: "all 0.3s",
+            "&:hover": {
+              transform: "scale(.9)",
             },
           }}
-          onClick={() => { dispatch(setSelectedTask(task)); openClock(); }}
-          color='secondary'>
+          onClick={() => {
+            dispatch(setSelectedTask(task));
+            openClock();
+          }}
+          color="secondary"
+        >
           Temporizar
         </Button>
         <CardActions>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={6} lg={4}>
-              <Button
-                fullWidth
-                variant='outlined'
-                onClick={() => { dispatch(setSelectedTask(task)); onOpenEdit(); }}
-                color='success'>
-                Actualizar
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Button
-                fullWidth
-                variant='outlined'
-                color='warning'
-                onClick={handleRemove}>
-                Eliminar
-              </Button>
-            </Grid>
-          </Grid>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => {
+              router.push(`/schedule/tasks/${task._id}`);
+            }}
+            color="success"
+          >
+            Actualizar
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="error"
+            onClick={handleRemove}
+          >
+            Eliminar
+          </Button>
         </CardActions>
       </CardContent>
     </Card>

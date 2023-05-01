@@ -19,7 +19,9 @@ export class SessionService {
         },
       });
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -27,7 +29,9 @@ export class SessionService {
     try {
       return await this.API.post<Session>(`sessions`, createSession);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 
@@ -35,7 +39,9 @@ export class SessionService {
     try {
       return await this.API.delete<Session>(`sessions/${removeSession._id}`);
     } catch (error: any) {
-      return error.response.data.message;
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
     }
   }
 }

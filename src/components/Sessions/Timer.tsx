@@ -17,6 +17,7 @@ import { Loading } from "@/components/common/Loading";
 import { sessionPageContext } from "./context/SessionContext";
 import { SESSION_TYPES } from "@/interfaces/session-interface";
 
+// Componente para el botón de finalizar la sesión
 interface IControlsEnd {
   onClick: () => void;
 }
@@ -25,52 +26,42 @@ export const ControlsEnd: React.FC<IControlsEnd> = ({ onClick }) => {
   return (
     <Button
       size="large"
-      sx={{ borderRadius: 8 }}
       onClick={onClick}
       variant="contained"
-      color={"error"}
+      color={"warning"}
     >
       <Close sx={{ fontSize: "2em" }} />
     </Button>
   );
 };
 
+// Componente para el botón de pausar la sesión
 interface IControlsPause {
   onClick: () => void;
 }
 
 export const ControlsPause: React.FC<IControlsPause> = ({ onClick }) => {
   return (
-    <Button
-      size="large"
-      sx={{ borderRadius: 8 }}
-      onClick={onClick}
-      variant="contained"
-    >
+    <Button size="large" onClick={onClick} variant="contained">
       <Pause sx={{ fontSize: "2em" }} />
     </Button>
   );
 };
 
+// Componente para el botón de continuar la sesión
 interface IControlsContinue {
   onClick: () => void;
 }
 
 export const ControlsContinue: React.FC<IControlsContinue> = ({ onClick }) => {
   return (
-    <Button
-      size="large"
-      sx={{
-        borderRadius: 8,
-      }}
-      onClick={onClick}
-      variant="contained"
-    >
+    <Button size="large" onClick={onClick} variant="contained">
       <PlayArrow sx={{ fontSize: "2em" }} />
     </Button>
   );
 };
 
+// Componente para el contenedor de los controles del temporizador
 interface ITimerClockControls {
   children: JSX.Element | JSX.Element[];
 }
@@ -98,46 +89,50 @@ export const SessionTimer: React.FC = () => {
     clock: dialogHandler,
   } = useContext(sessionPageContext);
 
+  console.log(session);
+
   const { onCloseClock: onClose, openClock: open } = dialogHandler;
+  const [pause, setPause] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(session.duration * 60);
+  const [intervalState, setIntervalState] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
-  const secondsLeftRef = useRef(0);
-  const pauseRef = useRef(false);
-  const intervalRef = useRef<NodeJS.Timer | null>(null);
-
-  const [secondsLeft, setSecondsLeft] = useState(secondsLeftRef.current);
-  const [pause, setPause] = useState(pauseRef.current);
-  const [totalSeconds, setTotalSeconds] = useState(0);
-
-  const handleReset = useCallback(() => {
-    if (session && intervalRef.current) {
-      // secondsLeftRef.current = session.duration * 60;
-      pauseRef.current = false;
-      setPause(pauseRef.current);
-      clearInterval(intervalRef.current);
+  const handleReset = () => {
+    if (intervalState) {
+      clearInterval(intervalState);
+      setPause(false);
       onClose();
     }
-  }, [session, onClose]);
+  };
 
-  const handleTimer = useCallback(() => {
-    if (session) {
-      secondsLeftRef.current = session.duration * 60;
-      setTotalSeconds(session.duration * 60);
-
-      const interval = setInterval(() => {
-        if (secondsLeftRef.current <= 0) handleReset();
-
-        if (!pauseRef.current) {
-          secondsLeftRef.current -= 1;
-          setSecondsLeft(secondsLeftRef.current);
+  const handleTimer = () => {
+    const interval = setInterval(() => {
+      setSecondsLeft((prevSeconds) => {
+        if (prevSeconds <= 0) {
+          handleReset();
+          return 0;
         }
-      }, 100);
-      intervalRef.current = interval;
-    }
-  }, [session, handleReset]);
+        if (!pause) {
+          return prevSeconds - 1;
+        }
+
+        return prevSeconds;
+      });
+    }, 1000);
+
+    setIntervalState(interval);
+  };
 
   useEffect(() => {
-    if (open) handleTimer();
-  }, [open, handleTimer]);
+    handleTimer();
+
+    return () => {
+      if (intervalState) {
+        clearInterval(intervalState);
+      }
+    };
+  }, [session]);
 
   if (open && !session) return <Loading called="timer" />;
 
@@ -155,17 +150,17 @@ export const SessionTimer: React.FC = () => {
         {session ? (
           <>
             <CircularProgressbarWithChildren
-              value={Math.trunc((secondsLeft / totalSeconds) * 100)}
+              value={Math.trunc((secondsLeft / (session.duration * 60)) * 100)}
               styles={buildStyles({
                 pathColor:
                   session.type === SESSION_TYPES.RESTING
                     ? "#ABC4AA"
-                    : "#B46060",
+                    : "#ABC4FF",
                 backgroundColor: "#F6F1F1",
               })}
             >
               <Typography variant="caption" fontSize={"2em"}>
-                {Math.trunc((secondsLeft / totalSeconds) * 100)}%
+                {Math.trunc((secondsLeft / (session.duration * 60)) * 100)}%
               </Typography>
               <Typography data-testid="session-clock" variant="caption">
                 Temporizador
@@ -176,15 +171,13 @@ export const SessionTimer: React.FC = () => {
               {!pause ? (
                 <ControlsPause
                   onClick={() => {
-                    pauseRef.current = true;
-                    setPause(pauseRef.current);
+                    setPause(true);
                   }}
                 />
               ) : (
                 <ControlsContinue
                   onClick={() => {
-                    pauseRef.current = false;
-                    setPause(pauseRef.current);
+                    setPause(false);
                   }}
                 />
               )}

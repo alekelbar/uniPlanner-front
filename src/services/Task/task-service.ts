@@ -29,6 +29,16 @@ export class TaskService {
     }
   }
 
+  async getOneById(id: string) {
+    try {
+      return await this.API.get<Task>(`tasks/${id}`);
+    } catch (error: any) {
+      if (!error.response) {
+        return error.response;
+      } else return error.message;
+    }
+  }
+
   async createTask(createTask: CreateTask) {
     try {
       return await this.API.post<Task>(`tasks`, createTask);

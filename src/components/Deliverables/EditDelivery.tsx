@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/redux";
 import { startUpdateDelivery } from "@/redux/thunks/deliverables-thunks";
 import { RESPONSES } from "@/interfaces/response-messages";
 import Swal from "sweetalert2";
-import { EditDeliveryValidation } from "./Validation/EditDeliveryValidation";
+import { deliveryValidation } from "./Validation/deliveryValidation";
 import { format, parseISO } from "date-fns";
 
 interface IEditDeliveryProps {
@@ -81,7 +81,7 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={EditDeliveryValidation}
+      validationSchema={deliveryValidation}
     >
       {(formik) => (
         <Container sx={{ mt: 3 }} maxWidth="sm">

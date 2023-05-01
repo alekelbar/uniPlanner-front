@@ -1,7 +1,7 @@
 import { DELIVERABLE_STATUS } from "@/interfaces/deliveries.interface";
 import * as Yup from "yup";
 
-export const EditDeliveryValidation = Yup.object({
+export const deliveryValidation = Yup.object({
   name: Yup.string()
     .min(5, "Use almenos 5 caracteres")
     .required("El nombre del entregable es obligatorio"),

@@ -5,7 +5,6 @@ import { GetServerSideProps } from "next";
 import image from "./../../public/HeroImage.jpg";
 
 const HomePage = ({ user }: { user: UserToken }) => {
-  console.log(image);
   return (
     <Box
       component={"main"}

@@ -21,7 +21,6 @@ interface IEditTaskProps {
 }
 
 export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
-  console.log(task);
   const dispatch = useAppDispatch();
 
   const initialValues = {

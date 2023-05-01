@@ -39,8 +39,6 @@ export const startCreateTask = (createTask: CreateTask) => {
     const service = new TaskService();
     const response = await service.createTask(createTask);
 
-    console.log(response);
-
     if (response.status !== 201) {
       dispatch(stopLoadingTask());
       return response;

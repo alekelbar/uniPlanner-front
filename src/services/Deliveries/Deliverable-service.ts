@@ -30,8 +30,6 @@ export class DeliverableService {
 
   async getOneById(edit: string) {
     try {
-      console.log(this.API.getUri() + `deliverables/${edit}`);
-
       return await this.API.get<Deliverable>(`deliverables/${edit}`);
     } catch (error: any) {
       if (!error.response) {

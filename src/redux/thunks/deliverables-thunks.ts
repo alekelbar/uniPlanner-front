@@ -64,7 +64,6 @@ export const startRemoveDelivery = (deliverable: Deliverable) => {
     }
 
     const { data } = response;
-    console.log(data);
     dispatch(removeDelivery(data));
     dispatch(stopLoadingDeliveries());
     return RESPONSES.SUCCESS;

@@ -50,7 +50,6 @@ const RegisterPage: React.FC = () => {
       repassword: "",
     },
     onSubmit: async (values) => {
-      console.log(values);
       const {
         career,
         email,

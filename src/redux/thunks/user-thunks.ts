@@ -21,7 +21,6 @@ export const startUserLogin = (login: UserLogin) => {
     const logIn = await service.login(login);
 
     const { data } = logIn;
-    console.log(logIn);
 
     if (logIn.status !== 201) {
       dispatch(stopLoadingApp());

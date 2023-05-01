@@ -1,11 +1,13 @@
 import { logOut } from "@/helpers/local-storage";
-import { useAppSelector, useAppDispatch } from "@/redux";
+import { useAppDispatch } from "@/redux";
 import { onLogOut } from "@/redux/slices/auth/authSlice";
 import { Login, Menu } from "@mui/icons-material";
-import { AppBar, Button, Container, Stack, Typography } from "@mui/material";
+import { AppBar, Button, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Link from "../common/Link";
+import { getUserFromToken } from "./helpers/getUserFromLocalToken";
+import { useEffect, useState } from "react";
 
 interface NabvarProps {
   onOpen: () => void;
@@ -34,6 +36,13 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
     }
   };
 
+  const [userState, setUserState] = useState("none");
+
+  useEffect(() => {
+    const user = getUserFromToken();
+    setUserState(!user.id ? "none" : "");
+  }, []);
+
   return (
     <AppBar position="static" sx={{ p: 2 }}>
       <Stack direction={"row"} justifyContent={"space-between"}>
@@ -46,6 +55,7 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
           <Button
             variant="text"
             sx={{
+              display: userState,
               cursor: "pointer",
               transition: "all 0.3s",
               "&:hover": {

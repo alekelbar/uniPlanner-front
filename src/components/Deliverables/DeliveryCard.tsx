@@ -221,39 +221,51 @@ export function DeliveryCard({
           Valor: {deliverable.percent}%
         </Typography>
         <CardActions>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={12} lg={12}>
-              <Button
-                onClick={() => {
-                  dispatch(setSelectedDelivery(deliverable));
-                  router.push(
-                    `/schedule/tasks/${deliverable._id}/${deliverable.name}/${userId}`
-                  );
-                }}
-                fullWidth
-                variant="contained"
-                color="secondary"
-              >
-                VER TAREAS
-              </Button>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+            component={"div"}
+          >
+            <Button
+              onClick={() => {
+                dispatch(setSelectedDelivery(deliverable));
+                router.push(
+                  `/schedule/tasks/${deliverable._id}/${deliverable.name}/${userId}`
+                );
+              }}
+              fullWidth
+              variant="contained"
+              color="secondary"
+            >
+              VER TAREAS
+            </Button>
+            <Grid
+              mt={1}
+              container
+              direction={"row"}
+              justifyContent={"space-between"}
+            >
+              <Grid item xs={5}>
+                <Button
+                  fullWidth
+                  color="success"
+                  onClick={() => {
+                    router.push(`/schedule/deliveries/${deliverable._id}`);
+                  }}
+                >
+                  Actualizar
+                </Button>
+              </Grid>
+              <Grid item xs={5}>
+                <Button fullWidth color="error" onClick={handleRemove}>
+                  Eliminar
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Button
-                fullWidth
-                color="success"
-                onClick={() => {
-                  router.push(`/schedule/deliveries/${deliverable._id}`);
-                }}
-              >
-                Actualizar
-              </Button>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Button fullWidth color="error" onClick={handleRemove}>
-                Eliminar
-              </Button>
-            </Grid>
-          </Grid>
+          </Box>
         </CardActions>
       </CardContent>
     </Card>

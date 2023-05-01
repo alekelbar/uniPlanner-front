@@ -1,16 +1,17 @@
-import { ArrowBack } from '@mui/icons-material';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import Copyright from '../common/Copyright';
-import { FloatButton } from '../common/FloatButton';
-import { SideBar } from './SideBar';
-import { Navbar } from './navbar';
+import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import Copyright from "../common/Copyright";
+import { FloatButton } from "../common/FloatButton";
+import { SideBar } from "./SideBar";
+import { Navbar } from "./navbar";
+import { Box } from "@mui/material";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function LayoutComponent ({ children }: LayoutProps): JSX.Element {
+export function LayoutComponent({ children }: LayoutProps): JSX.Element {
   const { pathname } = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -28,20 +29,20 @@ export function LayoutComponent ({ children }: LayoutProps): JSX.Element {
       <Navbar onOpen={onOpen} />
       <SideBar onClose={onClose} open={open} />
       <FloatButton
-        onAction={() => { router.back(); }}
+        onAction={() => {
+          router.back();
+        }}
         icon={<ArrowBack />}
-        sxProps={{ position: 'fixed', bottom: 16, left: 16, zIndex: '10' }} />
+        sxProps={{ position: "fixed", bottom: 16, left: 16, zIndex: "10" }}
+      />
     </>
   );
 
   return (
-    <>
-      {!pathname.includes('auth')
-        ? homeComponent
-        : null
-      }
+    <Box width={"100vw"} sx={{ overflow: "hidden" }}>
+      {!pathname.includes("auth") ? homeComponent : null}
       {children}
       <Copyright />
-    </>
+    </Box>
   );
 }

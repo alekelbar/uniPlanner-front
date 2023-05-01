@@ -104,7 +104,7 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
             />
             {formik.touched.deadline && formik.errors.deadline && (
               <Typography variant="caption" color={"info.main"}>
-                {/* {formik.errors.deadline} */} suave...
+                {formik.errors.deadline}
               </Typography>
             )}
 

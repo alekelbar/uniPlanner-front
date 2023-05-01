@@ -1,3 +1,4 @@
+import { DELIVERABLE_STATUS } from "@/interfaces/deliveries.interface";
 import * as Yup from "yup";
 
 export const EditDeliveryValidation = Yup.object({
@@ -11,10 +12,15 @@ export const EditDeliveryValidation = Yup.object({
     "La fecha limite del entregable es obligatoria"
   ),
   status: Yup.string().required("El status del entregable es obligatorio"),
-  note: Yup.number()
-    .min(0, "La nota minima es cero")
-    .max(100, "La nota maxíma es 100")
-    .required("la calificación del entregable es obligatoria"),
+  note: Yup.number().when("status", {
+    is: (status: DELIVERABLE_STATUS) => status === DELIVERABLE_STATUS.SEND,
+    then: (schema) => schema.max(100).min(0),
+    otherwise: (schema) =>
+      schema.min(0).max(0, "No se puede calificar sin enviarlo"),
+  }),
+  // .min(0, "La nota minima es cero")
+  // .max(100, "La nota maxíma es 100")
+  // .required("la calificación del entregable es obligatoria"),
   percent: Yup.number()
     .min(0, "El porcentaje minimo es cero")
     .max(100, "El porcentaje maxíma es 100")

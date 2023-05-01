@@ -29,7 +29,14 @@ export class CourseService {
   async getCourseById(id: string) {
     try {
       return await this.API.get<Course>(`courses/${id}`);
-      
+    } catch (error: any) {
+      return error.response.data.message;
+    }
+  }
+
+  async getCourseGrade(id: string) {
+    try {
+      return await this.API.get<{ totalGrade: number }>(`courses/grade/${id}`);
     } catch (error: any) {
       return error.response.data.message;
     }

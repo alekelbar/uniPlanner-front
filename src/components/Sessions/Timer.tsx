@@ -7,11 +7,15 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { clearInterval, setInterval } from "timers";
 import { Loading } from "@/components/common/Loading";
 import { sessionPageContext } from "./context/SessionContext";
+import { SESSION_TYPES } from "@/interfaces/session-interface";
 
 interface IControlsEnd {
   onClick: () => void;
@@ -23,7 +27,7 @@ export const ControlsEnd: React.FC<IControlsEnd> = ({ onClick }) => {
       size="large"
       sx={{ borderRadius: 8 }}
       onClick={onClick}
-      variant="outlined"
+      variant="contained"
       color={"error"}
     >
       <Close sx={{ fontSize: "2em" }} />
@@ -106,7 +110,7 @@ export const SessionTimer: React.FC = () => {
 
   const handleReset = useCallback(() => {
     if (session && intervalRef.current) {
-      secondsLeftRef.current = session.duration * 60;
+      // secondsLeftRef.current = session.duration * 60;
       pauseRef.current = false;
       setPause(pauseRef.current);
       clearInterval(intervalRef.current);
@@ -126,7 +130,7 @@ export const SessionTimer: React.FC = () => {
           secondsLeftRef.current -= 1;
           setSecondsLeft(secondsLeftRef.current);
         }
-      }, 1000);
+      }, 100);
       intervalRef.current = interval;
     }
   }, [session, handleReset]);
@@ -147,16 +151,18 @@ export const SessionTimer: React.FC = () => {
       }}
       open={open}
     >
-      <Stack width={"200px"} height={"200px"}>
+      <Stack width={"250px"} height={"250px"}>
         {session ? (
           <>
             <CircularProgressbarWithChildren
               value={Math.trunc((secondsLeft / totalSeconds) * 100)}
-              // styles={buildStyles({
-              //   pathColor: (session.type === SESSION_TYPES.RESTING)
-              //     ? theme.palette.success.main
-              //     : theme.palette.info.main,
-              // })}
+              styles={buildStyles({
+                pathColor:
+                  session.type === SESSION_TYPES.RESTING
+                    ? "#ABC4AA"
+                    : "#B46060",
+                backgroundColor: "#F6F1F1",
+              })}
             >
               <Typography variant="caption" fontSize={"2em"}>
                 {Math.trunc((secondsLeft / totalSeconds) * 100)}%

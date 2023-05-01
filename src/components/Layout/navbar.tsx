@@ -63,7 +63,6 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
           direction={"row"}
           justifyContent={"start"}
           alignItems={"center"}
-          gap={1.5}
         >
           <Button
             variant="text"

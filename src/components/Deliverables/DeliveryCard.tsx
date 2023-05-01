@@ -148,13 +148,7 @@ export function DeliveryCard({
   if (loading) return <Loading />;
 
   return (
-    <Card
-      variant="elevation"
-      data-testid="career-card"
-      sx={{
-        minHeight: MIN_CARD_HEIGHT,
-      }}
-    >
+    <Card variant="elevation" data-testid="career-card" sx={{}}>
       <CardHeader
         title={deliverable.name}
         titleTypographyProps={{

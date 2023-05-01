@@ -70,7 +70,6 @@ export default function CourseCard({
       variant="elevation"
       data-testid="course-card"
       sx={{
-        minHeight: MIN_CARD_HEIGHT,
         animation: "all 1s",
       }}
     >

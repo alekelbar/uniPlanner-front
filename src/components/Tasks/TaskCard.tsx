@@ -42,15 +42,7 @@ export default function TaskCard({
   };
 
   return (
-    <Card
-      variant="elevation"
-      data-testid="task-card"
-      sx={
-        {
-          // minHeight: MIN_CARD_HEIGHT,
-        }
-      }
-    >
+    <Card variant="elevation" data-testid="task-card" sx={{}}>
       <CardHeader
         title={task.name}
         subheader={

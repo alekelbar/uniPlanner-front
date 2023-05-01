@@ -1,5 +1,12 @@
 import { Close, Pause, PlayArrow } from "@mui/icons-material";
-import { Backdrop, Button, Container, Stack, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Button,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, {
   useContext,
   useEffect,
@@ -25,10 +32,11 @@ interface IControlsEnd {
 export const ControlsEnd: React.FC<IControlsEnd> = ({ onClick }) => {
   return (
     <Button
+      fullWidth
       size="large"
       onClick={onClick}
       variant="contained"
-      color={"warning"}
+      color={"error"}
     >
       <Close sx={{ fontSize: "2em" }} />
     </Button>
@@ -42,7 +50,7 @@ interface IControlsPause {
 
 export const ControlsPause: React.FC<IControlsPause> = ({ onClick }) => {
   return (
-    <Button size="large" onClick={onClick} variant="contained">
+    <Button fullWidth size="large" onClick={onClick} variant="contained">
       <Pause sx={{ fontSize: "2em" }} />
     </Button>
   );
@@ -55,7 +63,7 @@ interface IControlsContinue {
 
 export const ControlsContinue: React.FC<IControlsContinue> = ({ onClick }) => {
   return (
-    <Button size="large" onClick={onClick} variant="contained">
+    <Button fullWidth size="large" onClick={onClick} variant="contained">
       <PlayArrow sx={{ fontSize: "2em" }} />
     </Button>
   );
@@ -68,18 +76,17 @@ interface ITimerClockControls {
 
 export const TimerControls: React.FC<ITimerClockControls> = ({ children }) => {
   return (
-    <Container
-      sx={{
-        gap: 2,
-        width: "100%",
-        placeItems: "center",
-        mt: 2,
-        display: "flex",
-        justifyContent: "space-between",
-      }}
+    <Grid
+      container
+      width={"90%"}
+      sx={{ placeItems: "center" }}
+      gap={2}
+      m={"0 auto"}
+      p={2}
+      direction="column"
     >
       {children}
-    </Container>
+    </Grid>
   );
 };
 
@@ -146,22 +153,10 @@ export const SessionTimer: React.FC = () => {
             <CircularProgressbarWithChildren
               value={Math.trunc((secondsLeft / (selected.duration * 60)) * 100)}
               styles={buildStyles({
-                // Rotation of path and trail, in number of turns (0-1)
                 rotation: 0.25,
-
-                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                 strokeLinecap: "butt",
-
-                // Text size
-                textSize: "16px",
-
-                // How long animation takes to go from one percentage to another, in seconds
+                textSize: ".5em",
                 pathTransitionDuration: 0.5,
-
-                // Can specify path transition in more detail, or remove it entirely
-                // pathTransition: 'none',
-
-                // Colors
                 textColor: "#f88",
                 trailColor: "#d6d6d6",
                 pathColor:
@@ -185,7 +180,6 @@ export const SessionTimer: React.FC = () => {
               </Typography>
             </CircularProgressbarWithChildren>
             <TimerControls>
-              <ControlsEnd onClick={handleReset} />
               {!pause ? (
                 <ControlsPause
                   onClick={() => {
@@ -201,6 +195,7 @@ export const SessionTimer: React.FC = () => {
                   }}
                 />
               )}
+              <ControlsEnd onClick={handleReset} />
             </TimerControls>
           </>
         ) : (

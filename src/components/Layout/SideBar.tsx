@@ -9,11 +9,12 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
+  Typography,
 } from "@mui/material";
-import Link from "../common/Link";
 import { pages } from "./helpers/pages";
 import { useSideBar } from "./hooks/useSideBar";
 import { useRouter } from "next/router";
+import { Close } from "@mui/icons-material";
 
 export interface SideBarProps {
   open: boolean;
@@ -33,7 +34,6 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
     >
       <Drawer
         sx={{
-          // width: 150,
           display: !user.id ? "none" : "",
         }}
         variant="temporary"
@@ -46,10 +46,25 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
         }}
         ref={drawerRef}
       >
-        <List sx={{ mb: 2 }}>
+        <List
+          sx={{
+            bgcolor: "white",
+            width: "300",
+            "&:hover": {
+              bgcolor: "#F5F5F5",
+            },
+          }}
+        >
           <ListItem>
             <ListItemIcon>
-              <Avatar src="https://scontent.fsjo9-1.fna.fbcdn.net/v/t39.30808-6/301999029_768418684471692_6904334561164990019_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=TJw0dH_UN8UAX-il7VE&_nc_ht=scontent.fsjo9-1.fna&oh=00_AfA1l4mwYw9AqIzm0Zj-ex_ue7HrVMW3HtnbEdI0w2gMlQ&oe=644BB05C" />
+              <Button
+                variant="text"
+                onClick={() => {
+                  router.push(`/tools/profile/${user.id}`);
+                }}
+              >
+                <Avatar src="https://scontent.fsjo9-1.fna.fbcdn.net/v/t39.30808-6/301999029_768418684471692_6904334561164990019_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=PaPhWcz1HfAAX_wMYaV&_nc_ht=scontent.fsjo9-1.fna&oh=00_AfA_tE2Ex1Jm2lvhHDOhQNgk8zre3XJa-ooWEeoaN8cKFg&oe=6455939C" />
+              </Button>
             </ListItemIcon>
             <ListItemText
               primary={user?.fullname}
@@ -59,6 +74,9 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
           </ListItem>
         </List>
         <Divider sx={{ mb: 2 }} />
+        <Typography variant="h5" align="center">
+          Herramientas
+        </Typography>
         <List sx={{ display: "flex", flexDirection: "column" }}>
           {pages.map((page) => {
             return (
@@ -93,6 +111,9 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
           })}
           <Divider sx={{ mt: 2, mb: 2 }} />
         </List>
+        <Button onClick={onClose} fullWidth variant="text" size="large">
+          <Close />
+        </Button>
       </Drawer>
     </Container>
   );

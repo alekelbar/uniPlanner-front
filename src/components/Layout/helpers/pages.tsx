@@ -16,13 +16,13 @@ export const pages: Page[] = [
     url: "/schedule/careers/",
     icon: <School sx={{ color: "text.primary" }} />,
   },
-  {
-    inactiveColor: "text.primary.dark",
-    title: "Tablero Kanban",
-    color: "text.primary",
-    url: "/tools/kanban/",
-    icon: <Task sx={{ color: "text.primary" }} />,
-  },
+  // {
+  //   inactiveColor: "text.primary.dark",
+  //   title: "Tablero Kanban",
+  //   color: "text.primary",
+  //   url: "/tools/kanban/",
+  //   icon: <Task sx={{ color: "text.primary" }} />,
+  // },
   {
     inactiveColor: "text.primary.dark",
     title: "Sesiones",

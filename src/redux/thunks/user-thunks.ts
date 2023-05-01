@@ -91,20 +91,15 @@ export const startUserRegister = (register: UserRegister) => {
   };
 };
 
-export const startUpdateUser = (updateUser: UpdateUser) => {
+export const startUpdateUser = (updateUser: UpdateUser, userId: string) => {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(initLoadingApp());
     const {
       auth: { user },
     } = getState();
 
-    if (!user) {
-      dispatch(stopLoadingApp());
-      return RESPONSES.UNAUTHORIZE;
-    }
-
     const service = new UserService();
-    const response = await service.updateUser(updateUser, user.id);
+    const response = await service.updateUser(updateUser, userId);
 
     if (typeof response === "string") {
       dispatch(stopLoadingApp());

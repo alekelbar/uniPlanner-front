@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
   Typography,
-  useMediaQuery
 } from '@mui/material';
 
 import { Box } from '@mui/system';

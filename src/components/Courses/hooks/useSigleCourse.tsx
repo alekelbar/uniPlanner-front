@@ -1,7 +1,7 @@
 import { Course } from "@/interfaces/course.interface";
 import { CourseService } from "@/services/Course";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 interface CourseFetch {
@@ -9,34 +9,32 @@ interface CourseFetch {
   loading: boolean;
 }
 
-export const useSigleCourse = (edit: string) => {
-  const router = useRouter();
+export const useSigleCourse = () => {
+  const {
+    query: { edit },
+  } = useRouter();
 
   const [data, setData] = useState<CourseFetch>({
     data: null,
     loading: true,
   });
 
-  const getCourse = useCallback(
-    async (id: string) => {
-      const response = await new CourseService().getCourseById(edit as string);
+  const getCourse = async (id: string) => {
+    const response = await new CourseService().getCourseById(id as string);
 
-      if (response.status !== 200) {
-        await Swal.fire(response);
-        router.back();
-      }
-      // todo bien...
-      setData({
-        data: response.data,
-        loading: false,
-      });
-    },
-    [edit, router]
-  );
+    if (response.status !== 200) {
+      await Swal.fire(response);
+    }
+    // todo bien...
+    setData({
+      data: response.data,
+      loading: false,
+    });
+  };
 
   useEffect(() => {
     getCourse(edit as string);
-  }, [edit, getCourse]);
+  }, [edit]);
 
   return data;
 };

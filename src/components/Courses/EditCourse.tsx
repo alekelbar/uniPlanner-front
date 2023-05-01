@@ -53,7 +53,11 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     } else {
-      await Swal.fire('Actualizado');
+      await Swal.fire({
+        title: "Actualizado...",
+        icon: "success",
+        showConfirmButton: true,
+      });
     }
   };
 

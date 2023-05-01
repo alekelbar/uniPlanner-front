@@ -26,7 +26,4 @@ export interface SessionContext {
     onOpenCreate: VoidFunction;
     onCloseCreate: VoidFunction;
   };
-  theming: {
-    theme: Theme;
-  };
 }

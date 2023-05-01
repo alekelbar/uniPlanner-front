@@ -1,142 +1,90 @@
 import {
+  DELIVERABLE_STATUS,
+  Deliverable,
+} from "@/interfaces/deliveries.interface";
+import {
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
+  Container,
   MenuItem,
   Select,
+  Stack,
   TextField,
-  Theme,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import { Stack } from "@mui/system";
-import { useFormik } from "formik";
-import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import * as Yup from "yup";
-import { logOut } from "../../helpers/local-storage";
+import { Formik } from "formik";
+import React from "react";
 import { makePriority } from "../Career/helpers/priorityCalc";
-import { DELIVERABLE_STATUS } from "../../interfaces/deliveries.interface";
-import { RESPONSES } from "../../interfaces/response-messages";
-import { useAppDispatch, useAppSelector } from "../../redux";
-import { onLogOut } from "../../redux/slices/auth/authSlice";
-import { startcreateDelivery } from "../../redux/thunks/deliverables-thunks";
-import { Loading } from "@/components/common/Loading";
+import { useAppDispatch, useAppSelector } from "@/redux";
+import { startUpdateDelivery } from "@/redux/thunks/deliverables-thunks";
+import { RESPONSES } from "@/interfaces/response-messages";
+import Swal from "sweetalert2";
+import { EditDeliveryValidation } from "./Validation/EditDeliveryValidation";
+import { format, parseISO } from "date-fns";
 
-interface AddDeliveryDialogProps {
-  open: boolean;
-  onClose: () => void;
+interface IEditDeliveryProps {
+  delivery: Deliverable;
 }
 
-const initialValues = {
-  name: "",
-  description: "",
-  deadline: "",
-  status: DELIVERABLE_STATUS.PENDING,
-  note: 0,
-  percent: 0,
-};
-
-export default function AddDeliveryDialog({
-  onClose,
-  open,
-}: AddDeliveryDialogProps): JSX.Element {
+export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
+  const { selected: selectedSetting } = useAppSelector((st) => st.setting);
   const dispatch = useAppDispatch();
-  const router = useRouter();
 
-  const {
-    query: { courseId },
-  } = router;
+  const { deadline } = delivery;
 
-  const { selected } = useAppSelector((state) => state.setting);
+  const initialValues = {
+    name: delivery.name,
+    description: delivery.description,
+    deadline: format(
+      delivery ? new Date(deadline) : new Date(),
+      "yyyy-MM-dd'T'HH:mm"
+    ),
+    status: delivery.status,
+    note: delivery.note,
+    percent: delivery.percent,
+  };
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit: async (values) => {
-      const { deadline, description, name, note, percent, status } = values;
+  const onSubmit = async (values: typeof initialValues) => {
+    const { deadline, description, name, note, percent, status } = values;
 
-      const { importance, urgency } = makePriority(
-        new Date(deadline),
-        percent >= selected!.importance
-      );
+    const { importance, urgency } = makePriority(
+      new Date(deadline),
+      percent >= selectedSetting!.importance ? true : false
+    );
 
-      const response = await dispatch(
-        startcreateDelivery({
-          deadline: new Date(deadline).toString(),
-          description,
-          name,
-          note,
-          percent,
-          status,
-          importance,
-          urgency,
-          course: courseId as string,
-        })
-      );
-      if (response !== RESPONSES.SUCCESS) {
-        let responseText = "";
+    const response = await dispatch(
+      startUpdateDelivery({
+        deadline: new Date(deadline).toString(),
+        description,
+        name,
+        note,
+        percent,
+        status,
+        importance,
+        urgency,
+        course: delivery.course,
+        _id: delivery._id,
+      })
+    );
 
-        switch (response) {
-          case RESPONSES.UNAUTHORIZE:
-            responseText =
-              "Parece que no tiene autorización para estar aquí 🔒";
-            router.push("/");
-            dispatch(onLogOut());
-            logOut();
-            onClose();
-            return;
-          case RESPONSES.BAD_REQUEST:
-            responseText =
-              "Parece que hubo un inconveniente con el servidor 🔒";
-            break;
-        }
-        await Swal.fire({
-          title: "Una disculpa",
-          text: responseText,
-          icon: "info",
-        });
-      }
-      formik.resetForm(initialValues);
-      onClose();
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(5, "Use almenos 5 caracteres")
-        .required("El nombre del entregable es obligatorio"),
-      description: Yup.string()
-        .min(5, "Use almenos 5 caracteres")
-        .required("La descripción del entregable es obligatoria"),
-      deadline: Yup.date().required(
-        "La fecha limite del entregable es obligatoria"
-      ),
-      status: Yup.string().required("El status del entregable es obligatorio"),
-      note: Yup.number()
-        .min(0, "La nota minima es cero")
-        .max(100, "La nota maxíma es 100")
-        .required("la calificación del entregable es obligatoria"),
-      percent: Yup.number()
-        .min(0, "El porcentaje minimo es cero")
-        .max(100, "El porcentaje maxíma es 100")
-        .required("El porcentaje del entregable es obligatorio"),
-    }),
-  });
-
-  if (open && !selected) return <Loading called="addDelivery" />;
+    if (response !== RESPONSES.SUCCESS) {
+      await Swal.fire(response);
+    } else {
+      await Swal.fire({
+        title: "Actualizado...",
+        icon: "success",
+        showConfirmButton: true,
+      });
+    }
+  };
 
   return (
-    <>
-      <Dialog
-        sx={{
-          "& .MuiDialog-paper": {
-            height: "auto",
-          },
-        }}
-        onClose={onClose}
-        open={open}
-      >
-        <DialogTitle>Nueva Entrega</DialogTitle>
-        <DialogContent>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={EditDeliveryValidation}
+    >
+      {(formik) => (
+        <Container sx={{ mt: 3 }}>
           <Stack
             component={"form"}
             onSubmit={formik.handleSubmit}
@@ -156,7 +104,7 @@ export default function AddDeliveryDialog({
             />
             {formik.touched.deadline && formik.errors.deadline && (
               <Typography variant="caption" color={"info.main"}>
-                {formik.errors.deadline}
+                {/* {formik.errors.deadline} */} suave...
               </Typography>
             )}
 
@@ -166,12 +114,12 @@ export default function AddDeliveryDialog({
               onChange={formik.handleChange}
               value={formik.values.name}
               type={"text"}
-              rows={2}
-              multiline
               placeholder="¿Cual es el nombre del entregable?"
               helperText="Entregable"
               onBlur={formik.handleBlur}
               autoComplete="off"
+              rows={2}
+              multiline
             />
             {formik.touched.name && formik.errors.name && (
               <Typography variant="caption" color={"info.main"}>
@@ -185,7 +133,7 @@ export default function AddDeliveryDialog({
               onChange={formik.handleChange}
               value={formik.values.description}
               type={"text"}
-              rows={3}
+              rows={6}
               multiline
               placeholder="¿Cual es la description del entregable?"
               helperText="Descripción"
@@ -236,8 +184,8 @@ export default function AddDeliveryDialog({
               fullWidth
               value={formik.values.status}
               onChange={formik.handleChange}
-              name={"status"}
               onBlur={formik.handleBlur}
+              name={"status"}
             >
               <MenuItem value={DELIVERABLE_STATUS.PENDING}>
                 {DELIVERABLE_STATUS.PENDING}
@@ -246,17 +194,19 @@ export default function AddDeliveryDialog({
                 {DELIVERABLE_STATUS.SEND}
               </MenuItem>
             </Select>
+
             {formik.touched.status && formik.errors.status && (
               <Typography variant="caption" color={"info.main"}>
                 {formik.errors.status}
               </Typography>
             )}
+
             <Button fullWidth type="submit" color="success" variant="contained">
-              Crear
+              Actualizar
             </Button>
           </Stack>
-        </DialogContent>
-      </Dialog>
-    </>
+        </Container>
+      )}
+    </Formik>
   );
-}
+};

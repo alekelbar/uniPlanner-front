@@ -5,12 +5,7 @@ import { Course } from "@/interfaces/course.interface";
 import { useRouter } from "next/router";
 
 const Page = () => {
-  
-  const {
-    query: { edit = '' },
-  } = useRouter();
-
-  const data = useSigleCourse(edit as string);
+  const data = useSigleCourse();
   if (data.loading) return <Loading called="EditCourse" />;
 
   return (

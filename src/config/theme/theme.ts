@@ -24,11 +24,33 @@ const defaultTheme = createTheme({
       main: red.A400,
     },
     background: {
-      paper: "#393E46",
+      paper: "#F0F0F0",
     },
   },
   typography: {
     fontFamily: inter.style.fontFamily,
+  },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
+        sx: {
+          padding: ".5em 1em",
+          fontFamily: inter.style.fontFamily,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#F0F0F0",
+          fontFamily: inter.style.fontFamily,
+        },
+      },
+      defaultProps: {
+        variant: "elevation",
+      },
+    },
   },
 });
 

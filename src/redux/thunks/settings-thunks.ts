@@ -29,18 +29,10 @@ export const startLoadSetting = (userId: string) => {
 };
 
 export const startUpdateSetting = (settingUpdate: Setting) => {
-  return async (dispatch: AppDispatch, getState: () => RootState) => {
+  return async (dispatch: AppDispatch) => {
     // cargando las carreras...
     dispatch(setLoadingSettings());
-
-    const {
-      auth: { user },
-    } = getState();
-
-    if (!user) {
-      return RESPONSES.UNAUTHORIZE;
-    }
-
+    
     const service = new SettingService();
     const response = await service.updateSetting(settingUpdate);
 

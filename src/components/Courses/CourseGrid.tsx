@@ -15,7 +15,7 @@ export const CourseGrid = () => {
   } = useContext(coursePageContext);
 
   return (
-    <Grid container p={1} gap={1} direction={'row'} justifyContent="center" alignItems={'center'}>
+    <Grid container p={1} gap={1} direction={'row'} justifyContent="center" alignItems={'baseline'}>
       {
         courses.length
           ? courses.map((course) => {

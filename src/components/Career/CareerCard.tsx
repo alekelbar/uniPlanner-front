@@ -1,24 +1,32 @@
-import { Button, Card, CardActions, CardContent, CardHeader } from '@mui/material';
-import { useRouter } from 'next/router';
-import Swal from 'sweetalert2';
-import { Career } from '../../interfaces/career.interface';
-import { RESPONSES } from '../../interfaces/response-messages';
-import { useAppDispatch } from '../../redux/hooks';
-import { setSelectedCareer } from '../../redux/slices/Career/careerSlice';
-import { startRemoveCareer } from '../../redux/thunks/careers-thunks';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import { Career } from "../../interfaces/career.interface";
+import { RESPONSES } from "../../interfaces/response-messages";
+import { useAppDispatch } from "../../redux/hooks";
+import { setSelectedCareer } from "../../redux/slices/Career/careerSlice";
+import { startRemoveCareer } from "../../redux/thunks/careers-thunks";
 
 interface CareerCardProps {
   career: Career;
 }
 
-
-export const CareerCard = function CareerCard ({ career }: CareerCardProps): JSX.Element {
-
+export const CareerCard = function CareerCard({
+  career,
+}: CareerCardProps): JSX.Element {
   const { name, _id } = career;
   const dispatch = useAppDispatch();
 
   const router = useRouter();
-  const { query: { user } } = router;
+  const {
+    query: { user },
+  } = router;
 
   const handleRemove = async () => {
     const response = await dispatch(startRemoveCareer(user as string, _id));
@@ -34,30 +42,15 @@ export const CareerCard = function CareerCard ({ career }: CareerCardProps): JSX
   };
 
   return (
-    <Card variant='elevation' data-testid="career-card">
-      <CardHeader
-        title={name}
-      />
+    <Card variant="elevation" data-testid="career-card">
+      <CardHeader title={name} />
       <CardContent>
         <CardActions>
-          <Button
-            variant='contained'
-            color='secondary'
-            onClick={handleSelectedCareer}
-            sx={{
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              '&:hover': {
-                transform: 'scale(.9)',
-              },
-            }}
-          > Cursos
+          <Button color="secondary" onClick={handleSelectedCareer}>
+            Cursos
           </Button>
-          <Button
-            variant='outlined'
-            color='warning'
-            onClick={handleRemove}
-          > inhabilitar
+          <Button color="warning" onClick={handleRemove}>
+            inhabilitar
           </Button>
         </CardActions>
       </CardContent>

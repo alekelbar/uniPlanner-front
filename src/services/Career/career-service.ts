@@ -6,8 +6,6 @@ import { API_INSTANCE } from "../api-service";
 
 export class CareerService {
   private API: AxiosInstance;
-  private static instance: CareerService | null = null;
-
   public constructor() {
     this.API = API_INSTANCE;
   }

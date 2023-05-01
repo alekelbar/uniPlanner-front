@@ -26,13 +26,10 @@ export const SessionAddDialog = () => {
       openCreate: open,
       onCloseCreate: onClose
     },
-    theming: {
-      theme
-    }
   } = useContext(sessionPageContext);
 
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const width = fullScreen ? '100%' : '50%';
+  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  // const width = fullScreen ? '100%' : '50%';
 
   const formik = useFormik({
     initialValues,
@@ -73,7 +70,7 @@ export const SessionAddDialog = () => {
       <Dialog
         sx={{
           '& .MuiDialog-paper': {
-            width: width,
+            // width: width,
             height: 'auto'
           }
         }}

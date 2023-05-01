@@ -8,17 +8,17 @@ import createEmotionCache from "@/config/theme/createEmotionCache";
 import { Provider } from "react-redux";
 import { store } from "@/redux";
 import { LayoutComponent } from "@/components/Layout/Layout";
-
+import theme from "./../config/theme/theme";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 // later we'll modify this to its own file
-const theme = createTheme();
+
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp (props: MyAppProps) {
+export default function MyApp(props: MyAppProps) {
   // If there's no emotionCache rendered by the server, use the clientSideEmotionCache
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (

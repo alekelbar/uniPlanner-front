@@ -1,14 +1,20 @@
-import { Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
-import { useRouter } from 'next/router';
-import Swal from 'sweetalert2';
-import { MIN_CARD_HEIGHT } from '../../config/sizes';
-import { Course } from '../../interfaces/course.interface';
-import { RESPONSES } from '../../interfaces/response-messages';
-import { useAppDispatch } from '../../redux/hooks';
-import { setSelectedCourse } from '../../redux/slices/Courses/coursesSlice';
-import { startRemoveCourse } from '../../redux/thunks/courses.thunks';
-import { useCallback } from 'react';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
+import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import { MIN_CARD_HEIGHT } from "../../config/sizes";
+import { Course } from "../../interfaces/course.interface";
+import { RESPONSES } from "../../interfaces/response-messages";
+import { useAppDispatch } from "../../redux/hooks";
+import { setSelectedCourse } from "../../redux/slices/Courses/coursesSlice";
+import { startRemoveCourse } from "../../redux/thunks/courses.thunks";
+import { useCallback } from "react";
 
 interface CourseCardProps {
   course: Course;
@@ -17,12 +23,19 @@ interface CourseCardProps {
   actualPage: number;
 }
 
-export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: CourseCardProps): JSX.Element {
+export default function CourseCard({
+  course,
+  onOpenEdit,
+  reload,
+  actualPage,
+}: CourseCardProps): JSX.Element {
   const { courseDescription, name, credits } = course;
 
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { query: { userId } } = router;
+  const {
+    query: { userId },
+  } = router;
 
   const handleDelete = useCallback(async () => {
     const response = await dispatch(startRemoveCourse(course));
@@ -33,7 +46,9 @@ export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: 
   }, [reload, actualPage, course, dispatch]);
 
   return (
-    <Card variant='elevation' data-testid="course-card"
+    <Card
+      variant="elevation"
+      data-testid="course-card"
       sx={{
         minHeight: MIN_CARD_HEIGHT,
       }}
@@ -41,15 +56,19 @@ export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: 
       <CardHeader
         title={name}
         titleTypographyProps={{
-          variant: 'h6'
+          variant: "h6",
         }}
         sx={{
           color: (theme) => theme.palette.text.primary,
         }}
         subheader={
-          <Typography variant="h6" sx={{
-            color: (theme) => theme.palette.info.main,
-          }} gutterBottom>
+          <Typography
+            variant="h6"
+            sx={{
+              color: (theme) => theme.palette.info.main,
+            }}
+            gutterBottom
+          >
             Creditos: {credits}
           </Typography>
         }
@@ -59,34 +78,28 @@ export default function CourseCard ({ course, onOpenEdit, reload, actualPage }: 
           {courseDescription}
         </Typography>
         <Button
-          sx={{
-            cursor: 'pointer',
-            transition: 'all 0.3s',
-            '&:hover': {
-              transform: 'scale(.9)',
-            },
-          }}
-          fullWidth variant='contained'
-          color='secondary'
+          fullWidth
+          color="secondary"
           onClick={() => {
             dispatch(setSelectedCourse(course));
-            router.push(`/schedule/deliveries/${course._id}/${course.name}/${userId}`);
+            router.push(
+              `/schedule/deliveries/list/${course._id}/${course.name}/${userId}`
+            );
           }}
-        >VER ENTREGABLES
+        >
+          VER ENTREGABLES
         </Button>
         <CardActions>
-          <Button
-            variant='outlined'
-            color='error'
-            onClick={handleDelete}>
+          <Button color="error" onClick={handleDelete}>
             Eliminar
           </Button>
           <Button
-            variant='outlined'
-            color='success'
+            color="success"
             // onClick={() => { dispatch(setSelectedCourse(course)); onOpenEdit(); }}
-            onClick={() => {router.push(`/schedule/courses/${course._id}/`)}}
-            >
+            onClick={() => {
+              router.push(`/schedule/courses/${course._id}/`);
+            }}
+          >
             Actualizar
           </Button>
         </CardActions>

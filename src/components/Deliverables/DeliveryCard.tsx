@@ -33,14 +33,12 @@ import { Loading } from "@/components/common/Loading";
 interface DeliveryCardProps {
   deliverable: Deliverable;
   reload: (page?: number) => void;
-  onOpenEdit: () => void;
   actualPage: number;
 }
 
 export function DeliveryCard({
   deliverable,
   reload,
-  onOpenEdit,
   actualPage,
 }: DeliveryCardProps): JSX.Element {
   const dispatch = useAppDispatch();
@@ -77,7 +75,6 @@ export function DeliveryCard({
       if (isAfter(new Date(), deadline)) {
         return (
           <Typography
-            component={"div"}
             variant="subtitle1"
             sx={{
               color: (theme) => theme.palette.error.main,
@@ -92,7 +89,6 @@ export function DeliveryCard({
       }
       return (
         <Typography
-          component={"div"}
           variant="subtitle1"
           sx={{
             color: (theme) => theme.palette.warning.main,
@@ -108,7 +104,6 @@ export function DeliveryCard({
 
     return (
       <Typography
-        component={"div"}
         variant="subtitle1"
         sx={{
           color: (theme) => theme.palette.success.main,
@@ -156,7 +151,7 @@ export function DeliveryCard({
         }}
         subheader={
           <>
-            <Typography variant="subtitle2" component="p">
+            <Typography variant="subtitle2">
               {deliverable.description}
             </Typography>
             <Typography
@@ -179,6 +174,7 @@ export function DeliveryCard({
       <CardContent>
         {makeStatusDate()}
         <Typography
+          component={"div"}
           sx={{
             color: (theme) => theme.palette.text.secondary,
           }}
@@ -195,7 +191,6 @@ export function DeliveryCard({
                 height: "5px",
                 borderRadius: "8px",
               }}
-              component={"div"}
               bgcolor={colorSeleted}
             />
           </Stack>

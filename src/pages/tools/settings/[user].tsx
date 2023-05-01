@@ -44,23 +44,30 @@ const SettingsPage = () => {
 
   const handleSubmit = async (values: Setting) => {
     const { user, _id } = selected as Setting;
+    const { delegate, do: todo, ignore, importance, prepare, urgency } = values;
 
     const response = await dispatch(
-      startUpdateSetting({ ...values, user, _id })
+      startUpdateSetting({
+        do: todo,
+        delegate,
+        ignore,
+        prepare,
+        importance,
+        urgency,
+        user,
+        _id,
+      })
     );
 
     if (response !== RESPONSES.SUCCESS) {
-      if (response === RESPONSES.UNAUTHORIZE) {
-        router.push("/auth");
-        await Swal.fire(
-          "Parece que tú sesión expiro, inicia sesión porfavor... 😥",
-          response
-        );
-        return;
-      }
-      await Swal.fire("Algo salio mal 😥", response);
+      await Swal.fire(response);
+    } else {
+      await Swal.fire({
+        title: "Actualizado...",
+        icon: "success",
+        showConfirmButton: true,
+      });
     }
-    await Swal.fire("Preferencias actualizadas 👌");
   };
 
   if (loading) return <Loading called="settings" />;

@@ -8,7 +8,6 @@ export const DeliveryGrid = () => {
   const {
     pagination: { actualPage },
     deliveriesState: { deliverables, reload },
-    dialogHandler: { onOpenEdit },
   } = useContext(deliveryPageContext);
 
   const sortedDeliveries = [...deliverables];
@@ -33,10 +32,17 @@ export const DeliveryGrid = () => {
       {sortedDeliveries.length ? (
         sortedDeliveries.map((delivery) => {
           return (
-            <Grid item xs={12} sm={4} md={6} lg={3} key={delivery._id}>
+            <Grid
+              component={"div"}
+              item
+              xs={12}
+              sm={4}
+              md={6}
+              lg={3}
+              key={delivery._id}
+            >
               <DeliveryCard
                 actualPage={actualPage}
-                onOpenEdit={onOpenEdit}
                 reload={reload}
                 deliverable={delivery}
               />

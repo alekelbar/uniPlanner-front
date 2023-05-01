@@ -2,6 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: [],
+  },
+  images: {
+    domains: ["i.imgur.com"],
+  },
   modularizeImports: {
     "@mui/material": {
       transform: "@mui/material/{{member}}",

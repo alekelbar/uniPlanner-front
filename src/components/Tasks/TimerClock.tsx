@@ -7,6 +7,7 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import { formatSeconds } from "./helpers/formatSeconds";
 import { useAppSelector } from "../../redux";
+import Image from "next/image";
 
 interface TimerClockProps {
   open: boolean;
@@ -88,6 +89,12 @@ export default function TimerClock({
                 backgroundColor: "#F6F1F1",
               })}
             >
+              <Image
+                src="https://i.imgur.com/b9NyUGm.png"
+                alt="doge"
+                width={75}
+                height={75}
+              />
               <Typography variant="h4">{formatSeconds(seconds)}</Typography>
               <Typography variant="subtitle2"> {selected.name}</Typography>
             </CircularProgressbarWithChildren>

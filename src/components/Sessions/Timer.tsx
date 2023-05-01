@@ -15,6 +15,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { clearInterval, setInterval } from "timers";
 import { sessionPageContext } from "./context/SessionContext";
 import { SESSION_TYPES } from "@/interfaces/session-interface";
+import Image from "next/image";
 
 // Componente para el botón de finalizar la sesión
 interface IControlsEnd {
@@ -91,7 +92,6 @@ export const SessionTimer: React.FC = () => {
   const pauseRef = useRef(false);
   const [pause, setPause] = useState(pauseRef.current);
 
-  console.log("definiendo el estado...", selected);
   const secondsLeftRef = useRef(0);
   const [secondsLeft, setSecondsLeft] = useState(secondsLeftRef.current);
 
@@ -122,7 +122,7 @@ export const SessionTimer: React.FC = () => {
     }, 100);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (openClock) {
       handleTimer();
     } else if (intervalRef.current) {
@@ -146,6 +146,24 @@ export const SessionTimer: React.FC = () => {
             <CircularProgressbarWithChildren
               value={Math.trunc((secondsLeft / (selected.duration * 60)) * 100)}
               styles={buildStyles({
+                // Rotation of path and trail, in number of turns (0-1)
+                rotation: 0.25,
+
+                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                strokeLinecap: "butt",
+
+                // Text size
+                textSize: "16px",
+
+                // How long animation takes to go from one percentage to another, in seconds
+                pathTransitionDuration: 0.5,
+
+                // Can specify path transition in more detail, or remove it entirely
+                // pathTransition: 'none',
+
+                // Colors
+                textColor: "#f88",
+                trailColor: "#d6d6d6",
                 pathColor:
                   selected.type === SESSION_TYPES.RESTING
                     ? "#ABC4AA"
@@ -153,6 +171,12 @@ export const SessionTimer: React.FC = () => {
                 backgroundColor: "#F6F1F1",
               })}
             >
+              <Image
+                src="https://i.imgur.com/b9NyUGm.png"
+                alt="doge"
+                width={75}
+                height={75}
+              />
               <Typography variant="caption" fontSize={"2em"}>
                 {Math.trunc((secondsLeft / (selected.duration * 60)) * 100)}%
               </Typography>

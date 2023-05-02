@@ -81,11 +81,11 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
           {pages.map((page) => {
             return (
               <Button
+                key={page.title}
                 variant="text"
                 onClick={() => router.push(`${page.url + user.id}`)}
               >
                 <ListItem
-                  key={page.title}
                   sx={{
                     backgroundColor: router.pathname.includes(
                       page.url.split("/")[1]

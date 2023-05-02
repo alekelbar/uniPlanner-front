@@ -38,9 +38,6 @@ export default function CourseCard({
 
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const {
-    query: { userId },
-  } = router;
 
   const getGrade = useCallback(async () => {
     const grade = await new CourseService().getCourseGrade(
@@ -66,6 +63,7 @@ export default function CourseCard({
     reload(actualPage);
   }, [reload, actualPage, course, dispatch]);
 
+  
   return (
     <Card
       variant="elevation"
@@ -112,7 +110,7 @@ export default function CourseCard({
           onClick={() => {
             dispatch(setSelectedCourse(course));
             router.push(
-              `/schedule/deliveries/list/${course._id}/${course.name}/${userId}`
+              `/schedule/deliveries/list/${course._id}/${course.name}/${course.user}`
             );
           }}
         >

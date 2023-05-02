@@ -19,14 +19,10 @@ export const startLoadCourses = (careerId: string, page: number) => {
       auth: { user },
     } = getState();
 
-    if (!user) {
-      return RESPONSES.UNAUTHORIZE;
-    }
-
     const service = new CourseService();
     const response = await service.getUserCourses(user.id, careerId, page);
 
-    if (typeof response === "string") {
+    if (response.status !== 200) {
       dispatch(stopLoadingCourses());
       return response;
     }

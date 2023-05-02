@@ -74,42 +74,35 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
           </ListItem>
         </List>
         <Divider sx={{ mb: 2 }} />
-        <Typography variant="h5" align="center">
+        <Typography variant="caption" align="center">
           Herramientas
         </Typography>
         <List sx={{ display: "flex", flexDirection: "column" }}>
           {pages.map((page) => {
             return (
-              <Button
+              <ListItem
                 key={page.title}
                 onClick={() => router.push(`${page.url + user.id}`)}
-                variant="text"
                 sx={{
-                  color: router.pathname.includes(page.url.split("/")[2])
-                    ? "common.white"
-                    : "text.primary",
+                  backgroundColor: router.pathname.includes(
+                    page.url.split("/")[1]
+                  )
+                    ? ({ palette: { primary } }) => primary.dark
+                    : "transparent",
+                  color: router.pathname.includes(page.url.split("/")[1])
+                    ? ({ palette: { primary } }) => primary.contrastText
+                    : "black",
                 }}
               >
-                <ListItem
-                  sx={{
-                    backgroundColor: router.pathname.includes(
-                      page.url.split("/")[2]
-                    )
-                      ? ({ palette: { primary } }) => primary.dark
-                      : "transparent",
-                  }}
-                >
-                  <Stack direction={"row"}>
-                    <ListItemIcon sx={{ color: "inherit" }}>
-                      {page.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={page.title} />
-                  </Stack>
-                </ListItem>
-              </Button>
+                <Stack direction={"row"}>
+                  <ListItemIcon sx={{ color: "inherit" }}>
+                    {page.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={page.title} />
+                </Stack>
+              </ListItem>
             );
           })}
-          <Divider sx={{ mt: 2, mb: 2 }} />
         </List>
         <Button onClick={onClose} fullWidth variant="text" size="large">
           <Close />

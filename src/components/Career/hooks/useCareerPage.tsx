@@ -11,10 +11,9 @@ export const useCareerPage = () => {
   const { query } = router;
 
   const dispatch = useAppDispatch();
-  const { careers, loading } = useAppSelector(state => state.career);
+  const { careers, loading } = useAppSelector((state) => state.career);
 
   const { allCareers, loading: allCarrersLoading } = useAllCareers();
-
 
   const [open, setOpen] = useState(false);
   const onOpen = () => setOpen(true);
@@ -23,17 +22,25 @@ export const useCareerPage = () => {
   useEffect(() => {
     (async () => {
       const response = await dispatch(startLoadCareers(query.user as string));
-      if (response !== RESPONSES.SUCCESS)
-        await Swal.fire(response);
+      if (response.trim() === RESPONSES.INVALID_ID) {
+        await router.push("/");
+        return;
+      }
+      if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
     })();
   }, [query.user, dispatch]);
 
   return {
     dialog: {
-      open, onOpen, onClose, loading
+      open,
+      onOpen,
+      onClose,
+      loading,
     },
     state: {
-      careers, allCareers, allCarrersLoading
-    }
+      careers,
+      allCareers,
+      allCarrersLoading,
+    },
   };
 };

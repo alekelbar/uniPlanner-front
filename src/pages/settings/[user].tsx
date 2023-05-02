@@ -6,7 +6,6 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -22,25 +21,33 @@ import {
   startUpdateSetting,
 } from "@/redux/thunks/settings-thunks";
 import { Formik } from "formik";
+import { checkQueryParams } from "@/helpers/checkQueryParams";
 
 const SettingsPage = () => {
   const router = useRouter();
-  const { query } = router;
+  const {
+    query: { user },
+  } = router;
 
   const dispatch = useAppDispatch();
+  const { selected, loading } = useAppSelector((state) => state.setting);
 
   const onLoad = useCallback(async () => {
-    const response = await dispatch(startLoadSetting(query.user as string));
+    const response = await dispatch(startLoadSetting(user as string));
+
+    if (response.trim() === RESPONSES.INVALID_ID) {
+      await router.push("/");
+      return;
+    }
+
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-  }, [query.user, dispatch]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     onLoad();
-  }, [query.user, onLoad]);
-
-  const { selected, loading } = useAppSelector((state) => state.setting);
+  }, [user, onLoad]);
 
   const handleSubmit = async (values: Setting) => {
     const { user, _id } = selected as Setting;
@@ -203,6 +210,13 @@ const SettingsPage = () => {
 export default SettingsPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  if (checkQueryParams(ctx))
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   const { token } = ctx.req.cookies;
   return !token || !(await isValidToken(JSON.parse(token).token))
     ? {

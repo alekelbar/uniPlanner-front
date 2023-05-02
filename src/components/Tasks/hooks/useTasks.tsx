@@ -1,26 +1,24 @@
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import isInteger from '../../../../src/helpers/isInteger';
-import usePagination from '../../../hooks/usePagination';
-import { RESPONSES } from '../../../../src/interfaces/response-messages';
-import { useAppDispatch, useAppSelector } from '../../../../src/redux';
-import { startLoadTasks } from '../../../../src/redux/thunks/tasks-thunks';
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import isInteger from "../../../../src/helpers/isInteger";
+import usePagination from "../../../hooks/usePagination";
+import { RESPONSES } from "../../../../src/interfaces/response-messages";
+import { useAppDispatch, useAppSelector } from "../../../../src/redux";
+import { startLoadTasks } from "../../../../src/redux/thunks/tasks-thunks";
 
 export const useTasks = () => {
-
-  const { query: { deliveryId } } = useRouter();
+  const router = useRouter();
+  const {
+    query: { deliveryId },
+  } = router;
   const dispatch = useAppDispatch();
 
-  const { selected: selectedDelivery } = useAppSelector(st => st.deliveries);
-  const { tasks, count, loading } = useAppSelector(st => st.tasks);
+  const { selected: selectedDelivery } = useAppSelector((st) => st.deliveries);
+  const { tasks, count, loading } = useAppSelector((st) => st.tasks);
 
-  const {
-    actualPage,
-    handleChangePage,
-    totalPages,
-    setTotalPages,
-  } = usePagination(count);
+  const { actualPage, handleChangePage, totalPages, setTotalPages } =
+    usePagination(count);
 
   // Manejo de estado de los modales...
   const [openCreate, setOpenCreate] = useState(false);
@@ -54,22 +52,33 @@ export const useTasks = () => {
     setOpenEdit(false);
   };
 
-  const reload = useCallback(async (page: number = 1) => {
-    if (selectedDelivery) {
-      const response = await dispatch(startLoadTasks(deliveryId as string, page));
-      if (response !== RESPONSES.SUCCESS) {
-        await Swal.fire(response);
+  const reload = useCallback(
+    async (page: number = 1) => {
+      if (selectedDelivery) {
+        const response = await dispatch(
+          startLoadTasks(deliveryId as string, page)
+        );
+
+        console.log(response);
+
+        if (response.trim() === RESPONSES.INVALID_ID) {
+          await router.push("/");
+          return;
+        }
+
+        if (response !== RESPONSES.SUCCESS) {
+          await Swal.fire(response);
+        }
       }
-    }
-  }, [deliveryId, dispatch, selectedDelivery]);
+    },
+    [deliveryId, dispatch, selectedDelivery]
+  );
 
   useEffect(() => {
     reload(actualPage);
   }, [actualPage, reload]);
 
-
   useEffect(() => {
-
     if (tasks.length > 5) {
       reload(actualPage);
     }
@@ -78,13 +87,11 @@ export const useTasks = () => {
       reload(actualPage - 1);
     }
     // Cálculo para la paginación
-    const pages: number =
-      isInteger(count / 5)
-        ? count / 5
-        : Math.floor(count / 5) + 1;
+    const pages: number = isInteger(count / 5)
+      ? count / 5
+      : Math.floor(count / 5) + 1;
 
     setTotalPages(pages);
-
   }, [tasks, actualPage, count, reload, setTotalPages]);
 
   return {
@@ -92,12 +99,12 @@ export const useTasks = () => {
       tasks,
       reload,
       loading,
-      selectedDelivery
+      selectedDelivery,
     },
     pagination: {
       actualPage,
       handleChangePage,
-      totalPages
+      totalPages,
     },
     dialogHandler: {
       openClock,
@@ -108,8 +115,7 @@ export const useTasks = () => {
       onOpenCreate,
       onOpenEdit,
       handleCloseClock,
-      handleOpenClock
-    }
+      handleOpenClock,
+    },
   };
-
 };

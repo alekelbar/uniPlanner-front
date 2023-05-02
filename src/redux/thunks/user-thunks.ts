@@ -100,12 +100,12 @@ export const startUpdateUser = (updateUser: UpdateUser, userId: string) => {
     const service = new UserService();
     const response = await service.updateUser(updateUser, userId);
 
-    if (typeof response === "string") {
+    if (response.status !== 200) {
       dispatch(stopLoadingApp());
       return response;
     }
 
-    const { email, fullname, identification, _id } = response;
+    const { email, fullname, identification, _id } = response.data;
 
     dispatch(onUpdateUser({ email, fullname, identification, id: _id }));
     setLocalToken(getState().auth, "token");

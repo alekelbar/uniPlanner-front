@@ -19,9 +19,9 @@ export class SessionService {
         },
       });
     } catch (error: any) {
-      if (error.response) {
-        return error.response.data.message;
-      } else return error.message;
+     if (error.response) {
+       return error.response.data.message;
+     } else return error.message;
     }
   }
 

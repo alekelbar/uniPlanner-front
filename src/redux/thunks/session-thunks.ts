@@ -17,9 +17,10 @@ export const startLoadSession = (userId: string, page: number) => {
     const response = await new SessionService().getSessions(userId, page);
 
     const { data } = response;
+
     if (response.status !== 200) {
       dispatch(stopLoadingSession());
-      return data.message;
+      return response;
     }
 
     dispatch(loadSessions(data));
@@ -38,11 +39,11 @@ export const startcreateSession = (
       user,
     });
 
-    const { data } = response;
     if (response.status !== 201) {
       return response;
     }
 
+    const { data } = response;
     dispatch(addSession(data));
     return RESPONSES.SUCCESS;
   };
@@ -55,7 +56,7 @@ export const startRemoveSession = (delSession: Session) => {
 
     const { data } = response;
     if (response.status !== 200) {
-      return data.message;
+      return response;
     }
 
     dispatch(removeSession(data));

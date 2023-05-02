@@ -59,6 +59,12 @@ export function DeliveryCard({
 
   const onLoad = useCallback(async () => {
     const response = await dispatch(startLoadSetting(userId as string));
+
+    if (response.trim() === RESPONSES.INVALID_ID) {
+      await router.push("/");
+      return;
+    }
+
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }

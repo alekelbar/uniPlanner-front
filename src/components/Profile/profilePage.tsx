@@ -17,9 +17,10 @@ const ProfilePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
+  const router = useRouter();
   const {
     query: { user: userId },
-  } = useRouter();
+  } = router;
 
   const onSubmit = async (values: {
     id: string;
@@ -50,6 +51,11 @@ const ProfilePage: React.FC = () => {
           userId as string
         )
       );
+
+      if (response.trim() === RESPONSES.INVALID_ID) {
+        await router.push("/");
+        return;
+      }
 
       if (response !== RESPONSES.SUCCESS) {
         await Swal.fire(response);

@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 export const useSession = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  
+
   const {
     query: { user },
   } = router;
@@ -49,6 +49,12 @@ export const useSession = () => {
     async (page: number = 1) => {
       if (user) {
         const response = await dispatch(startLoadSession(user as string, page));
+
+        if (response.trim() === RESPONSES.INVALID_ID) {
+          await router.push("/");
+          return;
+        }
+
         if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
       }
     },

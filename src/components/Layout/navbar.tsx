@@ -4,11 +4,9 @@ import { onLogOut } from "@/redux/slices/auth/authSlice";
 import { Login, Menu } from "@mui/icons-material";
 import {
   AppBar,
-  Button,
-  Container,
-  Stack,
+  Button, Stack,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";

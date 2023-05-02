@@ -20,7 +20,7 @@ export const startLoadCareers = (id: string) => {
     const { data } = response;
     if (response.status !== 200) {
       dispatch(StopLoadingCareer());
-      return data.message;
+      return response;
     }
 
     dispatch(setCareers(data));
@@ -40,7 +40,7 @@ export const startAddCareer = (careerId: string, userId: string) => {
     const { data } = response;
     if (response.status !== 201) {
       dispatch(StopLoadingCareer());
-      return data.message;
+      return response;
     }
 
     dispatch(addCareer(data));
@@ -60,7 +60,7 @@ export const startRemoveCareer = (careerId: string, userId: string) => {
     const { data } = response;
     if (response.status !== 200) {
       dispatch(StopLoadingCareer());
-      return data.message;
+      return response;
     }
 
     dispatch(removeCareer(data));

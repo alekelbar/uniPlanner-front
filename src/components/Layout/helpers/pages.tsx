@@ -27,7 +27,7 @@ export const pages: Page[] = [
     inactiveColor: "text.primary.dark",
     title: "Sesiones",
     color: "text.primary",
-    url: "/tools/sessions/",
+    url: "/sessions/",
     icon: <Timelapse sx={{ color: "text.primary" }} />,
   },
   // {
@@ -41,7 +41,7 @@ export const pages: Page[] = [
     inactiveColor: "text.primary.dark",
     title: "Configuración",
     color: "text.primary",
-    url: "/tools/settings/",
+    url: "/settings/",
     icon: <Settings sx={{ color: "text.primary" }} />,
   },
 ];

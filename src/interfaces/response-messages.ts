@@ -1,5 +1,6 @@
 export enum RESPONSES {
   SUCCESS = "SUCCESS",
+  INVALID_ID = "it's not a valid mongo ID",
   ERROR = "ERROR",
   UNAUTHORIZE = "UNAUTHORIZE",
   NOT_FOUND = "NOT_FOUND",

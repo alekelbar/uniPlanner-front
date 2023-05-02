@@ -1,20 +1,18 @@
-import { GetServerSideProps } from "next";
+import React from "react";
+import ProfilePage from "@/components/Profile/profilePage";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { isValidToken } from "@/helpers/isValidToken";
-import { DeliveryPage } from "@/components/Deliverables/DeliveryPage";
 import { checkQueryParams } from "@/helpers/checkQueryParams";
 
-export default function Page(): JSX.Element {
-  return (
-    <DeliveryPage>
-      <DeliveryPage.PaginationHero />
-      <DeliveryPage.Grid />
-      <DeliveryPage.FloatButton />
-      <DeliveryPage.AddForm />
-    </DeliveryPage>
-  );
-}
+const Page: React.FC = () => {
+  return <ProfilePage />;
+};
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export default Page;
+
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
   if (checkQueryParams(ctx))
     return {
       redirect: {

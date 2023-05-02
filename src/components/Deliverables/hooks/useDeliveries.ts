@@ -1,24 +1,27 @@
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import isInteger from "../../../../src/helpers/isInteger";
+import isInteger from "../../../helpers/isInteger";
 import usePagination from "../../../hooks/usePagination";
-import { RESPONSES } from "../../../../src/interfaces/response-messages";
-import { useAppDispatch, useAppSelector } from "../../../../src/redux/hooks";
-import { startLoadCourses } from "../../../../src/redux/thunks/courses.thunks";
+import { RESPONSES } from "../../../interfaces/response-messages";
+import { useAppDispatch, useAppSelector } from "../../../redux";
+import { startLoadDeliveries } from "../../../redux/thunks/deliverables-thunks";
+import { useRouter } from "next/router";
 
-export const useCourses = () => {
-  const router = useRouter();
+export const useDeliveries = () => {
   const dispatch = useAppDispatch();
-
+  const router = useRouter();
   const {
-    query: { careerName, careerId },
+    query: { courseId },
   } = router;
-  const { courses, count, loading } = useAppSelector((state) => state.courses);
+
+  const { deliverables, count, loading } = useAppSelector(
+    (st) => st.deliveries
+  );
 
   const { actualPage, handleChangePage, totalPages, setTotalPages } =
     usePagination(count);
 
+  // Manejo de estado de los modales...
   const [openCreate, setOpenCreate] = useState(false);
 
   const onOpenCreate = () => {
@@ -40,9 +43,9 @@ export const useCourses = () => {
   };
 
   const reload = useCallback(
-    async (page: number) => {
+    async (page: number = 1) => {
       const response = await dispatch(
-        startLoadCourses(careerId as string, page)
+        startLoadDeliveries(courseId as string, page)
       );
 
       if (response.trim() === RESPONSES.INVALID_ID) {
@@ -50,9 +53,11 @@ export const useCourses = () => {
         return;
       }
 
-      if (response.trim() !== RESPONSES.SUCCESS) await Swal.fire(response);
+      if (response !== RESPONSES.SUCCESS) {
+        await Swal.fire(response);
+      }
     },
-    [dispatch, careerId]
+    [courseId, dispatch]
   );
 
   useEffect(() => {
@@ -60,24 +65,25 @@ export const useCourses = () => {
   }, [actualPage, reload]);
 
   useEffect(() => {
-    if (courses.length === 0 && actualPage > 1) {
+    if (deliverables.length === 0 && actualPage > 1) {
       reload(actualPage - 1);
     }
-    if (courses.length > 5) {
+
+    if (deliverables.length > 5) {
       reload(actualPage);
     }
+
     // Cálculo para la paginación
     const pages: number = isInteger(count / 5)
       ? count / 5
       : Math.floor(count / 5) + 1;
 
     setTotalPages(pages);
-  }, [courses, actualPage, count, reload, setTotalPages]);
+  }, [deliverables, actualPage, count, reload, setTotalPages]);
 
   return {
-    coursesState: {
-      careerName,
-      courses,
+    deliveriesState: {
+      deliverables,
       loading,
       reload,
     },
@@ -90,9 +96,9 @@ export const useCourses = () => {
       openCreate,
       openEdit,
       onCloseCreate,
+      onOpenCreate,
       onCloseEdit,
       onOpenEdit,
-      onOpenCreate,
     },
   };
 };

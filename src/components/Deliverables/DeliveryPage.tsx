@@ -1,6 +1,6 @@
 import { Stack } from "@mui/system";
 import { Loading } from "@/components/common/Loading";
-import { useDeliveries } from "../../../src/components/Deliverables/hooks/useDeliveries";
+import { useDeliveries } from "@/components/Deliverables/hooks/useDeliveries";
 import { ReactElement } from "react";
 import { DeliveryProvider } from "./context/DeliveryPageContext";
 import { DeliveryPaginationHero } from "./DeliveryPaginationHero";

@@ -60,7 +60,7 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
               <Button
                 variant="text"
                 onClick={() => {
-                  router.push(`/tools/profile/${user.id}`);
+                  router.push(`/profile/${user.id}`);
                 }}
               >
                 <Avatar src="https://scontent.fsjo9-1.fna.fbcdn.net/v/t39.30808-6/301999029_768418684471692_6904334561164990019_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=PaPhWcz1HfAAX_wMYaV&_nc_ht=scontent.fsjo9-1.fna&oh=00_AfA_tE2Ex1Jm2lvhHDOhQNgk8zre3XJa-ooWEeoaN8cKFg&oe=6455939C" />

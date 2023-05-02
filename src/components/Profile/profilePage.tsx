@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/system";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Loading } from "@/components/common/Loading";
 import { RESPONSES } from "../../../src/interfaces/response-messages";
@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 const ProfilePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const {
@@ -28,7 +29,7 @@ const ProfilePage: React.FC = () => {
     name: string;
   }) => {
     const { email, id: identification, name: fullname } = values;
-
+    
     const result = await Swal.fire({
       title: "¿Estás seguro?",
       text: "Recuerda tus credenciales",
@@ -41,6 +42,7 @@ const ProfilePage: React.FC = () => {
     });
 
     if (result.isConfirmed) {
+      setLoading(true);
       const response = await dispatch(
         startUpdateUser(
           {
@@ -49,10 +51,10 @@ const ProfilePage: React.FC = () => {
             identification,
           },
           userId as string
-        )
-      );
-
-      if (response.trim() === RESPONSES.INVALID_ID) {
+          )
+          );
+          
+          if (response.trim() === RESPONSES.INVALID_ID) {
         await router.push("/");
         return;
       }
@@ -68,7 +70,23 @@ const ProfilePage: React.FC = () => {
         confirmButtonText: "OK",
       });
     }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "validando...",
+        icon: "question",
+        showConfirmButton: false,
+        allowOutsideClick() {
+          return false;
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [loading]);
 
   const formik = useFormik({
     initialValues: {

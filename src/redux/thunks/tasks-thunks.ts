@@ -74,19 +74,19 @@ export const startRemoveTask = (remove: Task) => {
 export const startUpdateTask = (update: Task) => {
   return async (dispatch: AppDispatch) => {
     // cargando LAS TAREAS...
-    dispatch(startLoadingTask());
+    // dispatch(startLoadingTask());
 
     const service = new TaskService();
     const response = await service.updateTask(update);
 
     if (response.status !== 200) {
-      dispatch(stopLoadingTask());
+      // dispatch(stopLoadingTask());
       return response;
     }
 
     const { data } = response;
     dispatch(updateTask(update));
-    dispatch(stopLoadingTask());
+    // dispatch(stopLoadingTask());
     return RESPONSES.SUCCESS;
   };
 };

@@ -66,7 +66,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   if (token) {
-    console.log(token);
     const parseToken = JSON.parse(token);
     user = parseToken.user;
   }

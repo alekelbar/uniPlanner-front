@@ -3,7 +3,7 @@ import { TASK_STATUS, Task } from "@/interfaces/task-interface";
 import { useAppDispatch } from "@/redux";
 import { startUpdateTask } from "@/redux/thunks/tasks-thunks";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { taskValidation } from "./validation/taskValidationSchema";
 import {
@@ -22,6 +22,7 @@ interface IEditTaskProps {
 
 export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     name: task.name,
@@ -30,6 +31,7 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
   };
 
   const onSubmit = async (values: typeof initialValues) => {
+    setLoading(true);
     const { descripcion, name, status } = values;
 
     const response = await dispatch(
@@ -51,7 +53,23 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
         showConfirmButton: true,
       });
     }
+    setLoading(true);
   };
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "validando...",
+        icon: "question",
+        showConfirmButton: false,
+        allowOutsideClick() {
+          return false;
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [loading]);
 
   return (
     <Formik

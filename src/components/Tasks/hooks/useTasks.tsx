@@ -59,8 +59,6 @@ export const useTasks = () => {
           startLoadTasks(deliveryId as string, page)
         );
 
-        console.log(response);
-
         if (response.trim() === RESPONSES.INVALID_ID) {
           await router.push("/");
           return;

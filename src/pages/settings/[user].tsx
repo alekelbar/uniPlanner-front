@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Loading } from "@/components/common/Loading";
 import { isValidToken } from "@/helpers/isValidToken";
@@ -31,6 +31,7 @@ const SettingsPage = () => {
 
   const dispatch = useAppDispatch();
   const { selected, loading } = useAppSelector((state) => state.setting);
+  const [loadingState, setLoadingState] = useState(false);
 
   const onLoad = useCallback(async () => {
     const response = await dispatch(startLoadSetting(user as string));
@@ -52,7 +53,8 @@ const SettingsPage = () => {
   const handleSubmit = async (values: Setting) => {
     const { user, _id } = selected as Setting;
     const { delegate, do: todo, ignore, importance, prepare, urgency } = values;
-
+    
+    setLoadingState(true);
     const response = await dispatch(
       startUpdateSetting({
         do: todo,
@@ -75,7 +77,23 @@ const SettingsPage = () => {
         showConfirmButton: true,
       });
     }
+    setLoadingState(false);
   };
+
+  useEffect(() => {
+    if (loadingState) {
+      Swal.fire({
+        title: "validando...",
+        icon: "question",
+        showConfirmButton: false,
+        allowOutsideClick() {
+          return false;
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [loadingState]);
 
   if (loading) return <Loading called="settings" />;
 

@@ -50,7 +50,6 @@ export class CourseService {
     try {
       return await this.API.delete<Course>(`courses/${course._id}`);
     } catch (error: any) {
-      console.log(error);
       if (error.response) {
         return error.response.data.message;
       } else return error.message;

@@ -7,7 +7,6 @@ import { DeliveryPaginationHero } from "./DeliveryPaginationHero";
 import { DeliveryGrid } from "./DeliveryGrid";
 import { DeliveryFloatButton } from "./DeliveryFloatButton";
 import { DeliveryAddForm } from "./DeliveryAddForm";
-import { DeliveryEditForm } from "./DeliveryEditForm";
 
 export function DeliveryPage({
   children,
@@ -35,4 +34,3 @@ DeliveryPage.PaginationHero = DeliveryPaginationHero;
 DeliveryPage.Grid = DeliveryGrid;
 DeliveryPage.FloatButton = DeliveryFloatButton;
 DeliveryPage.AddForm = DeliveryAddForm;
-DeliveryPage.EditForm = DeliveryEditForm;

@@ -76,7 +76,7 @@ export const startAddCourse = (createdCourse: Course) => {
 export const startUpdateCourse = (createCourse: Course, courseId: string) => {
   return async (dispatch: AppDispatch) => {
     // cargando LOS CURSOS...
-    dispatch(startLoadingCourses());
+    // dispatch(startLoadingCourses());
 
     const service = new CourseService();
     const course: Course = createCourse;
@@ -85,12 +85,12 @@ export const startUpdateCourse = (createCourse: Course, courseId: string) => {
 
     const { data } = response;
     if (response.status !== 200) {
-      dispatch(stopLoadingCourses());
+      // dispatch(stopLoadingCourses());
       return response;
     }
 
     dispatch(updateCourse(data));
-    dispatch(stopLoadingCourses());
+    // dispatch(stopLoadingCourses());
     return RESPONSES.SUCCESS;
   };
 };

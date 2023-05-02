@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/redux";
 import { startUpdateCourse } from "@/redux/thunks/courses.thunks";
 import { Container, Button, Stack, TextField, Typography } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { courseValidations } from "./validation/courseValidations";
@@ -16,6 +16,7 @@ interface IEditCourseProps {
 export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
   const dispatch = useAppDispatch();
   const { courseDescription, credits, name } = course;
+  const [loading, setLoading] = useState(false);
 
   const initialValues = {
     name,
@@ -25,6 +26,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
 
   const onSubmit = async (values: typeof initialValues) => {
     const { courseDescription, credits, name } = values;
+    setLoading(true);
 
     const response = await dispatch(
       startUpdateCourse(
@@ -48,7 +50,23 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
         showConfirmButton: true,
       });
     }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "validando...",
+        icon: "question",
+        showConfirmButton: false,
+        allowOutsideClick() {
+          return false;
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [loading]);
 
   return (
     <Formik

@@ -12,14 +12,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makePriority } from "../Career/helpers/priorityCalc";
 import { useAppDispatch, useAppSelector } from "@/redux";
 import { startUpdateDelivery } from "@/redux/thunks/deliverables-thunks";
 import { RESPONSES } from "@/interfaces/response-messages";
 import Swal from "sweetalert2";
 import { deliveryValidation } from "./Validation/deliveryValidation";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 interface IEditDeliveryProps {
   delivery: Deliverable;
@@ -28,6 +28,8 @@ interface IEditDeliveryProps {
 export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
   const { selected: selectedSetting } = useAppSelector((st) => st.setting);
   const dispatch = useAppDispatch();
+
+  const [loading, setLoading] = useState(false);
 
   const { deadline } = delivery;
 
@@ -44,6 +46,8 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
   };
 
   const onSubmit = async (values: typeof initialValues) => {
+    setLoading(true);
+
     const { deadline, description, name, note, percent, status } = values;
 
     const { importance, urgency } = makePriority(
@@ -75,7 +79,23 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
         showConfirmButton: true,
       });
     }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: "validando...",
+        icon: "question",
+        showConfirmButton: false,
+        allowOutsideClick() {
+          return false;
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [loading]);
 
   return (
     <Formik

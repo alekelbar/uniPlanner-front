@@ -80,27 +80,31 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
         <List sx={{ display: "flex", flexDirection: "column" }}>
           {pages.map((page) => {
             return (
-              <ListItem
-                key={page.title}
+              <Button
+                variant="text"
                 onClick={() => router.push(`${page.url + user.id}`)}
-                sx={{
-                  backgroundColor: router.pathname.includes(
-                    page.url.split("/")[1]
-                  )
-                    ? ({ palette: { primary } }) => primary.dark
-                    : "transparent",
-                  color: router.pathname.includes(page.url.split("/")[1])
-                    ? ({ palette: { primary } }) => primary.contrastText
-                    : "black",
-                }}
               >
-                <Stack direction={"row"}>
-                  <ListItemIcon sx={{ color: "inherit" }}>
-                    {page.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={page.title} />
-                </Stack>
-              </ListItem>
+                <ListItem
+                  key={page.title}
+                  sx={{
+                    backgroundColor: router.pathname.includes(
+                      page.url.split("/")[1]
+                    )
+                      ? ({ palette: { primary } }) => primary.dark
+                      : "transparent",
+                    color: router.pathname.includes(page.url.split("/")[1])
+                      ? ({ palette: { primary } }) => primary.contrastText
+                      : "black",
+                  }}
+                >
+                  <Stack direction={"row"}>
+                    <ListItemIcon sx={{ color: "inherit" }}>
+                      {page.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={page.title} />
+                  </Stack>
+                </ListItem>
+              </Button>
             );
           })}
         </List>

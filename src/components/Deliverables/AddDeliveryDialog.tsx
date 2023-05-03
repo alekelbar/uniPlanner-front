@@ -24,6 +24,9 @@ import { onLogOut } from "../../redux/slices/auth/authSlice";
 import { startcreateDelivery } from "../../redux/thunks/deliverables-thunks";
 import { Loading } from "@/components/common/Loading";
 import { deliveryValidation } from "./Validation/deliveryValidation";
+import { useTheme } from "@emotion/react";
+import { Close } from "@mui/icons-material";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface AddDeliveryDialogProps {
   open: boolean;
@@ -51,6 +54,8 @@ export default function AddDeliveryDialog({
   } = router;
 
   const { selected } = useAppSelector((state) => state.setting);
+  const theme: Partial<Theme> = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints!.up("md"));
 
   const formik = useFormik({
     initialValues,
@@ -75,30 +80,9 @@ export default function AddDeliveryDialog({
           course: courseId as string,
         })
       );
-      if (response !== RESPONSES.SUCCESS) {
-        let responseText = "";
+      if (response !== RESPONSES.SUCCESS) Swal.fire(response);
 
-        switch (response) {
-          case RESPONSES.UNAUTHORIZE:
-            responseText =
-              "Parece que no tiene autorización para estar aquí 🔒";
-            router.push("/");
-            dispatch(onLogOut());
-            logOut();
-            onClose();
-            return;
-          case RESPONSES.BAD_REQUEST:
-            responseText =
-              "Parece que hubo un inconveniente con el servidor 🔒";
-            break;
-        }
-        await Swal.fire({
-          title: "Una disculpa",
-          text: responseText,
-          icon: "info",
-        });
-      }
-      formik.resetForm(initialValues);
+      formik.resetForm();
       onClose();
     },
     validationSchema: deliveryValidation,
@@ -112,12 +96,22 @@ export default function AddDeliveryDialog({
         sx={{
           "& .MuiDialog-paper": {
             height: "auto",
+            width: fullScreen ? "50%" : "80%",
           },
         }}
         onClose={onClose}
         open={open}
       >
-        <DialogTitle>Nueva Entrega</DialogTitle>
+        <DialogTitle>
+          <Stack spacing={1} display={"flex"} direction={"column"}>
+            <Button variant="outlined" onClick={onClose}>
+              <Close />
+            </Button>
+            <Typography variant="subtitle1" align="center">
+              Nueva entrega
+            </Typography>
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <Stack
             component={"form"}
@@ -135,11 +129,10 @@ export default function AddDeliveryDialog({
               type={"datetime-local"}
               onBlur={formik.handleBlur}
               autoComplete="off"
+              helperText="Fecha de entrega"
             />
             {formik.touched.deadline && formik.errors.deadline && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.deadline}
-              </Typography>
+              <TextFieldError msg={formik.errors.deadline} />
             )}
 
             <TextField
@@ -156,9 +149,7 @@ export default function AddDeliveryDialog({
               autoComplete="off"
             />
             {formik.touched.name && formik.errors.name && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.name}
-              </Typography>
+              <TextFieldError msg={formik.errors.name} />
             )}
 
             <TextField
@@ -175,9 +166,7 @@ export default function AddDeliveryDialog({
               autoComplete="off"
             />
             {formik.touched.description && formik.errors.description && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.description}
-              </Typography>
+              <TextFieldError msg={formik.errors.description} />
             )}
 
             <TextField
@@ -191,10 +180,9 @@ export default function AddDeliveryDialog({
               onBlur={formik.handleBlur}
               autoComplete="off"
             />
+            
             {formik.touched.note && formik.errors.note && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.note}
-              </Typography>
+              <TextFieldError msg={formik.errors.note} />
             )}
 
             <TextField
@@ -209,9 +197,7 @@ export default function AddDeliveryDialog({
               autoComplete="off"
             />
             {formik.touched.percent && formik.errors.percent && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.percent}
-              </Typography>
+              <TextFieldError msg={formik.errors.percent} />
             )}
 
             <Select
@@ -229,9 +215,7 @@ export default function AddDeliveryDialog({
               </MenuItem>
             </Select>
             {formik.touched.status && formik.errors.status && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.status}
-              </Typography>
+              <TextFieldError msg={formik.errors.status} />
             )}
             <Button fullWidth type="submit" color="success" variant="contained">
               Crear

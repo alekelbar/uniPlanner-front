@@ -15,16 +15,17 @@ const defaultTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#556cd6",
+      main: "#D14D72",
     },
     secondary: {
-      main: "#19857b",
+      main: "#146C94",
     },
     error: {
-      main: red.A400,
+      main: "#d32f2f",
     },
     background: {
-      paper: "#F0F0F0",
+      paper: "#F1F6F9",
+      default: "#F1F6F9",
     },
   },
   typography: {

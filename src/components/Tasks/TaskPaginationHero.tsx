@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { taskPageContext } from "./context/TaskPageContext";
 import { useAppSelector } from "@/redux";
+import { COLOR_PANELS } from "@/config/customColors";
 
 export const TaskPaginationHero = () => {
   const {
@@ -22,7 +23,7 @@ export const TaskPaginationHero = () => {
       position="sticky"
       top={0}
       sx={{
-        backgroundColor: "white",
+        backgroundColor: COLOR_PANELS,
         zIndex: "10",
       }}
     >

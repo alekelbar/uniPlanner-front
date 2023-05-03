@@ -22,7 +22,7 @@ import {
   ColorMatrixPreferences,
   getPriorityColor,
 } from "../Career/helpers/priorityCalc";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { startLoadSetting } from "../../redux/thunks/settings-thunks";
 import { Loading } from "@/components/common/Loading";
 import { makeStatusDate } from "./helpers/makeStatusDate";
@@ -74,7 +74,6 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
 
   const handleRemove = async () => {
     beforeDelete(deliverables);
-    
     const response = await dispatch(
       startRemoveDelivery({
         ...deliverable,
@@ -83,7 +82,7 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
     );
 
     if (response !== RESPONSES.SUCCESS) {
-      await Swal.fire(response);
+      Swal.fire(response);
     }
   };
 

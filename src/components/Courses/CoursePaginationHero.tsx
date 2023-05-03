@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { coursePageContext } from "./context/courseContext";
 import { useRouter } from "next/router";
 import { useAppSelector } from "@/redux";
+import { COLOR_PANELS } from "@/config/customColors";
 
 export const CoursePaginationHero = () => {
   const { courses } = useAppSelector((state) => state.courses);
@@ -22,7 +23,7 @@ export const CoursePaginationHero = () => {
       position="sticky"
       top={0}
       sx={{
-        backgroundColor: "white",
+        backgroundColor: COLOR_PANELS,
         zIndex: "10",
       }}
     >

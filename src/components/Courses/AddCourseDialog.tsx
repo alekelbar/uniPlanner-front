@@ -4,7 +4,9 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Theme,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 
 import { Stack } from "@mui/system";
@@ -16,6 +18,9 @@ import { RESPONSES } from "../../interfaces/response-messages";
 import { useAppDispatch } from "../../redux/hooks";
 import { startAddCourse } from "../../redux/thunks/courses.thunks";
 import { courseValidations } from "./validation/courseValidations";
+import { Close } from "@mui/icons-material";
+import { useTheme } from "@emotion/react";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface AddCourseDialogProps {
   open: boolean;
@@ -31,6 +36,9 @@ export function AddCourseDialog({
   const {
     query: { careerId, userId },
   } = router;
+
+  const theme: Partial<Theme> = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints!.up("md"));
 
   const formik = useFormik({
     initialValues: {
@@ -61,12 +69,22 @@ export function AddCourseDialog({
         sx={{
           "& .MuiDialog-paper": {
             height: "auto",
+            width: fullScreen ? "50%" : "80%",
           },
         }}
         onClose={onClose}
         open={open}
       >
-        <DialogTitle>Nuevo curso</DialogTitle>
+        <DialogTitle>
+          <Stack spacing={1} display={"flex"} direction={"column"}>
+            <Button variant="outlined" onClick={onClose}>
+              <Close />
+            </Button>
+            <Typography variant="subtitle1" align="center">
+              Nuevo Curso
+            </Typography>
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <Stack
             component={"form"}
@@ -90,9 +108,7 @@ export function AddCourseDialog({
               type={"text"}
             />
             {formik.touched.name && formik.errors.name && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.name}
-              </Typography>
+              <TextFieldError msg={formik.errors.name} />
             )}
             <TextField
               fullWidth
@@ -109,9 +125,7 @@ export function AddCourseDialog({
             />
             {formik.touched.courseDescription &&
               formik.errors.courseDescription && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.courseDescription}
-                </Typography>
+                <TextFieldError msg={formik.errors.courseDescription} />
               )}
             <TextField
               fullWidth
@@ -127,9 +141,7 @@ export function AddCourseDialog({
               type={"text"}
             />
             {formik.touched.credits && formik.errors.credits && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.credits}
-              </Typography>
+              <TextFieldError msg={formik.errors.credits} />
             )}
             <Button fullWidth type="submit" variant="contained" color="primary">
               Agregar

@@ -5,7 +5,10 @@ import {
   DialogTitle,
   MenuItem,
   Select,
-  TextField, Typography
+  TextField,
+  Theme,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useFormik } from "formik";
@@ -16,6 +19,9 @@ import { RESPONSES } from "../../interfaces/response-messages";
 import { CreateTask, TASK_STATUS } from "../../interfaces/task-interface";
 import { useAppDispatch } from "../../redux";
 import { startCreateTask } from "../../redux/thunks/tasks-thunks";
+import { Close } from "@mui/icons-material";
+import { useTheme } from "@emotion/react";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface AddTaskDialogProps {
   open: boolean;
@@ -37,6 +43,10 @@ export default function AddTaskDialog({
   const {
     query: { deliveryId },
   } = router;
+
+  const theme: Partial<Theme> = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints!.up("md"));
+  const width = fullScreen ? "50%" : "80%";
 
   const formik = useFormik({
     initialValues,
@@ -75,12 +85,22 @@ export default function AddTaskDialog({
         sx={{
           "& .MuiDialog-paper": {
             height: "auto",
+            width,
           },
         }}
         onClose={onClose}
         open={open}
       >
-        <DialogTitle>Nueva Tarea de entrega</DialogTitle>
+        <DialogTitle>
+          <Stack spacing={1} display={"flex"} direction={"column"}>
+            <Button variant="outlined" onClick={onClose}>
+              <Close />
+            </Button>
+            <Typography variant="subtitle1" align="center">
+              Nueva Tarea
+            </Typography>
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <Stack
             component={"form"}
@@ -105,9 +125,7 @@ export default function AddTaskDialog({
             />
 
             {formik.touched.name && formik.errors.name && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.name}
-              </Typography>
+              <TextFieldError msg={formik.errors.name} />
             )}
 
             <TextField
@@ -125,9 +143,7 @@ export default function AddTaskDialog({
             />
 
             {formik.touched.descripcion && formik.errors.descripcion && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.descripcion}
-              </Typography>
+              <TextFieldError msg={formik.errors.descripcion} />
             )}
 
             <Select
@@ -144,10 +160,9 @@ export default function AddTaskDialog({
                 {TASK_STATUS.IMCOMPLETED}
               </MenuItem>
             </Select>
+
             {formik.touched.status && formik.errors.status && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.status}
-              </Typography>
+              <TextFieldError msg={formik.errors.status} />
             )}
 
             <Button fullWidth type="submit" color="success" variant="contained">

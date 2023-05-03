@@ -1,4 +1,3 @@
-import { Deliverable } from "@/interfaces/deliveries.interface";
 import React, { ChangeEvent } from "react";
 
 export const useStandarPagination = <T>(ITEMS_PER_PAGE: number) => {
@@ -18,7 +17,7 @@ export const useStandarPagination = <T>(ITEMS_PER_PAGE: number) => {
     const lastItemIndex = currentPage * ITEMS_PER_PAGE - 1;
     if (lastItemIndex >= items.length) {
       // La página actual queda vacía, volver a la página anterior
-      setCurrentPage(currentPage - 1);
+      setCurrentPage(currentPage - 1 >= 1 ? currentPage - 1 : currentPage); // Evitar caer en la pagina cero
     }
   };
   // PaginationLogic

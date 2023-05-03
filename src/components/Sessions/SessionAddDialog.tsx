@@ -7,6 +7,7 @@ import {
   Select,
   Stack,
   TextField,
+  Theme,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -24,6 +25,9 @@ import { RESPONSES } from "../../interfaces/response-messages";
 import Swal from "sweetalert2";
 import { sessionPageContext } from "./context/SessionContext";
 import { sessionValidations } from "./validation/sessionValidations";
+import { Close } from "@mui/icons-material";
+import { useTheme } from "@emotion/react";
+import { TextFieldError } from "../common/TextFieldError";
 
 const initialValues: CreateSession = {
   duration: 1,
@@ -39,8 +43,9 @@ export const SessionAddDialog = () => {
     dialogHandler: { openCreate: open, onCloseCreate: onClose },
   } = useContext(sessionPageContext);
 
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  // const width = fullScreen ? '100%' : '50%';
+  const theme: Partial<Theme> = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints!.up("md"));
+  const width = fullScreen ? "50%" : "80%";
 
   const formik = useFormik({
     initialValues,
@@ -65,14 +70,23 @@ export const SessionAddDialog = () => {
       <Dialog
         sx={{
           "& .MuiDialog-paper": {
-            // width: width,
+            width: width,
             height: "auto",
           },
         }}
         onClose={onClose}
         open={open}
       >
-        <DialogTitle>Nueva sesión</DialogTitle>
+        <DialogTitle>
+          <Stack spacing={1} display={"flex"} direction={"column"}>
+            <Button variant="outlined" onClick={onClose}>
+              <Close />
+            </Button>
+            <Typography variant="subtitle1" align="center">
+              Nueva Sesión
+            </Typography>
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <Stack
             component={"form"}
@@ -97,9 +111,7 @@ export const SessionAddDialog = () => {
             />
 
             {formik.touched.name && formik.errors.name && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.name}
-              </Typography>
+              <TextFieldError msg={formik.errors.name} />
             )}
 
             <TextField
@@ -115,9 +127,7 @@ export const SessionAddDialog = () => {
             />
 
             {formik.touched.duration && formik.errors.duration && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.duration}
-              </Typography>
+              <TextFieldError msg={formik.errors.duration} />
             )}
 
             <Select
@@ -135,9 +145,7 @@ export const SessionAddDialog = () => {
               </MenuItem>
             </Select>
             {formik.touched.type && formik.errors.type && (
-              <Typography variant="caption" color={"info.main"}>
-                {formik.errors.type}
-              </Typography>
+              <TextFieldError msg={formik.errors.type} />
             )}
 
             <Button fullWidth type="submit" color="success" variant="contained">

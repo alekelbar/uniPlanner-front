@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useAppSelector } from "@/redux";
 import { useContext } from "react";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
+import { COLOR_PANELS } from "@/config/customColors";
 
 export const DeliveryPaginationHero = () => {
   const {
@@ -22,7 +23,7 @@ export const DeliveryPaginationHero = () => {
       position="sticky"
       top={0}
       sx={{
-        backgroundColor: "white",
+        backgroundColor: COLOR_PANELS,
         zIndex: "10",
       }}
     >

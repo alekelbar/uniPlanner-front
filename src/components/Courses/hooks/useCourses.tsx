@@ -1,90 +1,47 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import isInteger from "../../../../src/helpers/isInteger";
-import usePagination from "../../../hooks/usePagination";
-import { RESPONSES } from "../../../../src/interfaces/response-messages";
-import { useAppDispatch, useAppSelector } from "../../../../src/redux/hooks";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../../../src/redux/hooks";
 import { startLoadCourses } from "../../../../src/redux/thunks/courses.thunks";
+import { useStandarFetch } from "@/hooks/useStandarFetch";
+import { useStandarDialog } from "@/hooks/useStandarDialog";
+import { useStandarPagination } from "@/hooks/useStandartPagination";
+import { Course } from "@/interfaces/course.interface";
 
-export const useCourses = () => {
+export const useCourses = (ITEMS_PER_PAGE: number) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const {
-    query: { careerName, careerId },
+    query: { careerId },
   } = router;
-  const { courses, count, loading } = useAppSelector((state) => state.courses);
 
-  const { actualPage, handleChangePage, totalPages, setTotalPages } =
-    usePagination(count);
-
-  const [openCreate, setOpenCreate] = useState(false);
-
-  const onOpenCreate = () => {
-    setOpenCreate(true);
-  };
-
-  const onCloseCreate = () => {
-    setOpenCreate(false);
-  };
-
-  const [openEdit, setOpenEdit] = useState(false);
-
-  const onOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const onCloseEdit = () => {
-    setOpenEdit(false);
-  };
-
-  const reload = useCallback(
-    async (page: number) => {
-      const response = await dispatch(
-        startLoadCourses(careerId as string, page)
-      );
-
-      if (response.trim() === RESPONSES.INVALID_ID) {
-        await router.push("/");
-        return;
-      }
-
-      if (response.trim() !== RESPONSES.SUCCESS) await Swal.fire(response);
-    },
-    [dispatch, careerId]
+  const { getData } = useStandarFetch(
+    async () => await await dispatch(startLoadCourses(careerId as string))
   );
 
   useEffect(() => {
-    reload(actualPage);
-  }, [actualPage, reload]);
+    getData();
+  }, []);
 
-  useEffect(() => {
-    if (courses.length === 0 && actualPage > 1) {
-      reload(actualPage - 1);
-    }
-    if (courses.length > 5) {
-      reload(actualPage);
-    }
-    // Cálculo para la paginación
-    const pages: number = isInteger(count / 5)
-      ? count / 5
-      : Math.floor(count / 5) + 1;
+  const { beforeDelete, currentPage, getCurrentPageItems, handlePagination } =
+    useStandarPagination<Course>(ITEMS_PER_PAGE);
 
-    setTotalPages(pages);
-  }, [courses, actualPage, count, reload, setTotalPages]);
+  const {
+    openCreate,
+    openEdit,
+    onCloseCreate,
+    onCloseEdit,
+    onOpenEdit,
+    onOpenCreate,
+  } = useStandarDialog();
 
   return {
-    coursesState: {
-      careerName,
-      courses,
-      loading,
-      reload,
-    },
     pagination: {
-      actualPage,
-      handleChangePage,
-      totalPages,
+      beforeDelete,
+      currentPage,
+      getCurrentPageItems,
+      handlePagination,
+      ITEMS_PER_PAGE,
     },
     dialogHandler: {
       openCreate,

@@ -1,12 +1,21 @@
 import { Box, Grid, Pagination, Typography } from "@mui/material";
 import { useContext } from "react";
 import { coursePageContext } from "./context/courseContext";
+import { useRouter } from "next/router";
+import { useAppSelector } from "@/redux";
 
 export const CoursePaginationHero = () => {
+  const { courses } = useAppSelector((state) => state.courses);
+
   const {
-    pagination: { actualPage, totalPages, handleChangePage },
-    coursesState: { careerName },
+    pagination: { currentPage, handlePagination, ITEMS_PER_PAGE },
   } = useContext(coursePageContext);
+
+  const {
+    query: { careerName },
+  } = useRouter();
+
+  const totalPages = Math.ceil(courses.length / ITEMS_PER_PAGE);
 
   return (
     <Box
@@ -29,14 +38,14 @@ export const CoursePaginationHero = () => {
       >
         <Grid item>
           <Pagination
-            page={actualPage}
+            page={currentPage}
             sx={{
               width: "100%",
               py: 1,
             }}
             size="small"
             count={totalPages}
-            onChange={handleChangePage}
+            onChange={handlePagination}
           />
         </Grid>
       </Grid>

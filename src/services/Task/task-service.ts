@@ -29,6 +29,16 @@ export class TaskService {
     }
   }
 
+  async getAll(delivery: string) {
+    try {
+      return await this.API.get<Task[]>(`tasks/all/${delivery}`);
+    } catch (error: any) {
+      if (error.response) {
+        return error.response.data.message;
+      } else return error.message;
+    }
+  }
+
   async getOneById(id: string) {
     try {
       return await this.API.get<Task>(`tasks/${id}`);

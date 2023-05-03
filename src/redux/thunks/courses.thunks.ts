@@ -11,7 +11,7 @@ import {
 } from "../slices/Courses/coursesSlice";
 import { AppDispatch, RootState } from "../store";
 
-export const startLoadCourses = (careerId: string, page: number) => {
+export const startLoadCourses = (careerId: string) => {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     // cargando LOS CURSOS...
     dispatch(startLoadingCourses());
@@ -20,15 +20,15 @@ export const startLoadCourses = (careerId: string, page: number) => {
     } = getState();
 
     const service = new CourseService();
-    const response = await service.getUserCourses(user.id, careerId, page);
+    const response = await service.getAll(user.id, careerId);
 
     if (response.status !== 200) {
       dispatch(stopLoadingCourses());
       return response;
     }
 
-    const { count, courses } = response.data;
-    dispatch(setCourses({ courses, count }));
+    const { data } = response;
+    dispatch(setCourses(data));
     dispatch(stopLoadingCourses());
     return RESPONSES.SUCCESS;
   };

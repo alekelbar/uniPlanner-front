@@ -28,6 +28,16 @@ export class DeliverableService {
     }
   }
 
+  async getAll(course: string) {
+    try {
+      return await this.API.get<Deliverable[]>(`deliverables/all/${course}`);
+    } catch (error: any) {
+      if (error.response) {
+        return error.response.data.message;
+      } else return error.message;
+    }
+  }
+
   async getOneById(edit: string) {
     try {
       return await this.API.get<Deliverable>(`deliverables/${edit}`);

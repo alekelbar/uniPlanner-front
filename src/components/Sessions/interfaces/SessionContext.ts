@@ -1,29 +1,22 @@
-import { Theme } from "@mui/material";
 import { Session } from "../../../interfaces/session-interface";
+import { ChangeEvent } from "react";
 
 export interface SessionContext {
-  sessionState: {
-    loading: boolean;
-    selected: Session;
-    sessions: Session[];
-    reload: (page?: number) => Promise<void>;
-  };
   clock: {
     openClock: boolean;
-    onOpenClock: VoidFunction;
-    onCloseClock: VoidFunction;
+    onOpenClock: () => void;
+    onCloseClock: () => void;
   };
   pagination: {
-    handleChangePage: (
-      event: React.ChangeEvent<unknown>,
-      value: number
-    ) => void;
-    totalPages: number;
-    actualPage: number;
+    getCurrentPageItems: (items: Session[], currentPage: number) => Session[];
+    beforeDelete: (items: Session[]) => void;
+    currentPage: number;
+    handlePagination: (_: ChangeEvent<unknown>, page: number) => void;
+    ITEMS_PER_PAGE: number;
   };
   dialogHandler: {
     openCreate: boolean;
-    onOpenCreate: VoidFunction;
-    onCloseCreate: VoidFunction;
+    onOpenCreate: () => void;
+    onCloseCreate: () => void;
   };
 }

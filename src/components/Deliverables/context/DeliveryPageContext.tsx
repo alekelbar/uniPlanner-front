@@ -1,18 +1,17 @@
-import { ChangeEvent, createContext } from 'react';
-import { Deliverable } from '../../../interfaces/deliveries.interface';
-
+import { ChangeEvent, createContext } from "react";
+import { Deliverable } from "../../../interfaces/deliveries.interface";
 
 export interface DeliveryPageContext {
-  deliveriesState: {
-    deliverables: Deliverable[],
-    loading: boolean,
-    reload: (page?: number) => Promise<void>;
-  },
   pagination: {
-    actualPage: number;
-    handleChangePage: (event: ChangeEvent<unknown>, page: number) => void;
-    totalPages: number;
-  },
+    getCurrentPageItems: (
+      items: Deliverable[],
+      currentPage: number
+    ) => Deliverable[];
+    beforeDelete: (items: Deliverable[]) => void;
+    currentPage: number;
+    handlePagination: (_: ChangeEvent<unknown>, page: number) => void;
+    ITEMS_PER_PAGE: number;
+  };
   dialogHandler: {
     openCreate: boolean;
     openEdit: boolean;

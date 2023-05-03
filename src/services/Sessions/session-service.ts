@@ -19,9 +19,19 @@ export class SessionService {
         },
       });
     } catch (error: any) {
-     if (error.response) {
-       return error.response.data.message;
-     } else return error.message;
+      if (error.response) {
+        return error.response.data.message;
+      } else return error.message;
+    }
+  }
+
+  async getAll(user: string) {
+    try {
+      return await this.API.get<Session[]>(`sessions/all/${user}`);
+    } catch (error: any) {
+      if (error.response) {
+        return error.response.data.message;
+      } else return error.message;
     }
   }
 

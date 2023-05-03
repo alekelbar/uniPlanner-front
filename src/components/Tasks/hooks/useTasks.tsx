@@ -1,108 +1,50 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import isInteger from "../../../../src/helpers/isInteger";
-import usePagination from "../../../hooks/usePagination";
-import { RESPONSES } from "../../../../src/interfaces/response-messages";
-import { useAppDispatch, useAppSelector } from "../../../../src/redux";
-import { startLoadTasks } from "../../../../src/redux/thunks/tasks-thunks";
+import { useEffect } from "react";
+import { useStandarDialog } from "@/hooks/useStandarDialog";
+import { useStandarFetch } from "@/hooks/useStandarFetch";
+import { startLoadTasks } from "@/redux/thunks/tasks-thunks";
+import { useAppDispatch } from "@/redux";
+import { Task } from "@/interfaces/task-interface";
+import { useStandarPagination } from "@/hooks/useStandartPagination";
 
-export const useTasks = () => {
+export const useTasks = (ITEMS_PER_PAGE: number) => {
   const router = useRouter();
   const {
     query: { deliveryId },
   } = router;
+
   const dispatch = useAppDispatch();
 
-  const { selected: selectedDelivery } = useAppSelector((st) => st.deliveries);
-  const { tasks, count, loading } = useAppSelector((st) => st.tasks);
-
-  const { actualPage, handleChangePage, totalPages, setTotalPages } =
-    usePagination(count);
-
-  // Manejo de estado de los modales...
-  const [openCreate, setOpenCreate] = useState(false);
-
-  // timer
-  const [openClock, setOpenClock] = useState(false);
-
-  const handleCloseClock = () => {
-    setOpenClock(false);
-  };
-
-  const handleOpenClock = () => {
-    setOpenClock(true);
-  };
-
-  const onOpenCreate = () => {
-    setOpenCreate(true);
-  };
-
-  const onCloseCreate = () => {
-    setOpenCreate(false);
-  };
-
-  const [openEdit, setOpenEdit] = useState(false);
-
-  const onOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const onCloseEdit = () => {
-    setOpenEdit(false);
-  };
-
-  const reload = useCallback(
-    async (page: number = 1) => {
-      if (selectedDelivery) {
-        const response = await dispatch(
-          startLoadTasks(deliveryId as string, page)
-        );
-
-        if (response.trim() === RESPONSES.INVALID_ID) {
-          await router.push("/");
-          return;
-        }
-
-        if (response !== RESPONSES.SUCCESS) {
-          await Swal.fire(response);
-        }
-      }
-    },
-    [deliveryId, dispatch, selectedDelivery]
+  const { getData } = useStandarFetch(
+    async () => await dispatch(startLoadTasks(deliveryId as string))
   );
 
   useEffect(() => {
-    reload(actualPage);
-  }, [actualPage, reload]);
+    getData();
+  }, []);
 
-  useEffect(() => {
-    if (tasks.length > 5) {
-      reload(actualPage);
-    }
+  const { getCurrentPageItems, beforeDelete, currentPage, handlePagination } =
+    useStandarPagination<Task>(ITEMS_PER_PAGE);
 
-    if (tasks.length === 0 && actualPage > 1) {
-      reload(actualPage - 1);
-    }
-    // Cálculo para la paginación
-    const pages: number = isInteger(count / 5)
-      ? count / 5
-      : Math.floor(count / 5) + 1;
-
-    setTotalPages(pages);
-  }, [tasks, actualPage, count, reload, setTotalPages]);
+  const {
+    openCreate,
+    openEdit,
+    onCloseCreate,
+    onOpenCreate,
+    onCloseEdit,
+    onOpenEdit,
+    openClock,
+    handleCloseClock,
+    handleOpenClock,
+  } = useStandarDialog();
 
   return {
-    tasksState: {
-      tasks,
-      reload,
-      loading,
-      selectedDelivery,
-    },
     pagination: {
-      actualPage,
-      handleChangePage,
-      totalPages,
+      getCurrentPageItems,
+      beforeDelete,
+      currentPage,
+      handlePagination,
+      ITEMS_PER_PAGE,
     },
     dialogHandler: {
       openClock,

@@ -1,10 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Session, SESSION_TYPES, SessionState } from "../../../interfaces/session-interface";
+import {
+  Session,
+  SESSION_TYPES,
+  SessionState,
+} from "../../../interfaces/session-interface";
 
 const initialState: SessionState = {
   count: 0,
   loading: false,
-  selected: { _id: "", duration: 0, name: "unknown", type: SESSION_TYPES.RESTING },
+  selected: {
+    _id: "",
+    duration: 0,
+    name: "unknown",
+    type: SESSION_TYPES.RESTING,
+  },
   sessions: [],
 };
 
@@ -12,17 +21,9 @@ export const SessionSlice = createSlice({
   name: "Session",
   initialState,
   reducers: {
-    loadSessions: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        count: number;
-        sessions: Session[];
-      }>
-    ) => {
-      state.sessions = payload.sessions;
-      state.count = payload.count;
+    loadSessions: (state, { payload }: PayloadAction<Session[]>) => {
+      state.sessions = payload;
+      state.count = payload.length;
     },
     startLoadingSession: (state) => {
       state.loading = true;

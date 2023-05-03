@@ -10,11 +10,11 @@ import {
 } from "../slices";
 import { AppDispatch } from "../store";
 
-export const startLoadSession = (userId: string, page: number) => {
+export const startLoadSession = (userId: string) => {
   return async (dispatch: AppDispatch) => {
     dispatch(startLoadingSession());
 
-    const response = await new SessionService().getSessions(userId, page);
+    const response = await new SessionService().getAll(userId);
 
     const { data } = response;
 
@@ -34,17 +34,20 @@ export const startcreateSession = (
   createSession: CreateSession
 ) => {
   return async (dispatch: AppDispatch) => {
+    dispatch(startLoadingSession());
     const response = await new SessionService().createSessions({
       ...createSession,
       user,
     });
 
     if (response.status !== 201) {
+      dispatch(stopLoadingSession());
       return response;
     }
 
     const { data } = response;
     dispatch(addSession(data));
+    dispatch(stopLoadingSession());
     return RESPONSES.SUCCESS;
   };
 };
@@ -56,10 +59,12 @@ export const startRemoveSession = (delSession: Session) => {
 
     const { data } = response;
     if (response.status !== 200) {
+      dispatch(stopLoadingSession());
       return response;
     }
 
     dispatch(removeSession(data));
+    dispatch(stopLoadingSession());
     return RESPONSES.SUCCESS;
   };
 };

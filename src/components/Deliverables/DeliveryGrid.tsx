@@ -1,16 +1,19 @@
 import { Grid, Typography } from "@mui/material";
 import { DeliveryCard } from "../../../src/components/Deliverables/DeliveryCard";
 import { priorityCalc } from "../Career/helpers/priorityCalc";
+import { useAppSelector } from "@/redux";
+import { Loading } from "../common/Loading";
 import { useContext } from "react";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
 
 export const DeliveryGrid = () => {
+  const { deliverables, loading } = useAppSelector((state) => state.deliveries);
+
   const {
-    pagination: { actualPage },
-    deliveriesState: { deliverables, reload },
+    pagination: { getCurrentPageItems, currentPage },
   } = useContext(deliveryPageContext);
 
-  const sortedDeliveries = [...deliverables];
+  const sortedDeliveries = [...getCurrentPageItems(deliverables, currentPage)];
 
   sortedDeliveries.sort((a, b) => {
     return (
@@ -19,6 +22,8 @@ export const DeliveryGrid = () => {
       (priorityCalc[a.urgency] + priorityCalc[a.importance])
     );
   });
+
+  if (loading) return <Loading called="deliveries" />;
 
   return (
     <Grid
@@ -41,12 +46,7 @@ export const DeliveryGrid = () => {
               lg={3}
               key={delivery._id}
             >
-              <DeliveryCard
-                actualPage={actualPage}
-                reload={reload}
-                deliverable={delivery}
-              />
-              {/* <Divider variant='fullWidth' sx={{ display: { md: 'none' } }} /> */}
+              <DeliveryCard deliverable={delivery} />
             </Grid>
           );
         })

@@ -2,13 +2,17 @@ import { Box, Grid, Pagination, Theme, Typography } from "@mui/material";
 import { useContext } from "react";
 import { sessionPageContext } from "./context/SessionContext";
 import { useTheme } from "@emotion/react";
+import { useAppSelector } from "@/redux";
 
 export const SessionPagination = () => {
   const theme: Partial<Theme> = useTheme();
 
   const {
-    pagination: { actualPage, handleChangePage, totalPages },
+    pagination: { currentPage, handlePagination, ITEMS_PER_PAGE },
   } = useContext(sessionPageContext);
+
+  const { sessions } = useAppSelector((state) => state.sessions);
+  const totalPages = Math.ceil(sessions.length / ITEMS_PER_PAGE);
 
   return (
     <Box
@@ -33,7 +37,7 @@ export const SessionPagination = () => {
       >
         <Grid item>
           <Pagination
-            page={actualPage}
+            page={currentPage}
             sx={{
               width: "100%",
               [theme?.breakpoints!.up("md")]: {
@@ -43,7 +47,7 @@ export const SessionPagination = () => {
             }}
             size="small"
             count={totalPages}
-            onChange={handleChangePage}
+            onChange={handlePagination}
           />
         </Grid>
       </Grid>

@@ -1,18 +1,14 @@
 import { Close, Pause, PlayArrow } from "@mui/icons-material";
 import {
   Backdrop,
-  Button,
-  Container,
-  Grid,
+  Button, Grid,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import React, {
   useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
+  useEffect, useRef,
+  useState
 } from "react";
 import {
   CircularProgressbarWithChildren,
@@ -23,6 +19,7 @@ import { clearInterval, setInterval } from "timers";
 import { sessionPageContext } from "./context/SessionContext";
 import { SESSION_TYPES } from "@/interfaces/session-interface";
 import Image from "next/image";
+import { useAppSelector } from "@/redux";
 
 // Componente para el botón de finalizar la sesión
 interface IControlsEnd {
@@ -91,8 +88,9 @@ export const TimerControls: React.FC<ITimerClockControls> = ({ children }) => {
 };
 
 export const SessionTimer: React.FC = () => {
+  const { selected } = useAppSelector((state) => state.sessions);
+
   const {
-    sessionState: { selected },
     clock: { onCloseClock: onClose, openClock },
   } = useContext(sessionPageContext);
 

@@ -5,34 +5,32 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { MIN_CARD_HEIGHT } from "../../config/sizes";
 import { Course } from "../../interfaces/course.interface";
 import { RESPONSES } from "../../interfaces/response-messages";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setSelectedCourse } from "../../redux/slices/Courses/coursesSlice";
 import { startRemoveCourse } from "../../redux/thunks/courses.thunks";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { CourseService } from "@/services/Course";
+import { coursePageContext } from "./context/courseContext";
 
 interface CourseCardProps {
   course: Course;
-  onOpenEdit: () => void;
-  reload: (page: number) => void;
-  actualPage: number;
 }
 
-export default function CourseCard({
-  course,
-  reload,
-  actualPage,
-}: CourseCardProps): JSX.Element {
+export default function CourseCard({ course }: CourseCardProps): JSX.Element {
   const { courseDescription, name, credits } = course;
+
+  const {
+    pagination: { beforeDelete },
+  } = useContext(coursePageContext);
+
+  const { courses } = useAppSelector((state) => state.courses);
 
   const [grade, setGrade] = useState("");
 
@@ -55,15 +53,14 @@ export default function CourseCard({
     getGrade();
   });
 
-  const handleDelete = useCallback(async () => {
+  const handleRemove = async () => {
+    beforeDelete(courses);
     const response = await dispatch(startRemoveCourse(course));
     if (response !== RESPONSES.SUCCESS) {
       Swal.fire(response);
     }
-    reload(actualPage);
-  }, [reload, actualPage, course, dispatch]);
+  };
 
-  
   return (
     <Card
       variant="elevation"
@@ -135,7 +132,7 @@ export default function CourseCard({
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Button color="error" onClick={handleDelete}>
+              <Button color="error" onClick={handleRemove}>
                 Eliminar
               </Button>
             </Grid>

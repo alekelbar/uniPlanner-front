@@ -11,13 +11,13 @@ import {
 } from "../slices/Tasks/task-slice";
 import { AppDispatch, RootState } from "../store";
 
-export const startLoadTasks = (deliveryId: string, page: number) => {
+export const startLoadTasks = (deliveryId: string) => {
   return async (dispatch: AppDispatch) => {
     // cargando LAS TAREAS...
     dispatch(startLoadingTask());
 
     const service = new TaskService();
-    const response = await service.getTasks(deliveryId, page);
+    const response = await service.getAll(deliveryId);
 
     if (response.status !== 200) {
       dispatch(stopLoadingTask());

@@ -1,15 +1,20 @@
 import { Box, Grid, Pagination, Typography } from "@mui/material";
-import { useContext } from "react";
 import { useRouter } from "next/router";
+import { useAppSelector } from "@/redux";
+import { useContext } from "react";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
 
 export const DeliveryPaginationHero = () => {
   const {
     query: { courseName },
   } = useRouter();
+
   const {
-    pagination: { actualPage, totalPages, handleChangePage },
+    pagination: { ITEMS_PER_PAGE, currentPage, handlePagination },
   } = useContext(deliveryPageContext);
+
+  const { deliverables } = useAppSelector((state) => state.deliveries);
+  const totalPages = Math.ceil(deliverables.length / ITEMS_PER_PAGE);
 
   return (
     <Box
@@ -33,14 +38,14 @@ export const DeliveryPaginationHero = () => {
       >
         <Grid item>
           <Pagination
-            page={actualPage}
+            page={currentPage}
             sx={{
               width: "100%",
               py: 1,
             }}
             size="small"
             count={totalPages}
-            onChange={handleChangePage}
+            onChange={handlePagination}
           />
         </Grid>
       </Grid>

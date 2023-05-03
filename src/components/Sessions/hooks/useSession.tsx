@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux";
-import usePagination from "../../../hooks/usePagination";
-import isInteger from "../../../helpers/isInteger";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../../redux";
 import { startLoadSession } from "../../../redux/thunks/session-thunks";
-import { RESPONSES } from "../../../interfaces/response-messages";
-import Swal from "sweetalert2";
+import { useStandarDialog } from "@/hooks/useStandarDialog";
+import { useStandarPagination } from "@/hooks/useStandartPagination";
+import { useStandarFetch } from "@/hooks/useStandarFetch";
+import { Session } from "@/interfaces/session-interface";
 
-export const useSession = () => {
+export const useSession = (ITEMS_PER_PAGE: number) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -15,89 +15,38 @@ export const useSession = () => {
     query: { user },
   } = router;
 
-  const {
-    sessions = [],
-    count,
-    loading,
-    selected,
-  } = useAppSelector((state) => state.sessions);
-
-  const { actualPage, handleChangePage, totalPages, setTotalPages } =
-    usePagination(count);
-
-  const [openClock, setOpenClock] = useState(false);
-
-  const onOpenClock = () => {
-    setOpenClock(true);
-  };
-
-  const onCloseClock = () => {
-    setOpenClock(false);
-  };
-
-  const [openCreate, setOpenCreate] = useState(false);
-
-  const onOpenCreate = () => {
-    setOpenCreate(true);
-  };
-
-  const onCloseCreate = () => {
-    setOpenCreate(false);
-  };
-
-  const reload = useCallback(
-    async (page: number = 1) => {
-      if (user) {
-        const response = await dispatch(startLoadSession(user as string, page));
-
-        if (response.trim() === RESPONSES.INVALID_ID) {
-          await router.push("/");
-          return;
-        }
-
-        if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
-      }
-    },
-    [dispatch, user]
+  const { getData } = useStandarFetch(
+    async () => await dispatch(startLoadSession(user as string))
   );
 
   useEffect(() => {
-    reload(actualPage);
-  }, [actualPage, reload]);
+    getData();
+  }, []);
 
-  useEffect(() => {
-    if (sessions.length === 0 && actualPage > 1) {
-      reload(actualPage - 1);
-    }
+  const { getCurrentPageItems, beforeDelete, currentPage, handlePagination } =
+    useStandarPagination<Session>(ITEMS_PER_PAGE);
 
-    if (sessions.length > 5) {
-      reload(actualPage);
-    }
-
-    // Cálculo para la paginación
-    const pages: number = isInteger(count / 5)
-      ? count / 5
-      : Math.floor(count / 5) + 1;
-
-    setTotalPages(pages);
-  }, [sessions, actualPage, count, reload, setTotalPages]);
+  const {
+    handleOpenClock: onOpenClock,
+    handleCloseClock: onCloseClock,
+    openClock,
+    openCreate,
+    onOpenCreate,
+    onCloseCreate,
+  } = useStandarDialog();
 
   return {
-    sessionState: {
-      loading,
-      selected,
-      sessions,
-      reload,
-    },
     clock: {
       openClock,
       onOpenClock,
       onCloseClock,
     },
     pagination: {
-      handleChangePage,
-      totalPages,
-      actualPage,
+      getCurrentPageItems,
+      beforeDelete,
+      currentPage,
+      handlePagination,
+      ITEMS_PER_PAGE,
     },
     dialogHandler: {
       openCreate,

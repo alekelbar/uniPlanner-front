@@ -2,14 +2,19 @@ import { Box, Grid, Pagination, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { taskPageContext } from "./context/TaskPageContext";
+import { useAppSelector } from "@/redux";
 
 export const TaskPaginationHero = () => {
   const {
     query: { deliveryName },
   } = useRouter();
+
   const {
-    pagination: { actualPage, totalPages, handleChangePage },
+    pagination: { ITEMS_PER_PAGE, currentPage, handlePagination },
   } = useContext(taskPageContext);
+
+  const { tasks } = useAppSelector((state) => state.tasks);
+  const totalPages = Math.ceil(tasks.length / ITEMS_PER_PAGE);
 
   return (
     <Box
@@ -33,14 +38,14 @@ export const TaskPaginationHero = () => {
       >
         <Grid item>
           <Pagination
-            page={actualPage}
+            page={currentPage}
             sx={{
               width: "100%",
               py: 1,
             }}
             size="small"
             count={totalPages}
-            onChange={handleChangePage}
+            onChange={handlePagination}
           />
         </Grid>
       </Grid>

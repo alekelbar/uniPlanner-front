@@ -9,15 +9,15 @@ import {
   stopLoadingDeliveries,
   updateDeliverable,
 } from "../slices/Deliveries/deliveriesSlice";
-import { AppDispatch, RootState } from "../store";
+import { AppDispatch } from "../store";
 
-export const startLoadDeliveries = (courseId: string, page: number) => {
+export const startLoadDeliveries = (courseId: string) => {
   return async (dispatch: AppDispatch) => {
     // cargando LOS CURSOS...
     dispatch(startLoadingDeliveries());
 
     const service = new DeliverableService();
-    const response = await service.getDeliverables(courseId, page);
+    const response = await service.getAll(courseId);
 
     if (response.status !== 200) {
       dispatch(stopLoadingDeliveries());
@@ -25,7 +25,7 @@ export const startLoadDeliveries = (courseId: string, page: number) => {
     }
 
     const { data } = response;
-    dispatch(loadDeliveries(data));
+    dispatch(loadDeliveries({ deliverables: data, count: data.length }));
     dispatch(stopLoadingDeliveries());
     return RESPONSES.SUCCESS;
   };

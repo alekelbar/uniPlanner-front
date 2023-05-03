@@ -26,6 +26,16 @@ export class CourseService {
     }
   }
 
+  public async getAll(userId: string, careerId: string) {
+    try {
+      return await this.API.get<Course[]>(`courses/all/${userId}/${careerId}`);
+    } catch (error: any) {
+      if (error.response) {
+        return error.response.data.message;
+      } else return error.message;
+    }
+  }
+
   async getCourseById(id: string) {
     try {
       return await this.API.get<Course>(`courses/${id}`);

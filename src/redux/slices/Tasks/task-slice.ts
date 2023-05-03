@@ -19,17 +19,9 @@ export const TaskSlice = createSlice({
   name: "Task",
   initialState,
   reducers: {
-    loadTask: (
-      state,
-      {
-        payload,
-      }: PayloadAction<{
-        count: number;
-        tasks: Task[];
-      }>
-    ) => {
-      state.tasks = payload.tasks;
-      state.count = payload.count;
+    loadTask: (state, { payload }: PayloadAction<Task[]>) => {
+      state.tasks = payload;
+      state.count = payload.length;
     },
     startLoadingTask: (state) => {
       state.loading = true;

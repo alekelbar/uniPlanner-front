@@ -11,19 +11,17 @@ import Swal from "sweetalert2";
 import { MIN_CARD_HEIGHT } from "../../config/sizes";
 import { RESPONSES } from "../../interfaces/response-messages";
 import { SESSION_TYPES, Session } from "../../interfaces/session-interface";
-import { useAppDispatch } from "../../redux";
+import { useAppDispatch, useAppSelector } from "../../redux";
 import { startRemoveSession } from "../../redux/thunks/session-thunks";
+import { useContext } from "react";
+import { sessionPageContext } from "./context/SessionContext";
 
 interface SessionCardProps {
   session: Session;
-  reload: (page: number) => void;
-  actualPage: number;
   onStartSession: () => void;
 }
 
 export default function SessionCard({
-  actualPage,
-  reload,
   session,
   onStartSession,
 }: SessionCardProps): JSX.Element {
@@ -31,12 +29,18 @@ export default function SessionCard({
 
   const dispatch = useAppDispatch();
 
+  const {
+    pagination: { beforeDelete },
+  } = useContext(sessionPageContext);
+  const { sessions } = useAppSelector((state) => state.sessions);
+
   const handleDelete = async () => {
+    beforeDelete(sessions);
+
     const response = await dispatch(startRemoveSession(session));
     if (response !== RESPONSES.SUCCESS) {
       Swal.fire(response);
     }
-    reload(actualPage);
   };
 
   return (

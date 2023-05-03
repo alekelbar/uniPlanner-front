@@ -1,5 +1,4 @@
 import { Stack } from "@mui/system";
-import { Loading } from "@/components/common/Loading";
 import { useDeliveries } from "@/components/Deliverables/hooks/useDeliveries";
 import { ReactElement } from "react";
 import { DeliveryProvider } from "./context/DeliveryPageContext";
@@ -13,13 +12,7 @@ export function DeliveryPage({
 }: {
   children: ReactElement | ReactElement[];
 }): JSX.Element {
-  const context = useDeliveries();
-
-  const {
-    deliveriesState: { loading },
-  } = context;
-
-  if (loading) return <Loading called="deliveries" />;
+  const context = useDeliveries(3);
 
   return (
     <DeliveryProvider value={context}>

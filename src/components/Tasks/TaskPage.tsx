@@ -7,18 +7,11 @@ import { TaskGrid } from './TaskGrid';
 import { TaskFloatButton } from './TaskFloatButton';
 import { TaskAddForm } from './TaskAddForm';
 import { TaskTimerClock } from './TaskTimerClock';
-import NotFoundPage from '../Layout/NotFoundPage';
-import { Loading } from '../common/Loading';
 
 
 export function TasksPage ({ children }: { children: ReactElement | ReactElement[]; }): JSX.Element {
-  const context = useTasks();
 
-  const { tasksState: { selectedDelivery, loading } } = context;
-
-  if (!selectedDelivery) return <NotFoundPage />;
-
-  if (loading) return <Loading called='task' />;
+  const context = useTasks(2);
 
   return (
     <TaskProvider value={context}>

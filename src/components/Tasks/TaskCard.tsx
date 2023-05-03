@@ -10,35 +10,34 @@ import {
 import Swal from "sweetalert2";
 import { RESPONSES } from "../../interfaces/response-messages";
 import { TASK_STATUS, Task } from "../../interfaces/task-interface";
-import { useAppDispatch } from "../../redux";
+import { useAppDispatch, useAppSelector } from "../../redux";
 import { setSelectedTask } from "../../redux/slices/Tasks/task-slice";
 import { startRemoveTask } from "../../redux/thunks/tasks-thunks";
 import { useRouter } from "next/router";
+import { taskPageContext } from "./context/TaskPageContext";
+import { useContext } from "react";
 
 interface TaskCardProps {
   task: Task;
-  reload: (page: number) => void;
-  onOpenEdit: () => void;
-  actualPage: number;
-  openClock: () => void;
 }
 
-export default function TaskCard({
-  task,
-  reload,
-  onOpenEdit,
-  actualPage,
-  openClock,
-}: TaskCardProps): JSX.Element {
+export default function TaskCard({ task }: TaskCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const {
+    pagination: { beforeDelete },
+    dialogHandler: { handleOpenClock },
+  } = useContext(taskPageContext);
+
+  const { tasks } = useAppSelector((state) => state.tasks);
+
   const handleRemove = async () => {
+    beforeDelete(tasks);
     const response = await dispatch(startRemoveTask(task));
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-    reload(actualPage);
   };
 
   return (
@@ -76,7 +75,7 @@ export default function TaskCard({
           }}
           onClick={() => {
             dispatch(setSelectedTask(task));
-            openClock();
+            handleOpenClock();
           }}
           color="secondary"
         >

@@ -9,15 +9,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { formatDistance, isAfter, parseISO } from "date-fns";
+import { formatDistance, parseISO } from "date-fns";
 import es from "date-fns/locale/es";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { MIN_CARD_HEIGHT } from "../../config/sizes";
-import {
-  DELIVERABLE_STATUS,
-  Deliverable,
-} from "../../interfaces/deliveries.interface";
+import { Deliverable } from "../../interfaces/deliveries.interface";
 import { RESPONSES } from "../../interfaces/response-messages";
 import { useAppDispatch, useAppSelector } from "../../redux";
 import { setSelectedDelivery } from "../../redux/slices/Deliveries/deliveriesSlice";
@@ -26,23 +22,25 @@ import {
   ColorMatrixPreferences,
   getPriorityColor,
 } from "../Career/helpers/priorityCalc";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { startLoadSetting } from "../../redux/thunks/settings-thunks";
 import { Loading } from "@/components/common/Loading";
+import { makeStatusDate } from "./helpers/makeStatusDate";
+import { deliveryPageContext } from "./context/DeliveryPageContext";
 
 interface DeliveryCardProps {
   deliverable: Deliverable;
-  reload: (page?: number) => void;
-  actualPage: number;
 }
 
-export function DeliveryCard({
-  deliverable,
-  reload,
-  actualPage,
-}: DeliveryCardProps): JSX.Element {
+export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const {
+    pagination: { beforeDelete },
+  } = useContext(deliveryPageContext);
+
+  const { deliverables } = useAppSelector((state) => state.deliveries);
 
   const { selected, loading } = useAppSelector((state) => state.setting);
 
@@ -51,13 +49,12 @@ export function DeliveryCard({
   } = useRouter();
 
   let create_at: Date = new Date();
-  const deadline = parseISO(deliverable.deadline.toString());
 
   if (deliverable.createdAt) {
     create_at = parseISO(deliverable.createdAt.toString());
   }
 
-  const onLoad = useCallback(async () => {
+  const loadingUserSettings = useCallback(async () => {
     const response = await dispatch(startLoadSetting(userId as string));
 
     if (response.trim() === RESPONSES.INVALID_ID) {
@@ -71,67 +68,23 @@ export function DeliveryCard({
   }, [userId, dispatch]);
 
   useEffect(() => {
-    if (!selected.user)
-      // verificando si es la configuración por defecto...
-      onLoad();
-  }, [selected.user, onLoad]);
-
-  const makeStatusDate = () => {
-    if (deliverable.status === DELIVERABLE_STATUS.PENDING) {
-      if (isAfter(new Date(), deadline)) {
-        return (
-          <Typography
-            variant="subtitle1"
-            sx={{
-              color: (theme) => theme.palette.error.main,
-            }}
-          >
-            {formatDistance(deadline, new Date(), {
-              locale: es,
-              addSuffix: true,
-            }).toUpperCase()}
-          </Typography>
-        );
-      }
-      return (
-        <Typography
-          variant="subtitle1"
-          sx={{
-            color: (theme) => theme.palette.warning.main,
-          }}
-        >
-          {formatDistance(deadline, new Date(), {
-            locale: es,
-            addSuffix: true,
-          }).toUpperCase()}
-        </Typography>
-      );
-    }
-
-    return (
-      <Typography
-        variant="subtitle1"
-        sx={{
-          color: (theme) => theme.palette.success.main,
-        }}
-      >
-        Entregado
-      </Typography>
-    );
-  };
+    // El usuario default(no user) tiene el ID por defecto.
+    if (!selected.user) loadingUserSettings();
+  }, [selected.user, loadingUserSettings]);
 
   const handleRemove = async () => {
+    beforeDelete(deliverables);
+    
     const response = await dispatch(
       startRemoveDelivery({
         ...deliverable,
-        _id: deliverable._id,
         course: courseId as string,
       })
     );
+
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-    reload(actualPage);
   };
 
   const { importance, urgency } = deliverable;
@@ -178,7 +131,7 @@ export function DeliveryCard({
         }
       />
       <CardContent>
-        {makeStatusDate()}
+        {makeStatusDate(deliverable)}
         <Typography
           component={"div"}
           sx={{

@@ -23,12 +23,9 @@ export const coursesSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setCourses: (
-      state,
-      { payload }: PayloadAction<{ courses: Course[]; count: number }>
-    ) => {
-      state.courses = payload.courses;
-      state.count = payload.count;
+    setCourses: (state, { payload }: PayloadAction<Course[]>) => {
+      state.courses = payload;
+      state.count = payload.length;
     },
     stopLoadingCourses: (state) => {
       state.loading = false;

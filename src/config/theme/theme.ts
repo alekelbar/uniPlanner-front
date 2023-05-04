@@ -1,7 +1,6 @@
 // src/themes/defaultTheme.tsx
 import { Inter } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
 
 export const inter = Inter({
   weight: ["300", "400", "500", "700"],
@@ -15,17 +14,17 @@ const defaultTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#D14D72",
+      main: "#393E46",
     },
     secondary: {
-      main: "#146C94",
+      main: "#222831",
     },
     error: {
       main: "#d32f2f",
     },
     background: {
       paper: "#F1F6F9",
-      default: "#F1F6F9",
+      default: "#EEEEEE",
     },
   },
   typography: {
@@ -35,9 +34,11 @@ const defaultTheme = createTheme({
     MuiButton: {
       defaultProps: {
         variant: "contained",
+        color: "secondary",
         sx: {
           padding: ".5em 1em",
           fontFamily: inter.style.fontFamily,
+          color: "white",
         },
       },
     },

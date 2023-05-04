@@ -47,7 +47,11 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
   };
 
   return (
-    <Card variant="elevation" data-testid="task-card" sx={{}}>
+    <Card
+      variant="elevation"
+      data-testid="task-card"
+      sx={{ p: 2, boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)" }}
+    >
       <CardHeader
         title={task.name}
         subheader={
@@ -71,7 +75,6 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
         </Typography>
         <Button
           fullWidth
-          variant="contained"
           sx={{
             cursor: "pointer",
             transition: "all 0.3s",
@@ -79,11 +82,11 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
               transform: "scale(.9)",
             },
           }}
+          color="secondary"
           onClick={() => {
             dispatch(setSelectedTask(task));
             handleOpenClock();
           }}
-          color="secondary"
         >
           Temporizar
         </Button>

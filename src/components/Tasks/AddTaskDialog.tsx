@@ -93,12 +93,7 @@ export default function AddTaskDialog({
       >
         <DialogTitle>
           <Stack spacing={1} display={"flex"} direction={"column"}>
-            <Button variant="outlined" onClick={onClose}>
-              <Close />
-            </Button>
-            <Typography variant="subtitle1" align="center">
-              Nueva Tarea
-            </Typography>
+            <Typography variant="caption">Nueva Tarea</Typography>
           </Stack>
         </DialogTitle>
         <DialogContent>
@@ -165,11 +160,21 @@ export default function AddTaskDialog({
               <TextFieldError msg={formik.errors.status} />
             )}
 
-            <Button fullWidth type="submit" color="success" variant="contained">
+            <Button
+              fullWidth
+              type="submit"
+              color="secondary"
+              variant="contained"
+            >
               Crear
             </Button>
           </Stack>
         </DialogContent>
+        <Stack spacing={1} display={"flex"} direction={"column"}>
+          <Button variant="text" onClick={onClose}>
+            <Close color="secondary" />
+          </Button>
+        </Stack>
       </Dialog>
     </>
   );

@@ -49,7 +49,14 @@ export const CareerCard = function CareerCard({
   };
 
   return (
-    <Card variant="elevation" data-testid="career-card">
+    <Card
+      variant="elevation"
+      data-testid="career-card"
+      sx={{
+        p: 2,
+        boxShadow: "0px 0px 10px 10px rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <CardHeader title={name} />
       <CardContent>
         <CardActions>

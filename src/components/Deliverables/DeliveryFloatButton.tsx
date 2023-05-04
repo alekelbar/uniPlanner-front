@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { deliveryPageContext } from './context/DeliveryPageContext';
 
 
-export const DeliveryFloatButton = () => {
+export const DeliveryFloatAddButton = () => {
 
   const {
     dialogHandler: {

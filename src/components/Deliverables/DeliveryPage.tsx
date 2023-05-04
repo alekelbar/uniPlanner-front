@@ -4,8 +4,9 @@ import { ReactElement } from "react";
 import { DeliveryProvider } from "./context/DeliveryPageContext";
 import { DeliveryPaginationHero } from "./DeliveryPaginationHero";
 import { DeliveryGrid } from "./DeliveryGrid";
-import { DeliveryFloatButton } from "./DeliveryFloatButton";
+import { DeliveryFloatAddButton } from "./DeliveryFloatButton";
 import { DeliveryAddForm } from "./DeliveryAddForm";
+import { FloatViewButton } from "./FloatViewButton";
 
 export function DeliveryPage({
   children,
@@ -25,5 +26,6 @@ export function DeliveryPage({
 
 DeliveryPage.PaginationHero = DeliveryPaginationHero;
 DeliveryPage.Grid = DeliveryGrid;
-DeliveryPage.FloatButton = DeliveryFloatButton;
+DeliveryPage.FloatAddButton = DeliveryFloatAddButton;
+DeliveryPage.FloatViewButton = FloatViewButton;
 DeliveryPage.AddForm = DeliveryAddForm;

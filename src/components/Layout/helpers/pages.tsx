@@ -14,7 +14,7 @@ export const pages: Page[] = [
     title: "Agenda",
     color: "text.primary",
     url: "/schedule/careers/",
-    icon: <School sx={{ color: "text.primary" }} />,
+    icon: <School sx={{ color: "secondary.ligh" }} />,
   },
   // {
   //   inactiveColor: "text.primary.dark",
@@ -28,7 +28,7 @@ export const pages: Page[] = [
     title: "Sesiones",
     color: "text.primary",
     url: "/sessions/",
-    icon: <Timelapse sx={{ color: "text.primary" }} />,
+    icon: <Timelapse sx={{ color: "secondary.ligh" }} />,
   },
   // {
   //   inactiveColor: "text.primary.dark",
@@ -42,6 +42,6 @@ export const pages: Page[] = [
     title: "Configuración",
     color: "text.primary",
     url: "/settings/",
-    icon: <Settings sx={{ color: "text.primary" }} />,
+    icon: <Settings sx={{ color: "secondary.ligh" }} />,
   },
 ];

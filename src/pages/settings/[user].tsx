@@ -53,7 +53,7 @@ const SettingsPage = () => {
   const handleSubmit = async (values: Setting) => {
     const { user, _id } = selected as Setting;
     const { delegate, do: todo, ignore, importance, prepare, urgency } = values;
-    
+
     setLoadingState(true);
     const response = await dispatch(
       startUpdateSetting({
@@ -111,7 +111,8 @@ const SettingsPage = () => {
           <>
             <Paper
               sx={{
-                py: 2,
+                p: 2,
+                boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)",
               }}
               component={"form"}
               onSubmit={props.handleSubmit}
@@ -211,7 +212,7 @@ const SettingsPage = () => {
                     sx={{ width: "50%" }}
                     data-testid="aply-changes"
                     type="submit"
-                    variant="contained"
+                    color="secondary"
                   >
                     Aplicar cambios
                   </Button>

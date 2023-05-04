@@ -79,12 +79,7 @@ export const SessionAddDialog = () => {
       >
         <DialogTitle>
           <Stack spacing={1} display={"flex"} direction={"column"}>
-            <Button variant="outlined" onClick={onClose}>
-              <Close />
-            </Button>
-            <Typography variant="subtitle1" align="center">
-              Nueva Sesión
-            </Typography>
+            <Typography variant="caption">Nueva Sesión</Typography>
           </Stack>
         </DialogTitle>
         <DialogContent>
@@ -153,6 +148,11 @@ export const SessionAddDialog = () => {
             </Button>
           </Stack>
         </DialogContent>
+        <Stack spacing={1} display={"flex"} direction={"column"}>
+          <Button variant="text" onClick={onClose}>
+            <Close color="secondary" />
+          </Button>
+        </Stack>
       </Dialog>
     </>
   );

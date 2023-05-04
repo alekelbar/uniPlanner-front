@@ -23,9 +23,7 @@ export interface SideBarProps {
 
 export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
   const router = useRouter();
-
-  const { drawerRef, handleClose, user } = useSideBar({ onClose });
-
+  const { drawerRef, user } = useSideBar({ onClose });
   return (
     <Container
       sx={{
@@ -38,7 +36,6 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
         }}
         variant="temporary"
         open={open}
-        onClick={handleClose}
         onKeyUp={(event) => {
           if (event.key === "Escape") {
             onClose();
@@ -49,7 +46,6 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
         <List
           sx={{
             bgcolor: "white",
-            width: "300",
             "&:hover": {
               bgcolor: "#F5F5F5",
             },
@@ -83,17 +79,22 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
               <Button
                 key={page.title}
                 variant="text"
-                onClick={() => router.push(`${page.url + user.id}`)}
+                onClick={() => {
+                  onClose();
+                  router.push(`${page.url + user.id}`);
+                }}
               >
                 <ListItem
                   sx={{
-                    backgroundColor: router.pathname.includes(
+                    borderBottom: router.pathname.includes(
                       page.url.split("/")[1]
                     )
-                      ? ({ palette: { primary } }) => primary.dark
+                      ? ({ palette: { primary } }) =>
+                          `3px solid ${primary.dark}`
                       : "transparent",
+
                     color: router.pathname.includes(page.url.split("/")[1])
-                      ? ({ palette: { primary } }) => primary.contrastText
+                      ? ({ palette: { primary } }) => primary.dark
                       : "black",
                   }}
                 >
@@ -108,7 +109,18 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
             );
           })}
         </List>
-        <Button onClick={onClose} fullWidth variant="text" size="large">
+        <Button
+          sx={{
+            borderRadius: "20px",
+            width: "25%",
+            boxShadow: "10px",
+            m: "0 auto",
+            mt: 2,
+          }}
+          onClick={onClose}
+          variant="contained"
+          size="large"
+        >
           <Close />
         </Button>
       </Drawer>

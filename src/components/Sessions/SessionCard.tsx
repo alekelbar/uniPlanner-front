@@ -53,6 +53,8 @@ export default function SessionCard({
       variant="elevation"
       data-testid="session-card"
       sx={{
+        p: 2,
+        boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)",
         minHeight: MIN_CARD_HEIGHT,
       }}
     >
@@ -93,7 +95,7 @@ export default function SessionCard({
           Iniciar la sesión
         </Button>
         <CardActions>
-          <Button variant="outlined" color="error" onClick={handleDelete}>
+          <Button color="error" onClick={handleDelete}>
             Eliminar
           </Button>
         </CardActions>

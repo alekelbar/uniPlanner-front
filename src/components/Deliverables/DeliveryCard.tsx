@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   Grid,
+  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -107,7 +108,14 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
   if (loading) return <Loading />;
 
   return (
-    <Card variant="elevation" data-testid="career-card" sx={{}}>
+    <Card
+      variant="elevation"
+      data-testid="career-card"
+      sx={{
+        p: 2,
+        boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <CardHeader
         title={deliverable.name}
         titleTypographyProps={{

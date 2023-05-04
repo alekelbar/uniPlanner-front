@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Paper,
   TextField,
   Theme,
   Typography,
@@ -76,14 +77,9 @@ export function AddCourseDialog({
         open={open}
       >
         <DialogTitle>
-          <Stack spacing={1} display={"flex"} direction={"column"}>
-            <Button variant="outlined" onClick={onClose}>
-              <Close />
-            </Button>
-            <Typography variant="subtitle1" align="center">
-              Nuevo Curso
-            </Typography>
-          </Stack>
+          <Typography variant="caption" align="center">
+            Nuevo Curso
+          </Typography>
         </DialogTitle>
         <DialogContent>
           <Stack
@@ -143,11 +139,21 @@ export function AddCourseDialog({
             {formik.touched.credits && formik.errors.credits && (
               <TextFieldError msg={formik.errors.credits} />
             )}
-            <Button fullWidth type="submit" variant="contained" color="primary">
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="secondary"
+            >
               Agregar
             </Button>
           </Stack>
         </DialogContent>
+        <Stack spacing={1} display={"flex"} direction={"column"}>
+          <Button variant="text" onClick={onClose}>
+            <Close color="secondary" />
+          </Button>
+        </Stack>
       </Dialog>
     </>
   );

@@ -8,8 +8,9 @@ export default function Page(): JSX.Element {
     <DeliveryPage>
       <DeliveryPage.PaginationHero />
       <DeliveryPage.Grid />
-      <DeliveryPage.FloatButton />
+      <DeliveryPage.FloatAddButton />
       <DeliveryPage.AddForm />
+      <DeliveryPage.FloatViewButton />
     </DeliveryPage>
   );
 }

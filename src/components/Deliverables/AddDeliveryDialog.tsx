@@ -104,12 +104,7 @@ export default function AddDeliveryDialog({
       >
         <DialogTitle>
           <Stack spacing={1} display={"flex"} direction={"column"}>
-            <Button variant="outlined" onClick={onClose}>
-              <Close />
-            </Button>
-            <Typography variant="subtitle1" align="center">
-              Nueva entrega
-            </Typography>
+            <Typography variant="caption">Nueva entrega</Typography>
           </Stack>
         </DialogTitle>
         <DialogContent>
@@ -180,7 +175,7 @@ export default function AddDeliveryDialog({
               onBlur={formik.handleBlur}
               autoComplete="off"
             />
-            
+
             {formik.touched.note && formik.errors.note && (
               <TextFieldError msg={formik.errors.note} />
             )}
@@ -217,11 +212,21 @@ export default function AddDeliveryDialog({
             {formik.touched.status && formik.errors.status && (
               <TextFieldError msg={formik.errors.status} />
             )}
-            <Button fullWidth type="submit" color="success" variant="contained">
+            <Button
+              fullWidth
+              type="submit"
+              color="secondary"
+              variant="contained"
+            >
               Crear
             </Button>
           </Stack>
         </DialogContent>
+        <Stack spacing={1} display={"flex"} direction={"column"}>
+          <Button variant="text" onClick={onClose}>
+            <Close color="secondary" />
+          </Button>
+        </Stack>
       </Dialog>
     </>
   );

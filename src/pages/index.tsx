@@ -6,8 +6,6 @@ import image from "./../../public/HeroImage.jpg";
 import { UserState } from "@/interfaces/users.interface";
 
 const HomePage = ({ userSession }: { userSession: Partial<UserState> }) => {
-  console.log(userSession);
-
   return (
     <Box
       component={"main"}
@@ -50,7 +48,7 @@ const HomePage = ({ userSession }: { userSession: Partial<UserState> }) => {
                 }
                 sx={{ width: "100%" }}
               >
-                {!userSession.user ? "Inicia sesión" : "Ir al Home"}
+                {!userSession.token ? "Inicia sesión" : "Ir al Home"}
               </Button>
             </Grid>
           </Grid>

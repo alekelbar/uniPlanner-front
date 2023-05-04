@@ -1,14 +1,11 @@
 import { Close, Pause, PlayArrow } from "@mui/icons-material";
-import {
-  Backdrop,
-  Button, Grid,
-  Stack,
-  Typography
-} from "@mui/material";
+import { Backdrop, Button, Grid, Stack, Typography } from "@mui/material";
 import React, {
+  useCallback,
   useContext,
-  useEffect, useRef,
-  useState
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import {
   CircularProgressbarWithChildren,
@@ -102,16 +99,16 @@ export const SessionTimer: React.FC = () => {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       pauseRef.current = false;
       setPause(pauseRef.current);
       onClose();
     }
-  };
+  }, [onClose]);
 
-  const handleTimer = () => {
+  const handleTimer = useCallback(() => {
     secondsLeftRef.current = selected.duration * 60;
     setSecondsLeft(selected.duration * 60);
 
@@ -125,7 +122,7 @@ export const SessionTimer: React.FC = () => {
         setSecondsLeft(secondsLeftRef.current);
       }
     }, 100);
-  };
+  }, [handleReset, selected.duration]);
 
   useEffect(() => {
     if (openClock) {
@@ -133,7 +130,7 @@ export const SessionTimer: React.FC = () => {
     } else if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-  }, [openClock]);
+  }, [openClock, handleTimer]);
 
   return (
     <Backdrop

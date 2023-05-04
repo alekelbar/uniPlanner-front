@@ -70,7 +70,7 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
     if (response !== RESPONSES.SUCCESS) {
       handleShowSnack(response);
     }
-  }, [userId, dispatch]);
+  }, [userId, dispatch, handleShowSnack, router]);
 
   useEffect(() => {
     // El usuario default(no user) tiene el ID por defecto.

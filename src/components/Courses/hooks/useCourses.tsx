@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch } from "../../../../src/redux/hooks";
 import { startLoadCourses } from "../../../../src/redux/thunks/courses.thunks";
 import { useStandarFetch } from "@/hooks/useStandarFetch";
@@ -15,13 +15,16 @@ export const useCourses = (ITEMS_PER_PAGE: number) => {
     query: { careerId },
   } = router;
 
-  const { getData } = useStandarFetch(
-    async () => await await dispatch(startLoadCourses(careerId as string))
+  const cb = useCallback(
+    async () => await await dispatch(startLoadCourses(careerId as string)),
+    [careerId]
   );
+
+  const { getData } = useStandarFetch(cb);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const { beforeDelete, currentPage, getCurrentPageItems, handlePagination } =
     useStandarPagination<Course>(ITEMS_PER_PAGE);

@@ -51,8 +51,8 @@ const LoginPage: React.FC = () => {
     },
     validationSchema: Yup.object({
       id: Yup.string()
-        .required("Su identificación es requerida")
-        .min(8, "Su atributo identificador debe ser de almenos 8 caracteres"),
+        .required("Su usuario es requerido")
+        .min(8, "Su usuario debe ser de almenos 8 caracteres"),
       password: Yup.string()
         .required("Su contraseña es requerida")
         .matches(
@@ -101,8 +101,8 @@ const LoginPage: React.FC = () => {
                   value={formik.values.id}
                   name="id"
                   variant="filled"
-                  placeholder="Identificación"
-                  helperText="Un identificador único"
+                  placeholder="alekelbar..."
+                  helperText="Ingrese su usuario"
                 />
                 {formik.touched.id && formik.errors.id && (
                   <Typography variant="caption" color={"info.main"}>

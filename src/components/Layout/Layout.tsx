@@ -1,6 +1,6 @@
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import React, { createContext, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import Copyright from "../common/Copyright";
 import { FloatButton } from "../common/FloatButton";
 import { SideBar } from "./SideBar";
@@ -47,10 +47,10 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
     setSnackOpen(false);
   };
 
-  const handleShowSnack = (message: string) => {
+  const handleShowSnack = useCallback((message: string) => {
     setMessageSnack(message);
     setSnackOpen(true);
-  };
+  }, []);
 
   const { Provider } = globalContext;
 

@@ -28,7 +28,7 @@ export const useCareerPage = () => {
       }
       if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
     })();
-  }, [query.user, dispatch]);
+  }, [query.user, dispatch, router]);
 
   return {
     dialog: {

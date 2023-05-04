@@ -27,7 +27,7 @@ export default function TimerClock({
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (selected && intervalRef.current) {
       clearInterval(intervalRef.current);
       setSeconds(0);
@@ -35,9 +35,9 @@ export default function TimerClock({
       setPause(pauseRef.current);
       onClose();
     }
-  };
+  }, [selected, onClose]);
 
-  const handleTimer = () => {
+  const handleTimer = useCallback(() => {
     if (selected) {
       setSeconds(0);
       pauseRef.current = false;
@@ -49,7 +49,7 @@ export default function TimerClock({
         }
       }, 1000);
     }
-  };
+  }, [handleReset, selected]);
 
   useEffect(() => {
     if (open) {
@@ -57,7 +57,7 @@ export default function TimerClock({
     } else if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-  }, [open]);
+  }, [open, handleTimer]);
 
   return (
     <Backdrop

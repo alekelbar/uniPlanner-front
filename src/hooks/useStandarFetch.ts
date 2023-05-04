@@ -10,16 +10,14 @@ export const useStandarFetch = (cb: () => Promise<any>) => {
 
   const getData = useCallback(async () => {
     const response = await cb();
-
     if (response.trim() === RESPONSES.INVALID_ID) {
       await router.push("/");
       return;
     }
-
     if (response !== RESPONSES.SUCCESS) {
       handleShowSnack(response);
     }
-  }, [cb]);
+  }, [cb, handleShowSnack, router]);
 
   return { getData };
 };

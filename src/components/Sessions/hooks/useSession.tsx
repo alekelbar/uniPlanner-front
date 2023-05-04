@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch } from "../../../redux";
 import { startLoadSession } from "../../../redux/thunks/session-thunks";
 import { useStandarDialog } from "@/hooks/useStandarDialog";
@@ -15,13 +15,16 @@ export const useSession = (ITEMS_PER_PAGE: number) => {
     query: { user },
   } = router;
 
-  const { getData } = useStandarFetch(
-    async () => await dispatch(startLoadSession(user as string))
+  const cb = useCallback(
+    async () => await dispatch(startLoadSession(user as string)),
+    [user]
   );
+
+  const { getData } = useStandarFetch(cb);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const { getCurrentPageItems, beforeDelete, currentPage, handlePagination } =
     useStandarPagination<Session>(ITEMS_PER_PAGE);

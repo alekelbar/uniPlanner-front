@@ -44,7 +44,7 @@ const SettingsPage = () => {
     if (response !== RESPONSES.SUCCESS) {
       await Swal.fire(response);
     }
-  }, [user, dispatch]);
+  }, [user, dispatch, router]);
 
   useEffect(() => {
     onLoad();

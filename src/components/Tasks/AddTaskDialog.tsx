@@ -22,6 +22,7 @@ import { startCreateTask } from "../../redux/thunks/tasks-thunks";
 import { Close } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { TextFieldError } from "../common/TextFieldError";
+import { CloseDialogButton } from "../common/CloseDialogButton";
 
 interface AddTaskDialogProps {
   open: boolean;
@@ -171,9 +172,7 @@ export default function AddTaskDialog({
           </Stack>
         </DialogContent>
         <Stack spacing={1} display={"flex"} direction={"column"}>
-          <Button variant="text" onClick={onClose}>
-            <Close color="secondary" />
-          </Button>
+          <CloseDialogButton onClose={onClose} />
         </Stack>
       </Dialog>
     </>

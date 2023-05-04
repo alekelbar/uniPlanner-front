@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useStandarDialog } from "@/hooks/useStandarDialog";
 import { useStandarFetch } from "@/hooks/useStandarFetch";
 import { startLoadTasks } from "@/redux/thunks/tasks-thunks";
@@ -15,13 +15,16 @@ export const useTasks = (ITEMS_PER_PAGE: number) => {
 
   const dispatch = useAppDispatch();
 
-  const { getData } = useStandarFetch(
-    async () => await dispatch(startLoadTasks(deliveryId as string))
+  const cb = useCallback(
+    async () => await dispatch(startLoadTasks(deliveryId as string)),
+    [deliveryId]
   );
+
+  const { getData } = useStandarFetch(cb);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const { getCurrentPageItems, beforeDelete, currentPage, handlePagination } =
     useStandarPagination<Task>(ITEMS_PER_PAGE);

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch } from "@/redux";
 import { startLoadDeliveries } from "@/redux/thunks/deliverables-thunks";
 import { useRouter } from "next/router";
@@ -15,13 +15,16 @@ export const useDeliveries = (ITEMS_PER_PAGE: number) => {
     query: { courseId },
   } = router;
 
-  const { getData } = useStandarFetch(
-    async () => await dispatch(startLoadDeliveries(courseId as string))
+  const cb = useCallback(
+    async () => await dispatch(startLoadDeliveries(courseId as string)),
+    [courseId]
   );
+
+  const { getData } = useStandarFetch(cb);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const { getCurrentPageItems, beforeDelete, currentPage, handlePagination } =
     useStandarPagination<Deliverable>(ITEMS_PER_PAGE);

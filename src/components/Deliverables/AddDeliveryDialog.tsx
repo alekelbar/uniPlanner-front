@@ -27,6 +27,7 @@ import { deliveryValidation } from "./Validation/deliveryValidation";
 import { useTheme } from "@emotion/react";
 import { Close } from "@mui/icons-material";
 import { TextFieldError } from "../common/TextFieldError";
+import { CloseDialogButton } from "../common/CloseDialogButton";
 
 interface AddDeliveryDialogProps {
   open: boolean;
@@ -223,9 +224,7 @@ export default function AddDeliveryDialog({
           </Stack>
         </DialogContent>
         <Stack spacing={1} display={"flex"} direction={"column"}>
-          <Button variant="text" onClick={onClose}>
-            <Close color="secondary" />
-          </Button>
+          <CloseDialogButton onClose={onClose} />
         </Stack>
       </Dialog>
     </>

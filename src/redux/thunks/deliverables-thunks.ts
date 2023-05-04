@@ -53,19 +53,19 @@ export const startcreateDelivery = (deliverable: Deliverable) => {
 export const startRemoveDelivery = (deliverable: Deliverable) => {
   return async (dispatch: AppDispatch) => {
     // cargando LOS CURSOS...
-    // dispatch(startLoadingDeliveries());
+    dispatch(startLoadingDeliveries());
 
     const service = new DeliverableService();
     const response = await service.removeDeliverables(deliverable);
 
     if (response.status !== 200) {
-      // dispatch(stopLoadingDeliveries());
+      dispatch(stopLoadingDeliveries());
       return response;
     }
 
     const { data } = response;
     dispatch(removeDelivery(data));
-    // dispatch(stopLoadingDeliveries());
+    dispatch(stopLoadingDeliveries());
     return RESPONSES.SUCCESS;
   };
 };

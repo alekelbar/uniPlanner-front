@@ -6,7 +6,7 @@ import {
   stopLoadingSettings,
   updateSetting,
 } from "../slices/Settings/setting-slice";
-import { AppDispatch, RootState } from "../store";
+import { AppDispatch } from "../store";
 
 export const startLoadSetting = (userId: string) => {
   return async (dispatch: AppDispatch) => {
@@ -31,19 +31,19 @@ export const startLoadSetting = (userId: string) => {
 export const startUpdateSetting = (settingUpdate: Setting) => {
   return async (dispatch: AppDispatch) => {
     // cargando las carreras...
-    dispatch(setLoadingSettings());
-    
+    // dispatch(setLoadingSettings());
+
     const service = new SettingService();
     const response = await service.updateSetting(settingUpdate);
 
     if (response.status !== 200) {
-      dispatch(stopLoadingSettings());
+      // dispatch(stopLoadingSettings());
       return response;
     }
 
     const { data } = response;
     dispatch(updateSetting(data));
-    dispatch(stopLoadingSettings());
+    // dispatch(stopLoadingSettings());
     return RESPONSES.SUCCESS;
   };
 };

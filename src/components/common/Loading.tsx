@@ -1,11 +1,11 @@
-import { Backdrop, CircularProgress, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Backdrop, CircularProgress, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 interface ILoadingProps {
   called?: string;
 }
 
-export function Loading ({ called = ' unknow' }: ILoadingProps): JSX.Element {
+export function Loading({ called = " unknow" }: ILoadingProps): JSX.Element {
   // console.log('called by: ', called);
 
   const [progress, setProgress] = useState(0);
@@ -27,8 +27,10 @@ export function Loading ({ called = ' unknow' }: ILoadingProps): JSX.Element {
   }, []);
 
   return (
-    <Backdrop open={true}
-      style={{
+    <Backdrop
+      open={true}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -36,10 +38,11 @@ export function Loading ({ called = ' unknow' }: ILoadingProps): JSX.Element {
         height: "100%",
       }}
     >
-      <CircularProgress variant="indeterminate" color="primary" value={progress} />
-      <Typography variant="h6" component="div">
-        Cargando...
-      </Typography>
+      <CircularProgress
+        variant="indeterminate"
+        color="primary"
+        value={progress}
+      />
     </Backdrop>
   );
 }

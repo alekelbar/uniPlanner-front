@@ -18,6 +18,8 @@ import { startRemoveCourse } from "../../redux/thunks/courses.thunks";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { CourseService } from "@/services/Course";
 import { coursePageContext } from "./context/courseContext";
+import { globalContext } from "../Layout/types/GlobalContext";
+import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
 
 interface CourseCardProps {
   course: Course;
@@ -29,6 +31,8 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
   const {
     pagination: { beforeDelete },
   } = useContext(coursePageContext);
+
+  const { handleShowSnack } = useContext(globalContext);
 
   const { courses } = useAppSelector((state) => state.courses);
 
@@ -54,10 +58,13 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
   });
 
   const handleRemove = async () => {
-    beforeDelete(courses);
-    const response = await dispatch(startRemoveCourse(course));
-    if (response !== RESPONSES.SUCCESS) {
-      Swal.fire(response);
+    const confirmation = await confirmWithSweetAlert();
+    if (confirmation.isConfirmed) {
+      beforeDelete(courses);
+      const response = await dispatch(startRemoveCourse(course));
+      if (response !== RESPONSES.SUCCESS) {
+        handleShowSnack(response);
+      }
     }
   };
 

@@ -1,11 +1,12 @@
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import Copyright from "../common/Copyright";
 import { FloatButton } from "../common/FloatButton";
 import { SideBar } from "./SideBar";
 import { Navbar } from "./navbar";
-import { Box } from "@mui/material";
+import { Alert, Box, Snackbar } from "@mui/material";
+import { globalContext } from "./types/GlobalContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -38,11 +39,41 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
     </Box>
   );
 
+  // Global snackbar settings
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [messageSnack, setMessageSnack] = useState("");
+
+  const handleClose = () => {
+    setSnackOpen(false);
+  };
+
+  const handleShowSnack = (message: string) => {
+    setMessageSnack(message);
+    setSnackOpen(true);
+  };
+
+  const { Provider } = globalContext;
+
   return (
-    <>
+    <Provider value={{ handleShowSnack }}>
       {!pathname.includes("auth") ? homeComponent : null}
       {children}
       <Copyright />
-    </>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          variant="filled"
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          {messageSnack}
+        </Alert>
+      </Snackbar>
+    </Provider>
   );
 }

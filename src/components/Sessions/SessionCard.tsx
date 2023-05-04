@@ -15,6 +15,8 @@ import { useAppDispatch, useAppSelector } from "../../redux";
 import { startRemoveSession } from "../../redux/thunks/session-thunks";
 import { useContext } from "react";
 import { sessionPageContext } from "./context/SessionContext";
+import { globalContext } from "../Layout/types/GlobalContext";
+import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
 
 interface SessionCardProps {
   session: Session;
@@ -28,6 +30,7 @@ export default function SessionCard({
   const { duration, name, type } = session;
 
   const dispatch = useAppDispatch();
+  const { handleShowSnack } = useContext(globalContext);
 
   const {
     pagination: { beforeDelete },
@@ -35,11 +38,13 @@ export default function SessionCard({
   const { sessions } = useAppSelector((state) => state.sessions);
 
   const handleDelete = async () => {
-    beforeDelete(sessions);
-
-    const response = await dispatch(startRemoveSession(session));
-    if (response !== RESPONSES.SUCCESS) {
-      Swal.fire(response);
+    const confirmation = await confirmWithSweetAlert();
+    if (confirmation.isConfirmed) {
+      beforeDelete(sessions);
+      const response = await dispatch(startRemoveSession(session));
+      if (response !== RESPONSES.SUCCESS) {
+        handleShowSnack(response);
+      }
     }
   };
 

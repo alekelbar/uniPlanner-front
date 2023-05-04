@@ -16,6 +16,8 @@ import { startRemoveTask } from "../../redux/thunks/tasks-thunks";
 import { useRouter } from "next/router";
 import { taskPageContext } from "./context/TaskPageContext";
 import { useContext } from "react";
+import { globalContext } from "../Layout/types/GlobalContext";
+import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
 
 interface TaskCardProps {
   task: Task;
@@ -29,14 +31,18 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
     pagination: { beforeDelete },
     dialogHandler: { handleOpenClock },
   } = useContext(taskPageContext);
+  const { handleShowSnack } = useContext(globalContext);
 
   const { tasks } = useAppSelector((state) => state.tasks);
 
   const handleRemove = async () => {
-    beforeDelete(tasks);
-    const response = await dispatch(startRemoveTask(task));
-    if (response !== RESPONSES.SUCCESS) {
-      await Swal.fire(response);
+    const confirmation = await confirmWithSweetAlert();
+    if (confirmation.isConfirmed) {
+      beforeDelete(tasks);
+      const response = await dispatch(startRemoveTask(task));
+      if (response !== RESPONSES.SUCCESS) {
+        handleShowSnack(response);
+      }
     }
   };
 

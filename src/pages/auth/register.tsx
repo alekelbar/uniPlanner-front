@@ -16,7 +16,7 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
@@ -29,9 +29,11 @@ import { startUserRegister } from "../../redux/thunks/user-thunks";
 import { validateToken } from "../../services/auth/validate-token";
 import Link from "@/components/common/Link";
 import { Loading } from "@/components/common/Loading";
+import { globalContext } from "@/components/Layout/types/GlobalContext";
 
 const RegisterPage: React.FC = () => {
   const { allCareers, loading } = useAllCareers();
+  const { handleShowSnack } = useContext(globalContext);
 
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -72,7 +74,7 @@ const RegisterPage: React.FC = () => {
         );
 
         if (response !== RESPONSES.SUCCESS) {
-          await Swal.fire(response);
+          handleShowSnack(response);
           return;
         }
 

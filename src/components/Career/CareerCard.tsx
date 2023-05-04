@@ -12,6 +12,9 @@ import { RESPONSES } from "../../interfaces/response-messages";
 import { useAppDispatch } from "../../redux/hooks";
 import { setSelectedCareer } from "../../redux/slices/Career/careerSlice";
 import { startRemoveCareer } from "../../redux/thunks/careers-thunks";
+import { useContext } from "react";
+import { globalContext } from "../Layout/types/GlobalContext";
+import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
 
 interface CareerCardProps {
   career: Career;
@@ -20,6 +23,8 @@ interface CareerCardProps {
 export const CareerCard = function CareerCard({
   career,
 }: CareerCardProps): JSX.Element {
+  const { handleShowSnack } = useContext(globalContext);
+
   const { name, _id } = career;
   const dispatch = useAppDispatch();
 
@@ -29,11 +34,13 @@ export const CareerCard = function CareerCard({
   } = router;
 
   const handleRemove = async () => {
-    const response = await dispatch(startRemoveCareer(user as string, _id));
-    if (response !== RESPONSES.SUCCESS) {
-      await Swal.fire(response);
+    const confirmation = await confirmWithSweetAlert();
+    if (confirmation.isConfirmed) {
+      const response = await dispatch(startRemoveCareer(user as string, _id));
+      if (response !== RESPONSES.SUCCESS) {
+        handleShowSnack(response);
+      }
     }
-    return;
   };
 
   const handleSelectedCareer = () => {

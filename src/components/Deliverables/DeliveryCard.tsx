@@ -27,6 +27,8 @@ import { startLoadSetting } from "../../redux/thunks/settings-thunks";
 import { Loading } from "@/components/common/Loading";
 import { makeStatusDate } from "./helpers/makeStatusDate";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
+import { globalContext } from "../Layout/types/GlobalContext";
+import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
 
 interface DeliveryCardProps {
   deliverable: Deliverable;
@@ -35,6 +37,8 @@ interface DeliveryCardProps {
 export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const { handleShowSnack } = useContext(globalContext);
 
   const {
     pagination: { beforeDelete },
@@ -63,7 +67,7 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
     }
 
     if (response !== RESPONSES.SUCCESS) {
-      await Swal.fire(response);
+      handleShowSnack(response);
     }
   }, [userId, dispatch]);
 
@@ -73,16 +77,18 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
   }, [selected.user, loadingUserSettings]);
 
   const handleRemove = async () => {
-    beforeDelete(deliverables);
-    const response = await dispatch(
-      startRemoveDelivery({
-        ...deliverable,
-        course: courseId as string,
-      })
-    );
-
-    if (response !== RESPONSES.SUCCESS) {
-      Swal.fire(response);
+    const confirmation = await confirmWithSweetAlert();
+    if (confirmation.isConfirmed) {
+      beforeDelete(deliverables);
+      const response = await dispatch(
+        startRemoveDelivery({
+          ...deliverable,
+          course: courseId as string,
+        })
+      );
+      if (response !== RESPONSES.SUCCESS) {
+        handleShowSnack(response);
+      }
     }
   };
 

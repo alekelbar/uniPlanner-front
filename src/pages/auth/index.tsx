@@ -13,11 +13,13 @@ import { useAppDispatch } from "../../redux/hooks";
 import { startUserLogin } from "../../redux/thunks/user-thunks";
 import { validateToken } from "../../services/auth/validate-token";
 import Link from "@/components/common/Link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { globalContext } from "@/components/Layout/types/GlobalContext";
 
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { handleShowSnack } = useContext(globalContext);
 
   const [loading, setLoading] = useState(false); // Variable de estado para controlar la ventana de carga
 
@@ -36,7 +38,7 @@ const LoginPage: React.FC = () => {
         );
 
         if (response !== RESPONSES.SUCCESS) {
-          await Swal.fire(response);
+          handleShowSnack(response);
           return;
         }
 

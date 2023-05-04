@@ -1,10 +1,12 @@
+import { globalContext } from "@/components/Layout/types/GlobalContext";
 import { RESPONSES } from "@/interfaces/response-messages";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
-import Swal from "sweetalert2";
+import { useCallback, useContext } from "react";
 
 export const useStandarFetch = (cb: () => Promise<any>) => {
   const router = useRouter();
+
+  const { handleShowSnack } = useContext(globalContext);
 
   const getData = useCallback(async () => {
     const response = await cb();
@@ -15,7 +17,7 @@ export const useStandarFetch = (cb: () => Promise<any>) => {
     }
 
     if (response !== RESPONSES.SUCCESS) {
-      Swal.fire(response);
+      handleShowSnack(response);
     }
   }, [cb]);
 

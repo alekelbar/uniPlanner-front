@@ -3,8 +3,11 @@ import { UserToken } from "@/interfaces/users.interface";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import image from "./../../public/HeroImage.jpg";
+import { UserState } from "@/interfaces/users.interface";
 
-const HomePage = ({ user }: { user: UserToken }) => {
+const HomePage = ({ userSession }: { userSession: Partial<UserState> }) => {
+  console.log(userSession);
+
   return (
     <Box
       component={"main"}
@@ -40,10 +43,14 @@ const HomePage = ({ user }: { user: UserToken }) => {
                 variant="contained"
                 color="primary"
                 component={Link}
-                href={!user.id ? `/auth` : `/schedule/careers/${user.id}`}
+                href={
+                  !userSession.user
+                    ? `/auth`
+                    : `/schedule/careers/${userSession.user.id}`
+                }
                 sx={{ width: "100%" }}
               >
-                {!user.id ? "Inicia sesión" : "Ir al Home"}
+                {!userSession.user ? "Inicia sesión" : "Ir al Home"}
               </Button>
             </Grid>
           </Grid>
@@ -58,21 +65,19 @@ export default HomePage;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { token } = context.req.cookies;
 
-  let user: UserToken = {
-    email: "",
-    fullname: "",
-    id: "",
-    identification: "",
+  let userSession: Partial<UserState> = {
+    user: {} as UserToken,
+    token: "",
   };
 
   if (token) {
     const parseToken = JSON.parse(token);
-    user = parseToken.user;
+    userSession = parseToken;
   }
 
   return {
     props: {
-      user,
+      userSession,
     },
   };
 };

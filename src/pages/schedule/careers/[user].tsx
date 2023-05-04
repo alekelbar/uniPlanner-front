@@ -24,7 +24,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         permanent: false,
       },
     };
+
   const { token } = ctx.req.cookies;
+
   return !token || !(await isValidToken(JSON.parse(token).token))
     ? {
         redirect: {

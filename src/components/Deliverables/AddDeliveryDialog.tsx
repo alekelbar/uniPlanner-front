@@ -61,6 +61,7 @@ export default function AddDeliveryDialog({
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
+      onClose();
       const { deadline, description, name, note, percent, status } = values;
 
       const { importance, urgency } = makePriority(
@@ -82,9 +83,7 @@ export default function AddDeliveryDialog({
         })
       );
       if (response !== RESPONSES.SUCCESS) Swal.fire(response);
-
       formik.resetForm();
-      onClose();
     },
     validationSchema: deliveryValidation,
   });

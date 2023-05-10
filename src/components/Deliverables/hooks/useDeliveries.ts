@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "@/redux";
 import { startLoadDeliveries } from "@/redux/thunks/deliverables-thunks";
 import { useRouter } from "next/router";
@@ -38,7 +38,17 @@ export const useDeliveries = (ITEMS_PER_PAGE: number) => {
     onOpenEdit,
   } = useStandarDialog();
 
+  const [grid, setGrid] = useState(true);
+
+  const handleToggleGrid = () => {
+    setGrid(e => !e);
+  }
+
   return {
+    viewHandler: {
+      handleToggleGrid,
+      grid
+    },
     pagination: {
       getCurrentPageItems,
       beforeDelete,

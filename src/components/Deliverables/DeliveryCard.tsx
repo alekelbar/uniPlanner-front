@@ -5,31 +5,18 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Grid,
-  Paper,
-  Stack,
-  Typography,
+  Grid, Stack,
+  Typography
 } from "@mui/material";
-import { formatDistance, parseISO } from "date-fns";
+import { formatDistance } from "date-fns";
 import es from "date-fns/locale/es";
 import { useRouter } from "next/router";
-import Swal from "sweetalert2";
 import { Deliverable } from "../../interfaces/deliveries.interface";
-import { RESPONSES } from "../../interfaces/response-messages";
-import { useAppDispatch, useAppSelector } from "../../redux";
+import { useAppDispatch } from "../../redux";
 import { setSelectedDelivery } from "../../redux/slices/Deliveries/deliveriesSlice";
-import { startRemoveDelivery } from "../../redux/thunks/deliverables-thunks";
-import {
-  ColorMatrixPreferences,
-  getPriorityColor,
-} from "../Career/helpers/priorityCalc";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { startLoadSetting } from "../../redux/thunks/settings-thunks";
 import { Loading } from "@/components/common/Loading";
 import { makeStatusDate } from "./helpers/makeStatusDate";
-import { deliveryPageContext } from "./context/DeliveryPageContext";
-import { globalContext } from "../Layout/types/GlobalContext";
-import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
+import { useDeliveryCard } from "./hooks/useDeliveryCard";
 
 interface DeliveryCardProps {
   deliverable: Deliverable;
@@ -39,71 +26,8 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { handleShowSnack } = useContext(globalContext);
-
-  const {
-    pagination: { beforeDelete },
-  } = useContext(deliveryPageContext);
-
-  const { deliverables } = useAppSelector((state) => state.deliveries);
-
-  const { selected, loading } = useAppSelector((state) => state.setting);
-
-  const {
-    query: { userId, courseId },
-  } = useRouter();
-
-  let create_at: Date = new Date();
-
-  if (deliverable.createdAt) {
-    create_at = parseISO(deliverable.createdAt.toString());
-  }
-
-  const loadingUserSettings = useCallback(async () => {
-    const response = await dispatch(startLoadSetting(userId as string));
-
-    if (response.trim() === RESPONSES.INVALID_ID) {
-      await router.push("/");
-      return;
-    }
-
-    if (response !== RESPONSES.SUCCESS) {
-      handleShowSnack(response);
-    }
-  }, [userId, dispatch, handleShowSnack, router]);
-
-  useEffect(() => {
-    // El usuario default(no user) tiene el ID por defecto.
-    if (!selected.user) loadingUserSettings();
-  }, [selected.user, loadingUserSettings]);
-
-  const handleRemove = async () => {
-    const confirmation = await confirmWithSweetAlert();
-    if (confirmation.isConfirmed) {
-      beforeDelete(deliverables);
-      const response = await dispatch(
-        startRemoveDelivery({
-          ...deliverable,
-          course: courseId as string,
-        })
-      );
-      if (response !== RESPONSES.SUCCESS) {
-        handleShowSnack(response);
-      }
-    }
-  };
-
-  const { importance, urgency } = deliverable;
-  const { do: doing, delegate, ignore, prepare } = selected;
-
-  const userMatrizColor: ColorMatrixPreferences = {
-    delegate,
-    do: doing,
-    ignore,
-    prepare,
-  };
-
-  const colorSeleted = getPriorityColor(importance, urgency, userMatrizColor);
+  const { loading, colorSeleted, handleRemove, create_at, userId } =
+    useDeliveryCard(deliverable);
 
   if (loading) return <Loading />;
 

@@ -2,6 +2,10 @@ import { ChangeEvent, createContext } from "react";
 import { Deliverable } from "../../../interfaces/deliveries.interface";
 
 export interface DeliveryPageContext {
+  viewHandler: {
+    handleToggleGrid: () => void;
+    grid: boolean;
+  },
   pagination: {
     getCurrentPageItems: (
       items: Deliverable[],

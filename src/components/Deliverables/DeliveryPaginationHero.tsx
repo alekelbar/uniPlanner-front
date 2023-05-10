@@ -11,6 +11,7 @@ export const DeliveryPaginationHero = () => {
   } = useRouter();
 
   const {
+    viewHandler: { grid },
     pagination: { ITEMS_PER_PAGE, currentPage, handlePagination },
   } = useContext(deliveryPageContext);
 
@@ -21,6 +22,7 @@ export const DeliveryPaginationHero = () => {
     <Box
       component={"div"}
       position="sticky"
+      display={grid ? "" : "none"}
       top={0}
       sx={{
         backgroundColor: COLOR_PANELS,

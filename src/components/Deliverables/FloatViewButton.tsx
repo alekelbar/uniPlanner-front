@@ -5,12 +5,12 @@ import { ViewArray } from "@mui/icons-material";
 
 export const FloatViewButton = () => {
   const {
-    dialogHandler: { onOpenCreate },
+    viewHandler: { handleToggleGrid },
   } = useContext(deliveryPageContext);
 
   return (
     <FloatButton
-      onAction={onOpenCreate}
+      onAction={handleToggleGrid}
       icon={<ViewArray sx={{ fontSize: { md: "2.5em" } }} />}
       sxProps={{ position: "fixed", bottom: 120, right: 16 }}
     />

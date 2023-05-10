@@ -81,23 +81,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { token } = context.req.cookies;
-
-  let userSession = {
-    user: {} as UserToken,
-    token: "",
-  };
-
-  if (token) {
-    const parseToken = JSON.parse(token);
-    userSession = parseToken;
-  }
-
-  return {
-    props: {
-      userSession,
-    },
-  };
-};

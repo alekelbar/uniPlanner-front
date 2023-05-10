@@ -1,9 +1,9 @@
 // src/themes/defaultTheme.tsx
-import { Inter } from "next/font/google";
+import { Montserrat_Alternates } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 
-export const inter = Inter({
-  weight: ["300", "400", "500", "700"],
+export const montserrat = Montserrat_Alternates({
+  weight: ["100", "300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
   fallback: ["Helvetica", "Arial", "sans-serif"],
@@ -14,21 +14,18 @@ const defaultTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#393E46",
+      main: "#F05454",
     },
     secondary: {
-      main: "#222831",
-    },
-    error: {
-      main: "#d32f2f",
+      main: "#3C486B",
     },
     background: {
-      paper: "#F1F6F9",
-      default: "#EEEEEE",
+      paper: "#F5F5F5",
+      default: "#F5F5F5",
     },
   },
   typography: {
-    fontFamily: inter.style.fontFamily,
+    fontFamily: montserrat.style.fontFamily,
   },
   components: {
     MuiButton: {
@@ -36,8 +33,8 @@ const defaultTheme = createTheme({
         variant: "contained",
         color: "secondary",
         sx: {
-          padding: ".5em 1em",
-          fontFamily: inter.style.fontFamily,
+          // padding: ".5em 1em",
+          // fontFamily: inter.style.fontFamily,
           color: "white",
         },
       },
@@ -45,8 +42,6 @@ const defaultTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: "#F0F0F0",
-          fontFamily: inter.style.fontFamily,
         },
       },
       defaultProps: {

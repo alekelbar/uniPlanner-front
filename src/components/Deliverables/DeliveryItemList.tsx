@@ -71,6 +71,29 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
               : "Desconocido"}
           </Typography>
         </ListItemText>
+        <ListItemButton
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "space-around",
+          }}
+        >
+          <Button
+            onClick={() => {
+              dispatch(setSelectedDelivery(delivery));
+              router.push(
+                `/schedule/tasks/list/${delivery._id}/${delivery.name}/${userId}`
+              );
+            }}
+            fullWidth
+            variant="contained"
+            color="secondary"
+            size="small"
+          >
+            VER TAREAS
+          </Button>
+        </ListItemButton>
       </ListItem>
     </List>
   );

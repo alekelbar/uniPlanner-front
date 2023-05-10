@@ -1,1 +1,1 @@
-export const COLOR_PANELS = "#EEEEEE";
+export const COLOR_PANELS = "#F5F5F5";

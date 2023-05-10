@@ -79,7 +79,7 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
       validationSchema={taskValidation}
     >
       {(formik) => (
-        <Container sx={{ mt: 2 }} maxWidth="sm">
+        <Container sx={{ my: 3 }} maxWidth="sm">
           <Paper sx={{ p: 2, boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)" }}>
             <Stack
               component={"form"}

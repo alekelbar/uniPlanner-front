@@ -49,6 +49,7 @@ export function AddCourseDialog({
       credits: 4,
     },
     onSubmit: async (values) => {
+      onClose();
       const response = await dispatch(
         startAddCourse({
           ...values,
@@ -60,7 +61,6 @@ export function AddCourseDialog({
       if (response !== RESPONSES.SUCCESS) Swal.fire(response);
 
       formik.resetForm();
-      onClose();
     },
     validationSchema: courseValidations,
   });

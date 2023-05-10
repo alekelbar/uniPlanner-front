@@ -52,6 +52,7 @@ export default function AddTaskDialog({
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
+      onClose();
       const { descripcion, name, status } = values;
       const response = await dispatch(
         startCreateTask({
@@ -67,7 +68,6 @@ export default function AddTaskDialog({
       }
 
       formik.resetForm(initialValues);
-      onClose();
     },
     validationSchema: Yup.object({
       descripcion: Yup.string()

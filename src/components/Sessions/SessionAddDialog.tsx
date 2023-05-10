@@ -51,6 +51,7 @@ export const SessionAddDialog = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
+      onClose();
       const { query } = router;
       const response = await dispatch(
         startcreateSession(query.user as string, {
@@ -61,7 +62,6 @@ export const SessionAddDialog = () => {
       if (response !== RESPONSES.SUCCESS) await Swal.fire(response);
 
       formik.resetForm();
-      onClose();
     },
     validationSchema: sessionValidations,
   });

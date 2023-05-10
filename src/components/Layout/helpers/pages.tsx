@@ -30,13 +30,6 @@ export const pages: Page[] = [
     url: "/sessions/",
     icon: <Timelapse sx={{ color: "secondary.ligh" }} />,
   },
-  // {
-  //   inactiveColor: "text.primary.dark",
-  //   title: "Perfil",
-  //   color: "text.primary",
-  //   url: "/tools/profile/",
-  //   icon: <Person sx={{ color: "text.primary" }} />,
-  // },
   {
     inactiveColor: "text.primary.dark",
     title: "Configuración",

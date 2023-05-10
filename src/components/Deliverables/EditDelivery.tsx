@@ -105,7 +105,7 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
       validationSchema={deliveryValidation}
     >
       {(formik) => (
-        <Container sx={{ mt: 3 }} maxWidth="sm">
+        <Container sx={{ my: 5 }} maxWidth="sm">
           <Paper sx={{ p: 2, boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)" }}>
             <Stack
               component={"form"}

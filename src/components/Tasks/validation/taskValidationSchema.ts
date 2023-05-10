@@ -5,7 +5,7 @@ export const taskValidation = Yup.object({
     .required("La descripción de la tarea es requerida")
     .min(5, "Trate de usar al menos 5 caracteres"),
   name: Yup.string()
-    .required("El nombre de la tarea es requerida")
+    .required("El nombre de la tarea es requerido")
     .min(5, "Trate de usar al menos 5 caracteres"),
-  status: Yup.string().required("El status de la tarea es requerida"),
+  status: Yup.string().required("El estado de la tarea es requerida"),
 });

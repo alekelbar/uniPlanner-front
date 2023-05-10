@@ -5,8 +5,9 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Grid, Stack,
-  Typography
+  Grid,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { formatDistance } from "date-fns";
 import es from "date-fns/locale/es";
@@ -17,6 +18,7 @@ import { setSelectedDelivery } from "../../redux/slices/Deliveries/deliveriesSli
 import { Loading } from "@/components/common/Loading";
 import { makeStatusDate } from "./helpers/makeStatusDate";
 import { useDeliveryCard } from "./hooks/useDeliveryCard";
+import { parseToValidUrl } from "@/helpers/parseUrl";
 
 interface DeliveryCardProps {
   deliverable: Deliverable;
@@ -30,7 +32,6 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
     useDeliveryCard(deliverable);
 
   if (loading) return <Loading />;
-
   return (
     <Card
       variant="elevation"
@@ -109,7 +110,9 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
           onClick={() => {
             dispatch(setSelectedDelivery(deliverable));
             router.push(
-              `/schedule/tasks/list/${deliverable._id}/${deliverable.name}/${userId}`
+              `/schedule/tasks/list/${deliverable._id}/${parseToValidUrl(
+                deliverable.name
+              )}/${userId}`
             );
           }}
           fullWidth

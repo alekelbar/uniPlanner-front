@@ -17,6 +17,7 @@ import { es } from "date-fns/locale";
 import { Deliverable } from "@/interfaces/deliveries.interface";
 import { setSelectedDelivery } from "@/redux/slices/Deliveries/deliveriesSlice";
 import { useAppDispatch } from "@/redux";
+import { parseToValidUrl } from "@/helpers/parseUrl";
 
 interface DeliveryItemListProps {
   delivery: Deliverable;
@@ -83,7 +84,7 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
             onClick={() => {
               dispatch(setSelectedDelivery(delivery));
               router.push(
-                `/schedule/tasks/list/${delivery._id}/${delivery.name}/${userId}`
+                `/schedule/tasks/list/${delivery._id}/${parseToValidUrl(delivery.name)}/${userId}`
               );
             }}
             fullWidth

@@ -1,9 +1,5 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary, Container,
-  Grid,
-  List, Typography
+  Grid, Typography
 } from "@mui/material";
 import { DeliveryCard } from "../../../src/components/Deliverables/DeliveryCard";
 import { priorityCalc } from "../Career/helpers/priorityCalc";
@@ -11,18 +7,6 @@ import { useAppSelector } from "@/redux";
 import { Loading } from "../common/Loading";
 import { useContext } from "react";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
-import { ExpandMore } from "@mui/icons-material";
-import { DeliveryItemList } from "./DeliveryItemList";
-import {
-  addWeeks,
-  endOfWeek,
-  isAfter,
-  isBefore,
-  isThisWeek,
-  isTomorrow, parseISO,
-  startOfWeek
-} from "date-fns";
-import { addDays } from "date-fns";
 import { DeliveryList } from "./DeliveryList";
 
 export const DeliveryGrid = () => {

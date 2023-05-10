@@ -20,6 +20,7 @@ import { CourseService } from "@/services/Course";
 import { coursePageContext } from "./context/courseContext";
 import { globalContext } from "../Layout/types/GlobalContext";
 import { confirmWithSweetAlert } from "@/helpers/swalConfirm";
+import { parseToValidUrl } from "@/helpers/parseUrl";
 
 interface CourseCardProps {
   course: Course;
@@ -116,7 +117,9 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
           onClick={() => {
             dispatch(setSelectedCourse(course));
             router.push(
-              `/schedule/deliveries/list/${course._id}/${course.name}/${course.user}`
+              `/schedule/deliveries/list/${course._id}/${parseToValidUrl(
+                course.name
+              )}/${course.user}`
             );
           }}
         >

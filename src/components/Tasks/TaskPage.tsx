@@ -11,7 +11,7 @@ import { TaskTimerClock } from './TaskTimerClock';
 
 export function TasksPage ({ children }: { children: ReactElement | ReactElement[]; }): JSX.Element {
 
-  const context = useTasks(2);
+  const context = useTasks(5);
 
   return (
     <TaskProvider value={context}>

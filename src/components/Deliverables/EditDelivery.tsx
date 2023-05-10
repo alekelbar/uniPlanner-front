@@ -168,6 +168,27 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 </Typography>
               )}
 
+              <Select
+                fullWidth
+                value={formik.values.status}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                name={"status"}
+              >
+                <MenuItem value={DELIVERABLE_STATUS.PENDING}>
+                  {DELIVERABLE_STATUS.PENDING}
+                </MenuItem>
+                <MenuItem value={DELIVERABLE_STATUS.SEND}>
+                  {DELIVERABLE_STATUS.SEND}
+                </MenuItem>
+              </Select>
+
+              {formik.touched.status && formik.errors.status && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.status}
+                </Typography>
+              )}
+
               <TextField
                 fullWidth
                 name="note"
@@ -199,27 +220,6 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
               {formik.touched.percent && formik.errors.percent && (
                 <Typography variant="caption" color={"info.main"}>
                   {formik.errors.percent}
-                </Typography>
-              )}
-
-              <Select
-                fullWidth
-                value={formik.values.status}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                name={"status"}
-              >
-                <MenuItem value={DELIVERABLE_STATUS.PENDING}>
-                  {DELIVERABLE_STATUS.PENDING}
-                </MenuItem>
-                <MenuItem value={DELIVERABLE_STATUS.SEND}>
-                  {DELIVERABLE_STATUS.SEND}
-                </MenuItem>
-              </Select>
-
-              {formik.touched.status && formik.errors.status && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.status}
                 </Typography>
               )}
 

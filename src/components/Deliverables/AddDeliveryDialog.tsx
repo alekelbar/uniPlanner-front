@@ -164,6 +164,24 @@ export default function AddDeliveryDialog({
               <TextFieldError msg={formik.errors.description} />
             )}
 
+            <Select
+              fullWidth
+              value={formik.values.status}
+              onChange={formik.handleChange}
+              name={"status"}
+              onBlur={formik.handleBlur}
+            >
+              <MenuItem value={DELIVERABLE_STATUS.PENDING}>
+                {DELIVERABLE_STATUS.PENDING}
+              </MenuItem>
+              <MenuItem value={DELIVERABLE_STATUS.SEND}>
+                {DELIVERABLE_STATUS.SEND}
+              </MenuItem>
+            </Select>
+            {formik.touched.status && formik.errors.status && (
+              <TextFieldError msg={formik.errors.status} />
+            )}
+
             <TextField
               fullWidth
               name="note"
@@ -193,24 +211,6 @@ export default function AddDeliveryDialog({
             />
             {formik.touched.percent && formik.errors.percent && (
               <TextFieldError msg={formik.errors.percent} />
-            )}
-
-            <Select
-              fullWidth
-              value={formik.values.status}
-              onChange={formik.handleChange}
-              name={"status"}
-              onBlur={formik.handleBlur}
-            >
-              <MenuItem value={DELIVERABLE_STATUS.PENDING}>
-                {DELIVERABLE_STATUS.PENDING}
-              </MenuItem>
-              <MenuItem value={DELIVERABLE_STATUS.SEND}>
-                {DELIVERABLE_STATUS.SEND}
-              </MenuItem>
-            </Select>
-            {formik.touched.status && formik.errors.status && (
-              <TextFieldError msg={formik.errors.status} />
             )}
             <Button
               fullWidth

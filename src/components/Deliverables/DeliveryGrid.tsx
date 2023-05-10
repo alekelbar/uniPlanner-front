@@ -10,7 +10,10 @@ import { deliveryPageContext } from "./context/DeliveryPageContext";
 import { DeliveryList } from "./DeliveryList";
 
 export const DeliveryGrid = () => {
-  const { deliverables, loading } = useAppSelector((state) => state.deliveries);
+  const { deliverables: AllDeliveres, loading } = useAppSelector((state) => state.deliveries);
+
+  const deliverables = [...AllDeliveres];
+  deliverables.reverse();
 
   const {
     viewHandler: { grid },

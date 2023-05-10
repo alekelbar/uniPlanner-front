@@ -5,9 +5,7 @@ export const deliveryValidation = Yup.object({
   name: Yup.string()
     .min(5, "Use al menos 5 caracteres")
     .required("El nombre del entregable es obligatorio"),
-  description: Yup.string()
-    .min(5, "Use al menos 5 caracteres")
-    .required("La descripción del entregable es obligatoria"),
+  description: Yup.string().optional().default(""),
   deadline: Yup.date().required(
     "La fecha límite del entregable es obligatoria"
   ),

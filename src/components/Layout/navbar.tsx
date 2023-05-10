@@ -2,17 +2,13 @@ import { logOut } from "@/helpers/local-storage";
 import { useAppDispatch } from "@/redux";
 import { onLogOut } from "@/redux/slices/auth/authSlice";
 import { Login, Menu } from "@mui/icons-material";
-import {
-  AppBar,
-  Button, Stack,
-  Toolbar,
-  Typography
-} from "@mui/material";
+import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import Link from "../common/Link";
 import { getUserFromToken } from "./helpers/getUserFromLocalToken";
 import { useEffect, useState } from "react";
+import { validateToken } from "@/services/auth/validate-token";
 
 interface NabvarProps {
   onOpen: () => void;
@@ -43,9 +39,13 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
 
   const [userState, setUserState] = useState("none");
 
+  const getUserFromLocalState = async () => {
+    const token = getUserFromToken();
+    setUserState(token.user.id && await validateToken(token.token) ? "" : "none");
+  };
+
   useEffect(() => {
-    const user = getUserFromToken();
-    setUserState(!user.id ? "none" : "");
+    getUserFromLocalState();
   }, []);
 
   return (
@@ -57,11 +57,7 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
           justifyContent: "space-between",
         }}
       >
-        <Stack
-          direction={"row"}
-          justifyContent={"start"}
-          alignItems={"center"}
-        >
+        <Stack direction={"row"} justifyContent={"start"} alignItems={"center"}>
           <Button
             variant="text"
             sx={{

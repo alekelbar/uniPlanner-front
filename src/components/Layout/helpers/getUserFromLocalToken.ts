@@ -1,18 +1,23 @@
 import { getLocalToken } from "@/helpers/local-storage";
-import { UserToken } from "@/interfaces/users.interface";
+import { UserState, UserToken } from "@/interfaces/users.interface";
 
 export const getUserFromToken = () => {
-  const token = getLocalToken();
+  const tokenCookie = getLocalToken();
 
-  let user: UserToken = {
-    email: "",
-    fullname: "",
-    id: "",
-    identification: "",
-  };
+  let token: UserState = {
+    loading: false,
+    token: "",
+    user: {
+      email: "",
+      fullname: "",
+      id: "",
+      identification: "",
+    },
+  }; 
 
-  if (token) {
-    user = token.user;
+  if (tokenCookie) {
+    token = tokenCookie;
   }
-  return user;
+  
+  return token;
 };

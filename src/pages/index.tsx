@@ -3,9 +3,35 @@ import { UserToken } from "@/interfaces/users.interface";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import image from "./../../public/HeroImage.jpg";
-import { UserState } from "@/interfaces/users.interface";
+import { validateToken } from "@/services/auth/validate-token";
+import { useEffect, useState } from "react";
+import { getUserFromToken } from "@/components/Layout/helpers/getUserFromLocalToken";
 
-const HomePage = ({ userSession }: { userSession: Partial<UserState> }) => {
+const HomePage = () => {
+  const [userState, setUserState] = useState({
+    route: "/auth",
+    message: "Iniciar sesión",
+  });
+
+  const getUserFromLocalState = async () => {
+    const token = getUserFromToken();
+    setUserState(
+      token.user.id && (await validateToken(token.token))
+        ? {
+            message: "Ir a la pagina de inicio",
+            route: `/schedule/careers/${token.user.id}`,
+          }
+        : {
+            message: "Iniciar sesión",
+            route: "/auth",
+          }
+    );
+  };
+
+  useEffect(() => {
+    getUserFromLocalState();
+  }, []);
+
   return (
     <Box
       component={"main"}
@@ -41,14 +67,10 @@ const HomePage = ({ userSession }: { userSession: Partial<UserState> }) => {
                 variant="contained"
                 color="primary"
                 component={Link}
-                href={
-                  !userSession.user
-                    ? `/auth`
-                    : `/schedule/careers/${userSession.user.id}`
-                }
+                href={userState.route}
                 sx={{ width: "100%" }}
               >
-                {!userSession.token ? "Inicia sesión" : "Ir al Home"}
+                {userState.message}
               </Button>
             </Grid>
           </Grid>
@@ -63,7 +85,7 @@ export default HomePage;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { token } = context.req.cookies;
 
-  let userSession: Partial<UserState> = {
+  let userSession = {
     user: {} as UserToken,
     token: "",
   };

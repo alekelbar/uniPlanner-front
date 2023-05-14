@@ -3,6 +3,7 @@ import {
   Deliverable,
 } from "@/interfaces/deliveries.interface";
 import {
+  Alert,
   Button,
   Container,
   MenuItem,
@@ -23,6 +24,7 @@ import { deliveryValidation } from "./Validation/deliveryValidation";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
 import { globalContext } from "../Layout/types/GlobalContext";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface IEditDeliveryProps {
   delivery: Deliverable;
@@ -125,11 +127,8 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 autoComplete="off"
               />
               {formik.touched.deadline && formik.errors.deadline && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.deadline}
-                </Typography>
+                <TextFieldError msg={formik.errors.deadline} />
               )}
-
               <TextField
                 fullWidth
                 name="name"
@@ -144,9 +143,7 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 multiline
               />
               {formik.touched.name && formik.errors.name && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.name}
-                </Typography>
+                <TextFieldError msg={formik.errors.name} />
               )}
 
               <TextField
@@ -163,9 +160,7 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 autoComplete="off"
               />
               {formik.touched.description && formik.errors.description && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.description}
-                </Typography>
+                <TextFieldError msg={formik.errors.description} />
               )}
 
               <Select
@@ -201,11 +196,8 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 autoComplete="off"
               />
               {formik.touched.note && formik.errors.note && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.note}
-                </Typography>
+                <TextFieldError msg={formik.errors.note} />
               )}
-
               <TextField
                 fullWidth
                 name="percent"
@@ -218,14 +210,21 @@ export const EditDelivery: React.FC<IEditDeliveryProps> = ({ delivery }) => {
                 autoComplete="off"
               />
               {formik.touched.percent && formik.errors.percent && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.percent}
-                </Typography>
+                <TextFieldError msg={formik.errors.percent} />
               )}
 
               <Button fullWidth type="submit">
                 Actualizar
               </Button>
+
+              {Object.keys(formik.errors).length > 0 && (
+                <Alert variant="filled" color="error">
+                  <Typography variant="body1">
+                    Por favor complete todos los campos.
+                  </Typography>
+                </Alert>
+              )}
+
             </Stack>
           </Paper>
         </Container>

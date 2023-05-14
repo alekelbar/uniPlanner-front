@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
   Paper,
+  Alert,
 } from "@mui/material";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import Swal from "sweetalert2";
 import { courseValidations } from "./validation/courseValidations";
 import { globalContext } from "../Layout/types/GlobalContext";
 import { useRouter } from "next/router";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface IEditCourseProps {
   course: Course;
@@ -25,7 +27,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
   const dispatch = useAppDispatch();
   const { courseDescription, credits, name } = course;
   const [loading, setLoading] = useState(false);
-  
+
   const router = useRouter();
   const { handleShowSnack } = useContext(globalContext);
 
@@ -107,9 +109,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
                 type={"text"}
               />
               {formik.touched.name && formik.errors.name && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.name}
-                </Typography>
+                <TextFieldError msg={formik.errors.name} />
               )}
               <TextField
                 fullWidth
@@ -126,9 +126,7 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
               />
               {formik.touched.courseDescription &&
                 formik.errors.courseDescription && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.courseDescription}
-                  </Typography>
+                  <TextFieldError msg={formik.errors.courseDescription} />
                 )}
               <TextField
                 fullWidth
@@ -144,13 +142,19 @@ export const EditCourse: React.FC<IEditCourseProps> = ({ course }) => {
                 type={"text"}
               />
               {formik.touched.credits && formik.errors.credits && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.credits}
-                </Typography>
+                <TextFieldError msg={formik.errors.credits} />
               )}
               <Button fullWidth type="submit">
                 Actualizar
               </Button>
+
+              {Object.keys(formik.errors).length > 0 && (
+                <Alert variant="filled" color="error">
+                  <Typography variant="body1">
+                    Por favor complete todos los campos.
+                  </Typography>
+                </Alert>
+              )}
             </Stack>
           </Paper>
         </Container>

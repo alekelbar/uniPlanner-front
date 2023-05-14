@@ -7,6 +7,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { taskValidation } from "./validation/taskValidationSchema";
 import {
+  Alert,
   Button,
   Container,
   MenuItem,
@@ -18,6 +19,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { globalContext } from "../Layout/types/GlobalContext";
+import { TextFieldError } from "../common/TextFieldError";
 
 interface IEditTaskProps {
   task: Task;
@@ -104,9 +106,7 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
               />
 
               {formik.touched.name && formik.errors.name && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.name}
-                </Typography>
+                <TextFieldError msg={formik.errors.name} />
               )}
 
               <TextField
@@ -124,9 +124,7 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
               />
 
               {formik.touched.descripcion && formik.errors.descripcion && (
-                <Typography variant="caption" color={"info.main"}>
-                  {formik.errors.descripcion}
-                </Typography>
+                <TextFieldError msg={formik.errors.descripcion} />
               )}
 
               <Select
@@ -152,6 +150,14 @@ export const EditTask: React.FC<IEditTaskProps> = ({ task }) => {
               <Button fullWidth type="submit">
                 Actualizar
               </Button>
+
+              {Object.keys(formik.errors).length > 0 && (
+                <Alert variant="filled" color="error">
+                  <Typography variant="body1">
+                    Por favor complete todos los campos.
+                  </Typography>
+                </Alert>
+              )}
             </Stack>
           </Paper>
         </Container>

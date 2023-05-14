@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Dialog,
   DialogContent,
@@ -105,6 +106,13 @@ export default function AddDeliveryDialog({
         <DialogTitle>
           <Stack spacing={1} display={"flex"} direction={"column"}>
             <Typography variant="caption">Nueva entrega</Typography>
+            {Object.keys(formik.errors).length > 0 && (
+              <Alert variant="filled" color="error">
+                <Typography variant="body1">
+                  Por favor complete todos los campos.
+                </Typography> 
+              </Alert>
+            )}
           </Stack>
         </DialogTitle>
         <DialogContent>

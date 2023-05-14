@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Dialog,
   DialogContent,
@@ -23,6 +24,7 @@ import { Close } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 import { TextFieldError } from "../common/TextFieldError";
 import { CloseDialogButton } from "../common/CloseDialogButton";
+import { taskValidation } from "./validation/taskValidationSchema";
 
 interface AddTaskDialogProps {
   open: boolean;
@@ -69,15 +71,7 @@ export default function AddTaskDialog({
 
       formik.resetForm(initialValues);
     },
-    validationSchema: Yup.object({
-      descripcion: Yup.string()
-        .required("La descripción de la tarea es requerida")
-        .min(5, "Trate de usar al menos 5 caracteres"),
-      name: Yup.string()
-        .required("El nombre de la tarea es requerida")
-        .min(5, "Trate de usar al menos 5 caracteres"),
-      status: Yup.string().required("El status de la tarea es requerida"),
-    }),
+    validationSchema: taskValidation,
   });
 
   return (
@@ -95,6 +89,13 @@ export default function AddTaskDialog({
         <DialogTitle>
           <Stack spacing={1} display={"flex"} direction={"column"}>
             <Typography variant="caption">Nueva Tarea</Typography>
+            {Object.keys(formik.errors).length > 0 && (
+              <Alert variant="filled" color="error">
+                <Typography variant="body1">
+                  Por favor complete todos los campos.
+                </Typography>
+              </Alert>
+            )}
           </Stack>
         </DialogTitle>
         <DialogContent>

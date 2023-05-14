@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Dialog,
   DialogContent,
@@ -81,6 +82,13 @@ export function AddCourseDialog({
           <Typography variant="caption" align="center">
             Nuevo Curso
           </Typography>
+          {Object.keys(formik.errors).length > 0 && (
+            <Alert variant="filled" color="error">
+              <Typography variant="body1">
+                Por favor complete todos los campos.
+              </Typography>
+            </Alert>
+          )}
         </DialogTitle>
         <DialogContent>
           <Stack

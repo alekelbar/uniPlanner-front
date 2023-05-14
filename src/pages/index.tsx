@@ -6,12 +6,15 @@ import image from "./../../public/HeroImage.jpg";
 import { validateToken } from "@/services/auth/validate-token";
 import { useEffect, useState } from "react";
 import { getUserFromToken } from "@/components/Layout/helpers/getUserFromLocalToken";
+import { Loading } from "@/components/common/Loading";
 
 const HomePage = () => {
   const [userState, setUserState] = useState({
     route: "/auth",
     message: "Iniciar sesión",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const getUserFromLocalState = async () => {
     const token = getUserFromToken();
@@ -26,11 +29,15 @@ const HomePage = () => {
             route: "/auth",
           }
     );
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     getUserFromLocalState();
   }, []);
+
+  if (loading) return <Loading called="homePage" />;
 
   return (
     <Box

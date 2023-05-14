@@ -16,14 +16,22 @@ import {
 } from "date-fns";
 import { addDays } from "date-fns";
 import { Deliverable } from "@/interfaces/deliveries.interface";
+import { useRouter } from "next/router";
 
 interface DeliveryListProps {
   deliverables: Deliverable[];
 }
 
 export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
+    const {
+      query: { courseName },
+    } = useRouter();
+
   return (
     <Container sx={{ mt: 4 }} maxWidth={"sm"}>
+      <Typography variant="h5" align="center" m={2} color={"black"}>
+        {courseName}
+      </Typography>
       {/* Mañana */}
       <Accordion>
         <AccordionSummary

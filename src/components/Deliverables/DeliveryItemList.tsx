@@ -29,10 +29,6 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const {
-    query: { courseName },
-  } = router;
-
   const { colorSeleted, create_at, loading, handleRemove, userId } =
     useDeliveryCard(delivery);
 
@@ -50,9 +46,6 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
       ></Box>
       <ListItem sx={{ textOverflow: "hidden" }}>
         <ListItemText>
-          <Typography variant="caption" color={"black"}>
-            {courseName}
-          </Typography>
           <Typography variant="body1">
             {delivery.name} - {delivery.percent}%
           </Typography>

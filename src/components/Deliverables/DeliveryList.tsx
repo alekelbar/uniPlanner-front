@@ -1,7 +1,11 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary, Container, List, Typography
+  AccordionSummary,
+  Alert,
+  Container,
+  List,
+  Typography,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { DeliveryItemList } from "./DeliveryItemList";
@@ -11,21 +15,59 @@ import {
   isAfter,
   isBefore,
   isThisWeek,
-  isTomorrow, parseISO,
-  startOfWeek
+  isTomorrow,
+  parseISO,
+  startOfWeek,
 } from "date-fns";
 import { addDays } from "date-fns";
 import { Deliverable } from "@/interfaces/deliveries.interface";
 import { useRouter } from "next/router";
+import React from "react";
 
 interface DeliveryListProps {
   deliverables: Deliverable[];
 }
 
 export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
-    const {
-      query: { courseName },
-    } = useRouter();
+  const {
+    query: { courseName },
+  } = useRouter();
+
+  const AlertNothing = () => (
+    <Alert variant="filled" title="Info" color="info">
+      <Typography>Nada por aquí.</Typography>
+    </Alert>
+  );
+
+  const [lists, setLists] = React.useState({
+    tomorrow: deliverables.filter((delivery) => {
+      const deadline = parseISO(delivery.deadline.toString());
+      return isTomorrow(deadline);
+    }),
+    thisWeek: deliverables.filter((delivery) => {
+      const deadline = parseISO(delivery.deadline.toString());
+      return isThisWeek(deadline) && !isTomorrow(deadline);
+    }),
+    nextWeek: deliverables.filter((delivery) => {
+      const deadline = parseISO(delivery.deadline.toString());
+      const endWeek = endOfWeek(new Date()); // esta semana termina en...
+      return (
+        isAfter(deadline, endWeek) &&
+        isBefore(deadline, endOfWeek(addDays(endWeek, 1)))
+      );
+    }),
+    inThirtyDays: deliverables.filter((delivery) => {
+      const deadline = parseISO(delivery.deadline.toString());
+      return (
+        isAfter(deadline, addDays(new Date(), 29)) &&
+        isBefore(deadline, addDays(new Date(), 59))
+      );
+    }),
+    inSixtyDays: deliverables.filter((delivery) => {
+      const deadline = parseISO(delivery.deadline.toString());
+      return isAfter(deadline, addDays(new Date(), 59));
+    }),
+  });
 
   return (
     <Container sx={{ mt: 4 }} maxWidth={"sm"}>
@@ -43,16 +85,15 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {deliverables
-              .filter((delivery) => {
-                const deadline = parseISO(delivery.deadline.toString());
-                return isTomorrow(deadline);
-              })
-              .map((delivery) => {
+            {lists.tomorrow.length ? (
+              lists.tomorrow.map((delivery) => {
                 return (
                   <DeliveryItemList key={delivery._id} delivery={delivery} />
                 );
-              })}
+              })
+            ) : (
+              <AlertNothing />
+            )}
           </List>
         </AccordionDetails>
       </Accordion>
@@ -67,16 +108,15 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {deliverables
-              .filter((delivery) => {
-                const deadline = parseISO(delivery.deadline.toString());
-                return isThisWeek(deadline) && !isTomorrow(deadline);
-              })
-              .map((delivery) => {
+            {lists.thisWeek.length ? (
+              lists.thisWeek.map((delivery) => {
                 return (
                   <DeliveryItemList key={delivery._id} delivery={delivery} />
                 );
-              })}
+              })
+            ) : (
+              <AlertNothing />
+            )}
           </List>
         </AccordionDetails>
       </Accordion>
@@ -91,20 +131,15 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {deliverables
-              .filter((delivery) => {
-                const deadline = parseISO(delivery.deadline.toString());
-                const endWeek = addWeeks(startOfWeek(new Date()), 1); // esta semana termina en...
-                return (
-                  isAfter(deadline, endWeek) &&
-                  isBefore(deadline, endOfWeek(endWeek))
-                );
-              })
-              .map((delivery) => {
+            {lists.nextWeek.length ? (
+              lists.nextWeek.map((delivery) => {
                 return (
                   <DeliveryItemList key={delivery._id} delivery={delivery} />
                 );
-              })}
+              })
+            ) : (
+              <AlertNothing />
+            )}
           </List>
         </AccordionDetails>
       </Accordion>
@@ -119,19 +154,15 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {deliverables
-              .filter((delivery) => {
-                const deadline = parseISO(delivery.deadline.toString());
-                return (
-                  isAfter(deadline, addDays(new Date(), 29)) &&
-                  isBefore(deadline, addDays(new Date(), 59))
-                );
-              })
-              .map((delivery) => {
+            {lists.inThirtyDays.length ? (
+              lists.inThirtyDays.map((delivery) => {
                 return (
                   <DeliveryItemList key={delivery._id} delivery={delivery} />
                 );
-              })}
+              })
+            ) : (
+              <AlertNothing />
+            )}
           </List>
         </AccordionDetails>
       </Accordion>
@@ -146,16 +177,15 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {deliverables
-              .filter((delivery) => {
-                const deadline = parseISO(delivery.deadline.toString());
-                return isAfter(deadline, addDays(new Date(), 59));
-              })
-              .map((delivery) => {
+            {lists.inSixtyDays.length ? (
+              lists.inSixtyDays.map((delivery) => {
                 return (
                   <DeliveryItemList key={delivery._id} delivery={delivery} />
                 );
-              })}
+              })
+            ) : (
+              <AlertNothing />
+            )}
           </List>
         </AccordionDetails>
       </Accordion>

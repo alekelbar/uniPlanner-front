@@ -15,7 +15,7 @@ export const DeliveryFloatAddButton = () => {
   return (
     <FloatButton
       onAction={onOpenCreate}
-      icon={<Add sx={{ fontSize: { md: '2.5em' } }} />}
+      icon={<Add sx={{ fontSize: { xs: '1.5em', md: '2.5em' } }} />}
       sxProps={{ position: 'fixed', bottom: 16, right: 16 }}
     />
   );

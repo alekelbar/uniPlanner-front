@@ -6,11 +6,11 @@ import { checkQueryParams } from "@/helpers/checkQueryParams";
 export default function Page(): JSX.Element {
   return (
     <DeliveryPage>
-      <DeliveryPage.PaginationHero />
       <DeliveryPage.Grid />
       <DeliveryPage.FloatAddButton />
       <DeliveryPage.AddForm />
       <DeliveryPage.FloatViewButton />
+      <DeliveryPage.PaginationHero />
     </DeliveryPage>
   );
 }

@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <Stack direction="column" sx={{ borderRadius: ".8em" }}>
       <CoursesPage>
-        <CoursesPage.HeroPagination />
         <CoursesPage.Grid />
         <CoursesPage.AddButton />
         <CoursesPage.AddForm />
+        <CoursesPage.HeroPagination />
       </CoursesPage>
     </Stack>
   );

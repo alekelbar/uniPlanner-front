@@ -21,12 +21,9 @@ export const DeliveryPaginationHero = () => {
   return (
     <Box
       component={"div"}
-      position="sticky"
       display={grid ? "" : "none"}
-      top={0}
       sx={{
         backgroundColor: COLOR_PANELS,
-        zIndex: "10",
       }}
     >
       <Typography mt={1} align="center" variant="subtitle1">
@@ -46,7 +43,7 @@ export const DeliveryPaginationHero = () => {
               width: "100%",
               py: 1,
             }}
-            size="small"
+            size="medium"
             count={totalPages}
             onChange={handlePagination}
           />

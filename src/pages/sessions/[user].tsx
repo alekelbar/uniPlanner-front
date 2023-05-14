@@ -6,11 +6,11 @@ import { checkQueryParams } from "@/helpers/checkQueryParams";
 export default function Page(): JSX.Element {
   return (
     <SessionsPage>
-      <SessionsPage.Pagination />
       <SessionsPage.Grid />
       <SessionsPage.AddButton />
       <SessionsPage.AddDialog />
       <SessionsPage.Timer />
+      <SessionsPage.Pagination />
     </SessionsPage>
   );
 }

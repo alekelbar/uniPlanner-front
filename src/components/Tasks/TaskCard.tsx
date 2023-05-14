@@ -7,7 +7,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import Swal from "sweetalert2";
 import { RESPONSES } from "../../interfaces/response-messages";
 import { TASK_STATUS, Task } from "../../interfaces/task-interface";
 import { useAppDispatch, useAppSelector } from "../../redux";
@@ -50,16 +49,19 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
     <Card
       variant="elevation"
       data-testid="task-card"
-      sx={{ p: 2, boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)" }}
+      sx={{
+        p: 2,
+        boxShadow: "0px 0px 5px 5px rgba(0, 0, 0, 0.2)",
+      }}
     >
       <CardHeader
+        sx={{ overflow: "hidden", width: "100%" }}
         title={task.name}
+        titleTypographyProps={{
+          width: "90%",
+        }}
         subheader={
-          <>
-            <Typography variant="body2" component="p">
-              {task.descripcion}
-            </Typography>
-          </>
+          <Typography variant="subtitle2">{task.descripcion}</Typography>
         }
       />
       <CardContent>

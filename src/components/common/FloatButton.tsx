@@ -1,4 +1,4 @@
-import { Fab } from "@mui/material";
+import { Fab, ZIndex } from "@mui/material";
 import { Box, SxProps } from "@mui/system";
 
 interface AddFloatButtonProps {
@@ -12,19 +12,20 @@ export function FloatButton({
   icon,
   sxProps,
 }: AddFloatButtonProps): JSX.Element {
-  // { position: 'fixed', bottom: 16, right: 16; }
+  
   return (
     <Box
       data-testid={"float-button"}
       sx={{
         ...sxProps,
+        zIndex: theme => ((theme.zIndex) as ZIndex).modal,
       }}
     >
       <Fab
         onClick={onAction}
         sx={{
-          width: { xs: "5em", md: "6em" },
-          height: { xs: "5em", md: "6em" },
+          width: { xs: "4em", md: "6em" },
+          height: { xs: "4em", md: "6em" },
           cursor: "pointer",
           transition: "all 0.3s",
           "&:hover": {

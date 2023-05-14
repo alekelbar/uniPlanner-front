@@ -10,8 +10,10 @@ export const useStandarPagination = <T>(ITEMS_PER_PAGE: number) => {
 
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  const handlePagination = (_: ChangeEvent<unknown>, page: number) =>
+  const handlePagination = (_: ChangeEvent<unknown>, page: number) => {
+     window.scrollTo({ top: 0, behavior: "smooth" });
     setCurrentPage(page);
+  };
 
   const beforeDelete = (items: T[]) => {
     const lastItemIndex = currentPage * ITEMS_PER_PAGE - 1;

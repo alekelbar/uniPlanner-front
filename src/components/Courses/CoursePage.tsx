@@ -12,7 +12,7 @@ export default function CoursesPage({
 }: {
   children: ReactElement | ReactElement[];
 }) {
-  const context = useCourses(5);
+  const context = useCourses(3);
   // if (context.coursesState.loading) return <Loading called='courses' />;
 
   return (

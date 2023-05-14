@@ -1,9 +1,7 @@
 import * as Yup from "yup";
 
 export const taskValidation = Yup.object({
-  descripcion: Yup.string()
-    .required("La descripción de la tarea es requerida")
-    .min(5, "Trate de usar al menos 5 caracteres"),
+  descripcion: Yup.string().optional().default(""),
   name: Yup.string()
     .required("El nombre de la tarea es requerido")
     .min(5, "Trate de usar al menos 5 caracteres"),

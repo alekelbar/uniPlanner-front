@@ -59,7 +59,7 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
             Creado:{" "}
             {create_at
               ? formatDistance(create_at, new Date(), {
-                  locale: es,
+                  locale: { ...es, options: { weekStartsOn: 1 } },
                   addSuffix: true,
                 })
               : "Desconocido"}
@@ -77,7 +77,9 @@ export const DeliveryItemList: React.FC<DeliveryItemListProps> = ({
             onClick={() => {
               dispatch(setSelectedDelivery(delivery));
               router.push(
-                `/schedule/tasks/list/${delivery._id}/${parseToValidUrl(delivery.name)}/${userId}`
+                `/schedule/tasks/list/${delivery._id}/${parseToValidUrl(
+                  delivery.name
+                )}/${userId}`
               );
             }}
             fullWidth

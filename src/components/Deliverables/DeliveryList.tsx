@@ -10,19 +10,27 @@ import {
 import { ExpandMore } from "@mui/icons-material";
 import { DeliveryItemList } from "./DeliveryItemList";
 import {
-  addWeeks,
+  Locale,
   endOfWeek,
   isAfter,
   isBefore,
   isThisWeek,
   isTomorrow,
   parseISO,
-  startOfWeek,
 } from "date-fns";
+import es from "date-fns/locale/es"; // importa el objeto Locale para el español
 import { addDays } from "date-fns";
 import { Deliverable } from "@/interfaces/deliveries.interface";
 import { useRouter } from "next/router";
 import React from "react";
+
+const locale: Locale = {
+  ...es,
+  options: {
+    ...es.options,
+    weekStartsOn: 1,
+  },
+};
 
 interface DeliveryListProps {
   deliverables: Deliverable[];
@@ -39,23 +47,25 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
     </Alert>
   );
 
-  const [lists, setLists] = React.useState({
+  const lists = {
     tomorrow: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
       return isTomorrow(deadline);
     }),
+
     thisWeek: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
-      return isThisWeek(deadline) && !isTomorrow(deadline);
+      return isThisWeek(deadline, { locale }) && !isTomorrow(deadline);
     }),
+
     nextWeek: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
-      const endWeek = endOfWeek(new Date()); // esta semana termina en...
-      return (
-        isAfter(deadline, endWeek) &&
-        isBefore(deadline, endOfWeek(addDays(endWeek, 1)))
-      );
+      const endWeek = endOfWeek(new Date(), { locale }); // esta semana termina en...
+      const endOfNextWeek = endOfWeek(addDays(endWeek, 1), { locale }); // esta semana termina en...
+
+      return isAfter(deadline, endWeek) && isBefore(deadline, endOfNextWeek);
     }),
+
     inThirtyDays: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
       return (
@@ -63,11 +73,12 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
         isBefore(deadline, addDays(new Date(), 59))
       );
     }),
+
     inSixtyDays: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
       return isAfter(deadline, addDays(new Date(), 59));
     }),
-  });
+  };
 
   return (
     <Container sx={{ mt: 4 }} maxWidth={"sm"}>

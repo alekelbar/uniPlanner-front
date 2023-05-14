@@ -60,7 +60,7 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
               Creado:{" "}
               {create_at
                 ? formatDistance(create_at, new Date(), {
-                    locale: es,
+                    locale: { ...es, options: { weekStartsOn: 1 } },
                     addSuffix: true,
                   })
                 : "Desconocido"}

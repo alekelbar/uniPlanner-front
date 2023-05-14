@@ -19,7 +19,7 @@ export const makeStatusDate = (deliverable: Deliverable) => {
           }}
         >
           {formatDistance(deadline, new Date(), {
-            locale: es,
+            locale: { ...es, options: { weekStartsOn: 1 } },
             addSuffix: true,
           }).toUpperCase()}
         </Typography>
@@ -33,7 +33,7 @@ export const makeStatusDate = (deliverable: Deliverable) => {
         }}
       >
         {formatDistance(deadline, new Date(), {
-          locale: es,
+          locale: { ...es, options: { weekStartsOn: 1 } },
           addSuffix: true,
         }).toUpperCase()}
       </Typography>

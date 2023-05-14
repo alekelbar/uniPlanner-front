@@ -1,6 +1,4 @@
-import {
-  Grid, Typography
-} from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { DeliveryCard } from "../../../src/components/Deliverables/DeliveryCard";
 import { priorityCalc } from "../Career/helpers/priorityCalc";
 import { useAppSelector } from "@/redux";
@@ -10,7 +8,9 @@ import { deliveryPageContext } from "./context/DeliveryPageContext";
 import { DeliveryList } from "./DeliveryList";
 
 export const DeliveryGrid = () => {
-  const { deliverables: AllDeliveres, loading } = useAppSelector((state) => state.deliveries);
+  const { deliverables: AllDeliveres, loading } = useAppSelector(
+    (state) => state.deliveries
+  );
 
   const deliverables = [...AllDeliveres];
   deliverables.reverse();
@@ -33,39 +33,40 @@ export const DeliveryGrid = () => {
   if (loading) return <Loading called="deliveries" />;
 
   return grid ? (
-    <Grid
-      container
-      gap={1}
-      p={2}
-      direction={"row"}
-      justifyContent="space-around"
-      alignItems={"baseline"}
-    >
-      {sortedDeliveries.length ? (
-        sortedDeliveries.map((delivery) => {
-          return (
-            <Grid
-              component={"div"}
-              item
-              xs={12}
-              sm={4}
-              md={6}
-              lg={3}
-              key={delivery._id}
-            >
-              <DeliveryCard deliverable={delivery} />
-            </Grid>
-          );
-        })
-      ) : (
-        <Grid item xs={12} sm={12}>
-          <Typography align="center" variant="subtitle1" p={5}>
-            No hay entregas disponibles
-          </Typography>
-        </Grid>
-      )}
-    </Grid>
+    <Container sx={{ p: 2 }}>
+      <Grid
+        container
+        spacing={2}
+        direction={"row"}
+        justifyContent="center"
+        alignItems={"start"}
+      >
+        {sortedDeliveries.length ? (
+          sortedDeliveries.map((delivery) => {
+            return (
+              <Grid
+                component={"div"}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={4}
+                key={delivery._id}
+              >
+                <DeliveryCard deliverable={delivery} />
+              </Grid>
+            );
+          })
+        ) : (
+          <Grid item xs={12} sm={12}>
+            <Typography align="center" variant="subtitle1" p={5}>
+              No hay entregas disponibles
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+    </Container>
   ) : (
-    <DeliveryList deliverables={deliverables}/>
+    <DeliveryList deliverables={deliverables} />
   );
 };

@@ -13,7 +13,7 @@ export function DeliveryPage({
 }: {
   children: ReactElement | ReactElement[];
 }): JSX.Element {
-  const context = useDeliveries(3);
+  const context = useDeliveries(2);
 
   return (
     <DeliveryProvider value={context}>

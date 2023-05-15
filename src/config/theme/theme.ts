@@ -14,10 +14,10 @@ const defaultTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#F05454",
+      main: "#A4D0A4",
     },
     secondary: {
-      main: "#3C486B",
+      main: "#FFF8D6",
     },
     background: {
       paper: "#F5F5F5",
@@ -33,16 +33,16 @@ const defaultTheme = createTheme({
         variant: "contained",
         color: "secondary",
         sx: {
-          // padding: ".5em 1em",
-          // fontFamily: inter.style.fontFamily,
-          color: "white",
+          padding: ".5em 1em",
+          fontFamily: montserrat.style.fontFamily,
+          textTransform: "none",
+          color: "ButtonText",
         },
       },
     },
     MuiCard: {
       styleOverrides: {
-        root: {
-        },
+        root: {},
       },
       defaultProps: {
         variant: "elevation",

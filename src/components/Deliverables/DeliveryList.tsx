@@ -68,6 +68,7 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
 
     inThirtyDays: deliverables.filter((delivery) => {
       const deadline = parseISO(delivery.deadline.toString());
+      // TODO: Fix posible undefined behavior as soon as possible.
       return (
         isAfter(deadline, addDays(new Date(), 29)) &&
         isBefore(deadline, addDays(new Date(), 59))

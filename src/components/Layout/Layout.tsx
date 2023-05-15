@@ -5,7 +5,7 @@ import Copyright from "../common/Copyright";
 import { FloatButton } from "../common/FloatButton";
 import { SideBar } from "./SideBar";
 import { Navbar } from "./navbar";
-import { Alert, Box, Snackbar } from "@mui/material";
+import { Alert, Box, Container, Snackbar } from "@mui/material";
 import { globalContext } from "./types/GlobalContext";
 
 interface LayoutProps {
@@ -57,7 +57,7 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
   return (
     <Provider value={{ handleShowSnack }}>
       {!pathname.includes("auth") ? homeComponent : null}
-      {children}
+      <Container sx={{ mt: 2 }}>{children}</Container>
       <Copyright />
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}

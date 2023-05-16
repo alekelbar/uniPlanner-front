@@ -8,7 +8,7 @@ import { Navbar } from "./navbar";
 import { Alert, Box, Container, Snackbar } from "@mui/material";
 import { globalContext } from "./types/GlobalContext";
 
-import background from "public/background.png";
+import background from "public/HeroImage.webp";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -61,19 +61,19 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
       component={"main"}
       sx={{
         width: "100%",
-        height: "100vh",
+        minHeight: "100vh",
         backgroundImage: `url(${background.src})`,
-        backgroundRepeat: "repeat",
-        backgroundPosition: "center",
-        objectFit: "contain",
+        backgroundAttachment: "blur(8px)",
+        backgroundRepeat: "repeat-y",
+        backgroundPosition: "top center",
+        backgroundSize: "cover",
+        objectFit: "cover",
       }}
     >
       <Provider value={{ handleShowSnack }}>
         {!pathname.includes("auth") ? homeComponent : null}
-        <Container>
-          {children}
-          <Copyright />
-        </Container>
+        <Container>{children}</Container>
+        <Copyright />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={snackOpen}

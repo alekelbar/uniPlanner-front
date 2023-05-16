@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { sessionPageContext } from "./context/SessionContext";
 import { useTheme } from "@emotion/react";
 import { useAppSelector } from "@/redux";
-import { COLOR_PANELS } from "@/config/customColors";
 
 export const SessionPagination = () => {
   const theme: Partial<Theme> = useTheme();
@@ -20,7 +19,6 @@ export const SessionPagination = () => {
       position="sticky"
       top={0}
       sx={{
-        backgroundColor: COLOR_PANELS,
         zIndex: "10",
       }}
     >

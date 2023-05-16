@@ -1,1 +1,0 @@
-export const COLOR_PANELS = "#F5F5F5";

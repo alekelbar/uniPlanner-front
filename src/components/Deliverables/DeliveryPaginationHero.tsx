@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useAppSelector } from "@/redux";
 import { useContext } from "react";
 import { deliveryPageContext } from "./context/DeliveryPageContext";
-import { COLOR_PANELS } from "@/config/customColors";
 
 export const DeliveryPaginationHero = () => {
   const {
@@ -22,9 +21,6 @@ export const DeliveryPaginationHero = () => {
     <Box
       component={"div"}
       display={grid ? "" : "none"}
-      sx={{
-        backgroundColor: COLOR_PANELS,
-      }}
     >
       <Typography mt={1} align="center" variant="subtitle1">
         {`${courseName}`}

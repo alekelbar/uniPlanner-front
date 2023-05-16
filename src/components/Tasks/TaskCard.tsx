@@ -102,7 +102,7 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
             <Grid item xs={12} md={6}>
               <Button
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 onClick={() => {
                   router.push(`/schedule/tasks/${task._id}`);
                 }}
@@ -114,7 +114,7 @@ export default function TaskCard({ task }: TaskCardProps): JSX.Element {
             <Grid item xs={12} md={6}>
               <Button
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 color="error"
                 onClick={handleRemove}
               >

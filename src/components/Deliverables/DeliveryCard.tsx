@@ -116,7 +116,6 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
             );
           }}
           fullWidth
-          variant="contained"
           color="secondary"
         >
           VER TAREAS
@@ -124,12 +123,14 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
         <CardActions>
           <Grid
             container
-            justifyContent={"center"}
-            alignItems={"center"}
             spacing={1}
+            alignItems={"center"}
+            justifyContent={"center"}
           >
             <Grid item xs={12} md={6}>
               <Button
+                variant="outlined"
+                fullWidth
                 color="success"
                 onClick={() => {
                   router.push(`/schedule/deliveries/${deliverable._id}`);
@@ -139,7 +140,12 @@ export function DeliveryCard({ deliverable }: DeliveryCardProps): JSX.Element {
               </Button>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Button color="error" onClick={handleRemove}>
+              <Button
+                variant="outlined"
+                fullWidth
+                color="error"
+                onClick={handleRemove}
+              >
                 Eliminar
               </Button>
             </Grid>

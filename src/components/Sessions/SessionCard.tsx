@@ -86,7 +86,7 @@ export default function SessionCard({
       <CardContent>
         <Button
           fullWidth
-          variant="contained"
+          variant="outlined"
           color="secondary"
           onClick={() => {
             onStartSession();

@@ -128,12 +128,14 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
         <CardActions>
           <Grid
             container
-            justifyContent={"center"}
+            justifyContent={"space-between"}
             alignItems={"center"}
             spacing={1}
           >
             <Grid item xs={12} md={6}>
               <Button
+                variant="outlined"
+                fullWidth
                 color="success"
                 onClick={() => {
                   router.push(`/schedule/courses/${course._id}/`);
@@ -144,7 +146,12 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Button color="error" onClick={handleRemove}>
+              <Button
+                variant="outlined"
+                fullWidth
+                color="error"
+                onClick={handleRemove}
+              >
                 Eliminar
               </Button>
             </Grid>

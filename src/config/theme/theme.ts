@@ -12,17 +12,7 @@ export const montserrat = Montserrat_Alternates({
 // Create a theme instance.
 const defaultTheme = createTheme({
   palette: {
-    mode: "light",
-    primary: {
-      main: "#A4D0A4",
-    },
-    secondary: {
-      main: "#FFF8D6",
-    },
-    background: {
-      paper: "#F5F5F5",
-      default: "#F5F5F5",
-    },
+    mode: "dark",
   },
   typography: {
     fontFamily: montserrat.style.fontFamily,
@@ -30,13 +20,9 @@ const defaultTheme = createTheme({
   components: {
     MuiButton: {
       defaultProps: {
-        variant: "contained",
-        color: "secondary",
         sx: {
-          padding: ".5em 1em",
-          fontFamily: montserrat.style.fontFamily,
-          textTransform: "none",
-          color: "ButtonText",
+          textTransform: "Capitalize",
+          boxShadow: "2px 2px",
         },
       },
     },

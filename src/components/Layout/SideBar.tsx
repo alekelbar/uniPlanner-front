@@ -43,23 +43,20 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
         }}
         ref={drawerRef}
       >
-        <List
-          sx={{
-            bgcolor: "white",
-            "&:hover": {
-              bgcolor: "#F5F5F5",
-            },
-          }}
-        >
+        <List>
           <ListItem>
-            <ListItemIcon>
+            <ListItemIcon
+              sx={{
+                px: 2,
+              }}
+            >
               <Button
-                variant="text"
+                variant="outlined"
                 onClick={() => {
                   router.push(`/profile/${user.id}`);
                 }}
               >
-                <Avatar src="https://scontent.fsjo9-1.fna.fbcdn.net/v/t39.30808-6/301999029_768418684471692_6904334561164990019_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=PaPhWcz1HfAAX_wMYaV&_nc_ht=scontent.fsjo9-1.fna&oh=00_AfA_tE2Ex1Jm2lvhHDOhQNgk8zre3XJa-ooWEeoaN8cKFg&oe=6455939C" />
+                <Avatar />
               </Button>
             </ListItemIcon>
             <ListItemText
@@ -79,6 +76,9 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
               <Button
                 key={page.title}
                 variant="text"
+                sx={{
+                  boxShadow: "none",
+                }}
                 onClick={() => {
                   onClose();
                   router.push(`${page.url + user.id}`);
@@ -89,13 +89,12 @@ export function SideBar({ onClose, open }: SideBarProps): JSX.Element {
                     borderBottom: router.pathname.includes(
                       page.url.split("/")[1]
                     )
-                      ? ({ palette: { primary } }) =>
-                          `3px solid ${primary.dark}`
+                      ? ({ palette: { secondary } }) =>
+                          `3px solid ${secondary.main}`
                       : "transparent",
-
                     color: router.pathname.includes(page.url.split("/")[1])
-                      ? ({ palette: { primary } }) => primary.dark
-                      : "black",
+                      ? ""
+                      : ({ palette: { text } }) => text.secondary,
                   }}
                 >
                   <Stack direction={"row"}>

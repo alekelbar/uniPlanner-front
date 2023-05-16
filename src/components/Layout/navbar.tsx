@@ -41,7 +41,9 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
 
   const getUserFromLocalState = async () => {
     const token = getUserFromToken();
-    setUserState(token.user.id && await validateToken(token.token) ? "" : "none");
+    setUserState(
+      token.user.id && (await validateToken(token.token)) ? "" : "none"
+    );
   };
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
   }, []);
 
   return (
-    <AppBar position="static" sx={{}}>
+    <AppBar position="static">
       <Toolbar
         sx={{
           display: "flex",
@@ -73,11 +75,10 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
             <Menu
               sx={{
                 fontSize: "2em",
-                color: "white",
               }}
             />
           </Button>
-          <Link href={"/"} underline="none" color={"white"}>
+          <Link href={"/"} underline="none" color={"gray"}>
             <Typography variant="h4">UniPlanner</Typography>
           </Link>
         </Stack>
@@ -95,7 +96,6 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
           <Login
             sx={{
               fontSize: "2em",
-              color: "white",
             }}
           />
         </Button>

@@ -18,6 +18,7 @@ export const makeStatusDate = (deliverable: Deliverable) => {
             color: (theme) => theme.palette.error.main,
           }}
         >
+          {"Se entrega: ".toLocaleUpperCase()}
           {formatDistance(deadline, new Date(), {
             locale: { ...es, options: { weekStartsOn: 1 } },
             addSuffix: true,
@@ -32,6 +33,7 @@ export const makeStatusDate = (deliverable: Deliverable) => {
           color: (theme) => theme.palette.warning.main,
         }}
       >
+        {"Se entrega: ".toLocaleUpperCase()}
         {formatDistance(deadline, new Date(), {
           locale: { ...es, options: { weekStartsOn: 1 } },
           addSuffix: true,

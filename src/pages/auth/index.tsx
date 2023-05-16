@@ -1,4 +1,11 @@
-import { Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import {
+  Container,
+  Divider,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
@@ -85,81 +92,83 @@ const LoginPage: React.FC = () => {
       }}
     >
       <Grid container sx={{ placeContent: "center" }}>
-        <Box component={"form"} onSubmit={formik.handleSubmit} sx={{ p: 4 }}>
-          <Grid item>
-            <Typography variant="h5" my={2} align="center" width={"100%"}>
-              Ingreso
-              <Divider sx={{ mt: 1 }} />
-            </Typography>
-            <Grid container spacing={2} maxWidth="md">
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="off"
-                  onBlur={formik.handleBlur}
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.id}
-                  name="id"
-                  variant="filled"
-                  placeholder="alekelbar..."
-                  helperText="Ingrese su usuario"
-                />
-                {formik.touched.id && formik.errors.id && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.id}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="off"
-                  onBlur={formik.handleBlur}
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  name="password"
-                  variant="filled"
-                  placeholder="Contraseña"
-                  type={"password"}
-                  helperText="Su contraseña"
-                />
-                {formik.touched.password && formik.errors.password && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.password}
-                  </Typography>
-                )}
+        <Paper sx={{ borderRadius: "8px" }}>
+          <Box component={"form"} onSubmit={formik.handleSubmit} sx={{ p: 4 }}>
+            <Grid item>
+              <Typography variant="h5" my={2} align="center" width={"100%"}>
+                Ingreso
+                <Divider sx={{ mt: 1 }} />
+              </Typography>
+              <Grid container spacing={2} maxWidth="md">
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="off"
+                    onBlur={formik.handleBlur}
+                    fullWidth
+                    onChange={formik.handleChange}
+                    value={formik.values.id}
+                    name="id"
+                    variant="filled"
+                    placeholder="alekelbar..."
+                    helperText="Ingrese su usuario"
+                  />
+                  {formik.touched.id && formik.errors.id && (
+                    <Typography variant="caption" color={"info.main"}>
+                      {formik.errors.id}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="off"
+                    onBlur={formik.handleBlur}
+                    fullWidth
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    name="password"
+                    variant="filled"
+                    placeholder="Contraseña"
+                    type={"password"}
+                    helperText="Su contraseña"
+                  />
+                  {formik.touched.password && formik.errors.password && (
+                    <Typography variant="caption" color={"info.main"}>
+                      {formik.errors.password}
+                    </Typography>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-            >
-              ¡Ingresar!
-            </Button>
-
-            <Box mt={1}>
-              <Link
-                href="auth/register"
-                sx={{
-                  textDecoration: "none",
-                  listStyle: "none",
-                  mt: 0.5,
-                  width: "100",
-                  color: "text.secondary",
-                }}
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
               >
-                <Typography variant="body1" align="center">
-                  ¿Todavía no tienes una cuenta?
-                </Typography>
-              </Link>
-            </Box>
-          </Grid>
-        </Box>
+                ¡Ingresar!
+              </Button>
+
+              <Box mt={1}>
+                <Link
+                  href="auth/register"
+                  sx={{
+                    textDecoration: "none",
+                    listStyle: "none",
+                    mt: 0.5,
+                    width: "100",
+                    color: "text.secondary",
+                  }}
+                >
+                  <Typography variant="body1" align="center">
+                    ¿Todavía no tienes una cuenta?
+                  </Typography>
+                </Link>
+              </Box>
+            </Grid>
+          </Box>
+        </Paper>
       </Grid>
     </Container>
   );

@@ -5,6 +5,7 @@ import {
   IconButton,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   Stack,
   TextField,
@@ -140,144 +141,133 @@ const RegisterPage: React.FC = () => {
     <Container
       sx={{
         display: "flex",
-        height: "90vh",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "90vh",
+        mt: 2,
       }}
     >
-      <Grid container sx={{ display: "grid", placeConteqnt: "center" }}>
+      <Paper>
         <Box
           component={"form"}
           onSubmit={formik.handleSubmit}
-          sx={{ p: 4, overflow: "auto" }}
+          sx={{ p: 4, borderRadius: "8px" }}
         >
-          <Typography variant="h5" my={2} align="center" width={"100%"}>
-            Registro
-            <Divider sx={{ my: 1 }} />
-          </Typography>
-          <Grid
-            container
-            spacing={1}
-            flexDirection="column"
-            sx={{ placeItems: "center" }}
-          >
-            <Grid container spacing={1} maxWidth="md">
-              <Grid item xs={12} sm={6}>
+          <Grid container spacing={1} maxWidth="md">
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="off"
+                onBlur={formik.handleBlur}
+                fullWidth
+                value={formik.values.id}
+                onChange={formik.handleChange}
+                name={"id"}
+                variant="filled"
+                helperText="Usuario"
+                placeholder="alekelbar..."
+              />
+              {formik.touched.id && formik.errors.id && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.id}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Tooltip title="Puedes modificar tu nombre a tu gusto">
                 <TextField
                   autoComplete="off"
                   onBlur={formik.handleBlur}
                   fullWidth
-                  value={formik.values.id}
+                  value={formik.values.name}
                   onChange={formik.handleChange}
-                  name={"id"}
+                  name={"name"}
                   variant="filled"
-                  helperText="Usuario"
-                  placeholder="alekelbar..."
+                  helperText="Nombre"
+                  placeholder="John Doe..."
                 />
-                {formik.touched.id && formik.errors.id && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.id}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Tooltip title="Puedes modificar tu nombre a tu gusto">
-                  <TextField
-                    autoComplete="off"
-                    onBlur={formik.handleBlur}
-                    fullWidth
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    name={"name"}
-                    variant="filled"
-                    helperText="Nombre"
-                    placeholder="John Doe..."
-                  />
-                </Tooltip>
-                {formik.touched.name && formik.errors.name && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.name}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="off"
-                  onBlur={formik.handleBlur}
-                  fullWidth
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  name={"email"}
-                  variant="filled"
-                  helperText="Correo electronico"
-                  placeholder="you@gmail.com"
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.email}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="off"
-                  onBlur={formik.handleBlur}
-                  fullWidth
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  name={"password"}
-                  variant="filled"
-                  helperText="Contraseña"
-                  placeholder="MyPassword_secure"
-                  type={showPassword ? "text" : "password"}
-                  InputProps={{
-                    endAdornment: (
-                      <IconButton
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    ),
-                  }}
-                />
-                {formik.touched.password && formik.errors.password && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.password}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="off"
-                  onBlur={formik.handleBlur}
-                  fullWidth
-                  value={formik.values.repassword}
-                  onChange={formik.handleChange}
-                  name={"repassword"}
-                  variant="filled"
-                  helperText="confirme su contraseña"
-                  placeholder="MyPassword_secure"
-                  type={showConfirmPassword ? "text" : "password"}
-                  InputProps={{
-                    endAdornment: (
-                      <IconButton
-                        onClick={() => setShowConfirmPassword((prev) => !prev)}
-                        edge="end"
-                      >
-                        {showConfirmPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    ),
-                  }}
-                />
-                {formik.touched.repassword && formik.errors.repassword && (
-                  <Typography variant="caption" color={"info.main"}>
-                    {formik.errors.repassword}
-                  </Typography>
-                )}
-              </Grid>
+              </Tooltip>
+              {formik.touched.name && formik.errors.name && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.name}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="off"
+                onBlur={formik.handleBlur}
+                fullWidth
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                name={"email"}
+                variant="filled"
+                helperText="Correo electronico"
+                placeholder="you@gmail.com"
+              />
+              {formik.touched.email && formik.errors.email && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.email}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="off"
+                onBlur={formik.handleBlur}
+                fullWidth
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                name={"password"}
+                variant="filled"
+                helperText="Contraseña"
+                placeholder="MyPassword_secure"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.password}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="off"
+                onBlur={formik.handleBlur}
+                fullWidth
+                value={formik.values.repassword}
+                onChange={formik.handleChange}
+                name={"repassword"}
+                variant="filled"
+                helperText="confirme su contraseña"
+                placeholder="MyPassword_secure"
+                type={showConfirmPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {formik.touched.repassword && formik.errors.repassword && (
+                <Typography variant="caption" color={"info.main"}>
+                  {formik.errors.repassword}
+                </Typography>
+              )}
             </Grid>
           </Grid>
           <Grid item my={1}>
@@ -344,7 +334,7 @@ const RegisterPage: React.FC = () => {
             </Box>
           </Grid>
         </Box>
-      </Grid>
+      </Paper>
     </Container>
   );
 };

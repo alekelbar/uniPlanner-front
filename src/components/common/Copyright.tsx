@@ -1,19 +1,20 @@
-import { Tooltip } from '@mui/material';
-import MuiLink from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
+import { Tooltip } from "@mui/material";
+import MuiLink from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import { Box } from "@mui/system";
 
-export default function Copyright () {
+export default function Copyright() {
   return (
-    <Box component={'div'} sx={{ position: 'sticky', zIndex: '10', my: 1 }}>
+    <Box component={"div"} sx={{ position: "sticky", zIndex: "10", my: 4 }}>
       <Typography variant="body2" color="text.secondary" align="center">
-        {'Desarrollador: '}
-        <Tooltip title="Contáctame" placement='top'>
+        {"Desarrollador: "}
+        <Tooltip title="Contáctame" placement="top">
           <MuiLink
-            sx={{ textDecoration: 'none' }}
+            sx={{ textDecoration: "none" }}
             color="primary"
             href="https://linktr.ee/alekelbar"
-            target={'_blank'}>
+            target={"_blank"}
+          >
             @Alekelbar
           </MuiLink>
         </Tooltip>

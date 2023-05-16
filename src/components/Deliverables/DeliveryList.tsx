@@ -83,7 +83,7 @@ export const DeliveryList: React.FC<DeliveryListProps> = ({ deliverables }) => {
 
   return (
     <Container sx={{ mt: 4 }} maxWidth={"sm"}>
-      <Typography variant="h5" align="center" m={2} color={"black"}>
+      <Typography variant="h5" align="center" m={2}>
         {courseName}
       </Typography>
       {/* Mañana */}

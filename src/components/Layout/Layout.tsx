@@ -1,12 +1,14 @@
 import { ArrowBack } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import React, { createContext, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Copyright from "../common/Copyright";
 import { FloatButton } from "../common/FloatButton";
 import { SideBar } from "./SideBar";
 import { Navbar } from "./navbar";
 import { Alert, Box, Container, Snackbar } from "@mui/material";
 import { globalContext } from "./types/GlobalContext";
+
+import background from "public/background.png";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -55,25 +57,39 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
   const { Provider } = globalContext;
 
   return (
-    <Provider value={{ handleShowSnack }}>
-      {!pathname.includes("auth") ? homeComponent : null}
-      <Container sx={{ mt: 2 }}>{children}</Container>
-      <Copyright />
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={snackOpen}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <Alert
+    <Box
+      component={"main"}
+      sx={{
+        width: "100%",
+        height: "100vh",
+        backgroundImage: `url(${background.src})`,
+        backgroundRepeat: "repeat",
+        backgroundPosition: "center",
+        objectFit: "contain",
+      }}
+    >
+      <Provider value={{ handleShowSnack }}>
+        {!pathname.includes("auth") ? homeComponent : null}
+        <Container>
+          {children}
+          <Copyright />
+        </Container>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snackOpen}
+          autoHideDuration={3000}
           onClose={handleClose}
-          variant="filled"
-          severity="info"
-          sx={{ width: "100%" }}
         >
-          {messageSnack}
-        </Alert>
-      </Snackbar>
-    </Provider>
+          <Alert
+            onClose={handleClose}
+            variant="filled"
+            severity="info"
+            sx={{ width: "100%" }}
+          >
+            {messageSnack}
+          </Alert>
+        </Snackbar>
+      </Provider>
+    </Box>
   );
 }

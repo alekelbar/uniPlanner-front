@@ -57,20 +57,17 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
   const { Provider } = globalContext;
 
   return (
-    <Box
-      component={"main"}
-      sx={{
-        width: "100%",
-        minHeight: "100vh",
-        backgroundImage: `url(${background.src})`,
-        backgroundAttachment: "blur(8px)",
-        backgroundRepeat: "repeat-y",
-        backgroundPosition: "top center",
-        backgroundSize: "cover",
-        objectFit: "cover",
-      }}
-    >
-      <Provider value={{ handleShowSnack }}>
+    <Provider value={{ handleShowSnack }}>
+      <Box
+        component={"main"}
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: `url(${background.src})`,
+          backgroundPosition: "center",
+          objectFit: "cover",
+        }}
+      >
         {!pathname.includes("auth") ? homeComponent : null}
         <Container>{children}</Container>
         <Copyright />
@@ -89,7 +86,7 @@ export function LayoutComponent({ children }: LayoutProps): JSX.Element {
             {messageSnack}
           </Alert>
         </Snackbar>
-      </Provider>
-    </Box>
+      </Box>
+    </Provider>
   );
 }

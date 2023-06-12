@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 
 export default function Copyright() {
   return (
-    <Box component={"footer"} sx={{ zIndex: "10", my: 4 }}>
+    <Box component={"footer"} sx={{ zIndex: "10" }}>
       <Typography variant="body2" color="text.secondary" align="center">
         {"Desarrollador: "}
         <Tooltip title="Contáctame" placement="top">
@@ -15,7 +15,7 @@ export default function Copyright() {
             href="https://linktr.ee/alekelbar"
             target={"_blank"}
           >
-            @Alekelbar
+            Alekelbar
           </MuiLink>
         </Tooltip>
         {" " + new Date().getFullYear()}.

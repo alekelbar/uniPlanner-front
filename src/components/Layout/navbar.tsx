@@ -63,6 +63,7 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
           <Button
             variant="text"
             sx={{
+              mx: 2,
               display: userState,
               cursor: "pointer",
               transition: "all 0.3s",
@@ -78,9 +79,9 @@ export function Navbar({ onOpen }: NabvarProps): JSX.Element {
               }}
             />
           </Button>
-          <Link href={"/"} underline="none" color={"gray"}>
+          <Button variant="text" LinkComponent={Link} href={"/"}>
             <Typography variant="h4">UniPlanner</Typography>
-          </Link>
+          </Button>
         </Stack>
         <Button
           variant="text"

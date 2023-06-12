@@ -141,14 +141,11 @@ const RegisterPage: React.FC = () => {
     <Container
       sx={{
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "90vh",
-        mt: 2,
+        flexDirection: "column",
+        placeItems: "center",
       }}
     >
-      <Paper>
+      <Paper sx={{ mt: 5 }}>
         <Box
           component={"form"}
           onSubmit={formik.handleSubmit}

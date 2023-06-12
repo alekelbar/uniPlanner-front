@@ -51,7 +51,8 @@ export default function CourseCard({ course }: CourseCardProps): JSX.Element {
       setGrade("No disponible");
     }
     const { data } = grade;
-    setGrade(`${data?.totalGrade}%`);
+
+    setGrade(`${Math.round(data?.totalGrade)}%`);
   }, [course._id]);
 
   useEffect(() => {
